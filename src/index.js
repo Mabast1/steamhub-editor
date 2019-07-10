@@ -1,12 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './components/app';
+import Firebase, { FirebaseContext } from './components/firebase';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: '"Nunito Sans", -apple-system, BlinkMacSystemFont, sans-serif'
+  }
+});
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+ReactDOM.render(
+  <FirebaseContext.Provider value={new Firebase()}>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </FirebaseContext.Provider>,
+  document.getElementById('root')
+);
+
 serviceWorker.unregister();
