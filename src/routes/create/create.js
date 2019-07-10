@@ -2,16 +2,25 @@ import React from 'react';
 
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@material-ui/core/styles';
-import useStyles from './create-styles';
 import Tabs from '../../components/tabs';
 import TabContainer from '../../components/tabs/tabContainer';
 import Overview from '../../components/tabs/overview';
 
 export default () => {
-  const classes = useStyles();
   const theme = useTheme();
   const [tabIndex, setTabIndex] = React.useState(0);
-  const tabContents = [<Overview />];
+  const [module, setModule] = React.useState({
+    subject: '',
+    modulePic: '',
+    cogName: '',
+    moduleName: '',
+    moduleDesc: '',
+    standards: [],
+    vocab: [],
+    matTeacher: [],
+    matStudent: [],
+    matGroup: []
+  });
 
   function handleChange(event, newValue) {
     setTabIndex(newValue);
@@ -21,6 +30,17 @@ export default () => {
     setTabIndex(index);
   }
 
+  function handleModule(newModule) {
+    setModule(prevModule => ({
+      ...prevModule,
+      ...newModule
+    }));
+  }
+
+  const tabContents = [
+    <Overview handleModule={handleModule} />
+  ];
+  console.log(module);
   return (
     <React.Fragment>
       <Tabs
@@ -36,8 +56,10 @@ export default () => {
         index={tabIndex}
         onChangeIndex={handleChangeIndex}
       >
-        {tabContents.map(component => (
-          <TabContainer dir={theme.direction}>{component}</TabContainer>
+        {tabContents.map((component, i) => (
+          <TabContainer key={i} dir={theme.direction}>
+            {component}
+          </TabContainer>
         ))}
       </SwipeableViews>
     </React.Fragment>

@@ -11,8 +11,8 @@ export default props => {
   return (
     <AppBar className={classes.appBarRoot} position='static' color='default'>
       <Tabs classes={{ indicator: classes.indicator }} {...props}>
-        {tabs.map(label => (
-          <Tab className={classes.tabRoot} disableRipple label={label} />
+        {tabs.map((label, i) => (
+          <Tab key={i} className={classes.tabRoot} disableRipple label={label} />
         ))}
       </Tabs>
     </AppBar>
