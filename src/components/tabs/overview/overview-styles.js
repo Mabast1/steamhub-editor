@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   center: {
     display: 'flex',
+    flexDirection: 'column',
     maxWidth: '960px',
     margin: '0 auto',
     '& .flex-2': {
@@ -11,12 +12,12 @@ const useStyles = makeStyles(theme => ({
       width: '50%',
     },
     '& h2': {
-      marginTop: '0'
+      marginTop: '60px'
     }
   },
   section: {
-    margin: '60px 0',
-    padding: '60px 0',
+    marginTop: '60px',
+    paddingBottom: '60px',
     backgroundColor: '#F8F8F8'
   },
   selectRoot: {
@@ -25,8 +26,8 @@ const useStyles = makeStyles(theme => ({
       borderBottom: '2px solid #EE6128'
     }
   },
-  browseBtnRoot: {
-    width: '120px'
+  moduleName: {
+    fontSize: '46px'
   }
 }));
 

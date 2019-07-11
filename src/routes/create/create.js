@@ -5,22 +5,11 @@ import { useTheme } from '@material-ui/core/styles';
 import Tabs from '../../components/tabs';
 import TabContainer from '../../components/tabs/tabContainer';
 import Overview from '../../components/tabs/overview';
+import Evaluate from '../../components/tabs/evaluate';
 
 export default () => {
   const theme = useTheme();
   const [tabIndex, setTabIndex] = React.useState(0);
-  const [module, setModule] = React.useState({
-    subject: '',
-    modulePic: '',
-    cogName: '',
-    moduleName: '',
-    moduleDesc: '',
-    standards: [],
-    vocab: [],
-    matTeacher: [],
-    matStudent: [],
-    matGroup: []
-  });
 
   function handleChange(event, newValue) {
     setTabIndex(newValue);
@@ -30,17 +19,11 @@ export default () => {
     setTabIndex(index);
   }
 
-  function handleModule(newModule) {
-    setModule(prevModule => ({
-      ...prevModule,
-      ...newModule
-    }));
-  }
-
   const tabContents = [
-    <Overview handleModule={handleModule} />
+    <Overview />,
+    <Evaluate />
   ];
-  console.log(module);
+
   return (
     <React.Fragment>
       <Tabs
