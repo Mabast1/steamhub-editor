@@ -4,7 +4,7 @@ import InputBase from '@material-ui/core/InputBase';
 import TextField from '@material-ui/core/TextField';
 import useStyles from './overview-styles';
 import SubjectForm from './subjectForm';
-import UploadButton from './uploadBtn';
+import UploadButton from '../uploadBtn';
 import StandardForm from './standardForm';
 import VocabForm from './vocabForm';
 import MaterialsForm from './materialsForm';

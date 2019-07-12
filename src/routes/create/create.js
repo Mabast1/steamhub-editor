@@ -5,6 +5,9 @@ import { useTheme } from '@material-ui/core/styles';
 import Tabs from '../../components/tabs';
 import TabContainer from '../../components/tabs/tabContainer';
 import Overview from '../../components/tabs/overview';
+import Explore from '../../components/tabs/explore';
+import Explain from '../../components/tabs/explain';
+import Elaborate from '../../components/tabs/elaborate';
 import Evaluate from '../../components/tabs/evaluate';
 
 export default () => {
@@ -21,6 +24,9 @@ export default () => {
 
   const tabContents = [
     <Overview />,
+    <Explore />,
+    <Explain />,
+    <Elaborate />,
     <Evaluate />
   ];
 
