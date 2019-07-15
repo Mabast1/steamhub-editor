@@ -9,6 +9,9 @@ const useStyles = makeStyles(theme => ({
     '& h2': {
       marginTop: '60px'
     }
+  },
+  close: {
+    padding: theme.spacing(0.5),
   }
 }));
 

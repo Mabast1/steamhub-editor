@@ -16,7 +16,7 @@ export default () => {
     vocabs.push(
       <div key={`vocab-${i}`} style={{ display: 'flex', alignItems: 'center' }}>
         {i === count - 1 ? (
-          <AddIcon onClick={handleAddInput} />
+          <AddIcon onClick={handleAddInput} style={{ cursor: 'pointer' }} />
         ) : (
           <span style={{ width: '32px' }} />
         )}

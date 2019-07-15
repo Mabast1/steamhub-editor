@@ -3,11 +3,11 @@ import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import TextField from '@material-ui/core/TextField';
 import useStyles from './overview-styles';
-import SubjectForm from './subjectForm';
 import UploadButton from '../uploadBtn';
 import StandardForm from './standardForm';
 import VocabForm from './vocabForm';
 import MaterialsForm from './materialsForm';
+import ModuleNumber from './moduleNumberForm';
 
 export default props => {
   const classes = useStyles();
@@ -16,29 +16,14 @@ export default props => {
     <React.Fragment>
       <section>
         <div className={classes.center}>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div className='flex-2'>
-              <h2>Subject</h2>
-              <SubjectForm />
-            </div>
+          <h2>COG Name</h2>
+          <TextField id='cog-name' placeholder='Enter COG name' multiline />
 
-            <div className='flex-2'>
-              <h2>COG Name</h2>
-              <TextField placeholder='Enter COG name' multiline />
-            </div>
-          </div>
+          <h2>Module Number</h2>
+          <ModuleNumber />
 
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div className='flex-2'>
-              <h2>Grade Level</h2>
-              <SubjectForm />
-            </div>
-
-            <div className='flex-2'>
-              <h2>Module Picture</h2>
-              <UploadButton />
-            </div>
-          </div>
+          <h2>Module Picture</h2>
+          <UploadButton id='module-pic' />
         </div>
       </section>
 
@@ -46,6 +31,7 @@ export default props => {
         <div className={classes.center}>
           <h2>Module Name</h2>
           <InputBase
+            id='module-name'
             className={classes.moduleName}
             defaultValue=''
             placeholder='Enter module name'
@@ -54,6 +40,7 @@ export default props => {
 
           <h2>Module Description</h2>
           <TextField
+            id='module-desc'
             placeholder='Enter module description'
             multiline
             className={classes.textField}
@@ -68,6 +55,13 @@ export default props => {
 
           <h2>Vocabularies</h2>
           <VocabForm />
+
+          <h2>Preparation Notes</h2>
+          <TextField
+            id='prep-notes'
+            placeholder='Enter preparation notes'
+            multiline
+          />
 
           <h2 style={{ marginBottom: '6px' }}>Materials</h2>
           <MaterialsForm />

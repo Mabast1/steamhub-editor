@@ -12,11 +12,12 @@ export default () => {
     <div className={classes.center}>
       <h2>Engage</h2>
       <TextField
+        id='engage'
         placeholder='Enter class engagement strategies'
         multiline
         style={{ marginBottom: '18px' }}
       />
-      <UploadButton />
+      <UploadButton id='engage-pic' />
       <p
         style={{
           margin: 0,
