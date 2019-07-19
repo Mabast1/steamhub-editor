@@ -1,12 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
 import './index.css';
-import App from './App';
+import * as reducers from './redux/reducers';
 import * as serviceWorker from './serviceWorker';
+import Firebase, { FirebaseContext } from './components/firebase';
+import App from './components/app';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const rootReducers = combineReducers(reducers);
+const store = createStore(rootReducers, applyMiddleware(thunk));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+ReactDOM.render(
+  <Provider store={store}>
+    <Router basename={process.env.PUBLIC_URL}>
+      <FirebaseContext.Provider value={new Firebase()}>
+        <App />
+      </FirebaseContext.Provider>
+    </Router>
+  </Provider>,
+  document.getElementById('root')
+);
+
 serviceWorker.unregister();
