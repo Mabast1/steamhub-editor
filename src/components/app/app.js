@@ -1,13 +1,19 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-const Home = () => <p>Hello World!</p>;
+import Home from '../home';
+import Signin from '../signin';
+import NotFound from '../404';
 
-export default () => {
+import * as ROUTES from '../../constants/routes';
+
+export default ({ classes }) => {
   return (
-    <div>
+    <div className={classes.appRoot}>
       <Switch>
-        <Route exact path='/' component={Home} />
+        <Route exact path={ROUTES.HOME} component={Home} />
+        <Route path={ROUTES.SIGNIN} component={Signin} />
+        <Route component={NotFound} />
       </Switch>
     </div>
   );

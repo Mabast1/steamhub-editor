@@ -1,4 +1,5 @@
 import app from 'firebase/app';
+import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 
@@ -14,15 +15,59 @@ class Firebase {
   constructor() {
     app.initializeApp(config);
 
+    this.auth = app.auth();
     this.db = app.firestore();
     this.storage = app.storage();
   }
 
+  onAuthListener = (next, fallback) => {
+    return this.auth.onAuthStateChanged(authUser => {
+      if (authUser) {
+        this.user(authUser.uid)
+          .get()
+          .then(snapshot => {
+            const dbUser = snapshot.data();
+
+            if (!dbUser.roles) {
+              dbUser.roles = [];
+            }
+
+            authUser = {
+              uid: authUser.uid,
+              email: authUser.email,
+              ...dbUser
+            };
+
+            next(authUser);
+          });
+      } else {
+        fallback();
+      }
+    });
+  };
+
+  // Auth API
+  doCreateUserWithEmailAndPassword = (email, password) =>
+    this.auth.createUserWithEmailAndPassword(email, password);
+
+  doSignInWithEmailAndPassword = (email, password) =>
+    this.auth.signInWithEmailAndPassword(email, password);
+
+  doSignOut = () => this.auth.signOut();
+
+  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+
+  doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
+
+  // Database API
+  user = id => this.db.doc(`users/${id}`);
+  users = () => this.db.collection('users');
   module = id => this.db.doc(`modules/${id}`);
   modules = () => this.db.collection('modules');
   cog = id => this.db.doc(`cogs/${id}`);
   cogs = () => this.db.collection('cogs');
 
+  // Storage API
   storageRef = () => this.storage.ref();
 }
 
