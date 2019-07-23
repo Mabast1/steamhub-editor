@@ -3,11 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 
+import styles from './signin-styles';
 import Signin from './signin';
 
-import styles from './signin-styles';
-import { withFirebase } from '../firebase';
 import * as ROUTES from '../../constants/routes';
+import { withFirebase } from '../firebase';
 
 const INITIAL_STATE = {
   email: '',

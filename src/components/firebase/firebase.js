@@ -66,6 +66,12 @@ class Firebase {
   modules = () => this.db.collection('modules');
   cog = id => this.db.doc(`cogs/${id}`);
   cogs = () => this.db.collection('cogs');
+  subject = id => this.db.doc(`subjects/${id}`);
+  subjects = () => this.db.collection('subjects');
+  level = id => this.db.doc(`levels/${id}`);
+  levels = () => this.db.collection('levels');
+  service = id => this.db.doc(`services/${id}`);
+  services = () => this.db.collection('services');
 
   // Storage API
   storageRef = () => this.storage.ref();

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 
+import styles from './app-styles';
 import App from './app';
 
-import styles from './app-styles';
 import { setAuthUser } from '../../redux/actions';
 import { withFirebase } from '../firebase';
 

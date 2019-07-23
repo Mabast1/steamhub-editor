@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 
-import { withFirebase } from '../firebase';
 import * as ROUTES from '../../constants/routes';
+import { withFirebase } from '../firebase';
 
 const mapStateToProps = state => ({
   authUser: state.authUser

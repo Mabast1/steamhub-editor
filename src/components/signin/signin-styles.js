@@ -33,7 +33,8 @@ export default theme => ({
       color: 'rgba(0, 0, 0, 0.6)',
       flex: 1,
       '& .MuiInputBase-input': {
-        height: '1.2em'
+        height: '1.2em',
+        padding: '6px 0'
       }
     }
   },

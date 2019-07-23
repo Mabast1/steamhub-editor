@@ -6,10 +6,11 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import './index.css';
+import App from './components/app';
+
 import * as reducers from './redux/reducers';
 import * as serviceWorker from './serviceWorker';
 import Firebase, { FirebaseContext } from './components/firebase';
-import App from './components/app';
 
 const rootReducers = combineReducers(reducers);
 const store = createStore(rootReducers, applyMiddleware(thunk));
