@@ -17,19 +17,14 @@ export default compose(
   withRouter,
   withStyles(styles)
 )(({ classes, handleDrawerToggle, history, location: { pathname } }) => {
-  // TODO: Surely there is a better way of doing this
-  const path =
-    pathname[pathname.length - 1] === '/'
-      ? pathname.slice(0, -1).split('/')
-      : pathname.split('/');
-  const prevPath = [...path.slice(0, path.length - 1)].join('/');
+  const prevPath = pathname.split('/').filter(x => x).slice(0, -1);
 
   return (
     <AppBar position='fixed' elevation={0} className={classes.appBar}>
       {/* TODO: Split searchbar into another component */}
       <div className={classes.searchBar}>
         <Hidden smUp implementation='js'>
-          {path.length < 3 ? (
+          {prevPath.length < 1 ? (
             <IconButton
               color='inherit'
               aria-label='Open drawer'
@@ -44,7 +39,7 @@ export default compose(
               color='inherit'
               aria-label='Go back'
               edge='start'
-              onClick={() => history.push(prevPath)}
+              onClick={() => history.push(`/${prevPath.join('/')}`)}
               className={classes.menuButton}
             >
               <ArrowBackIcon />

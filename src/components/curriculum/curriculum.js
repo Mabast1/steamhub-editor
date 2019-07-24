@@ -1,29 +1,86 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
+import Fab from '@material-ui/core/Fab';
+import Hidden from '@material-ui/core/Hidden';
+import Dialog from '@material-ui/core/Dialog';
+import AddIcon from '@material-ui/icons/Add';
+import FolderIcon from '@material-ui/icons/Folder';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 import Layout from '../layout';
+import ModalContent from './modalContent';
 
-export default ({ data, isFetching, location: { pathname } }) => {
-  const path = (pathname[pathname.length - 1] === '/' ? pathname.slice(0, -1) : pathname);
+export default props => {
+  const CardContent = childProps => (
+    <div className='cCardContent'>
+      {props.params.length < 5 ? <FolderIcon /> : <DescriptionIcon />}
+      <div className={props.classes.cText}>{childProps.children}</div>
+    </div>
+  );
 
   return (
     <Layout>
-      {isFetching ? (
+      {props.isFetching ? (
         // TODO: Add loading screen while fetching curriculum
         <div>FETCHING DATA</div>
       ) : (
-        <ul>
-          {data.map(item => {
+        <div className={props.classes.cGrid}>
+          {props.data.map(item => {
             return (
-              <li key={item.id}>
-                <Link to={`${path}/${item.name.toLowerCase()}`}>
-                  {item.name}
-                </Link>
-              </li>
+              <React.Fragment key={item.id}>
+                {/* Single click on mobile, and double click on desktop to open folder */}
+                <Hidden smUp implementation='js'>
+                  <div
+                    className={props.classes.cCard}
+                    onClick={() =>
+                      props.history.push(
+                        `/${props.params.join('/')}/${item.name.toLowerCase()}`
+                      )
+                    }
+                  >
+                    <CardContent>
+                      <p>{item.name}</p>
+                    </CardContent>
+                  </div>
+                </Hidden>
+                <Hidden xsDown implementation='js'>
+                  <div
+                    className={props.classes.cCard}
+                    onDoubleClick={() =>
+                      props.history.push(
+                        `/${props.params.join('/')}/${item.name.toLowerCase()}`
+                      )
+                    }
+                  >
+                    <CardContent>
+                      <p>{item.name}</p>
+                    </CardContent>
+                  </div>
+                </Hidden>
+              </React.Fragment>
             );
           })}
-        </ul>
+        </div>
       )}
+
+      <Hidden smUp implementation='css'>
+        <Fab
+          onClick={props.handleModalOpen}
+          aria-label='Add'
+          className={props.classes.fab}
+        >
+          <AddIcon />
+        </Fab>
+      </Hidden>
+
+      <Dialog
+        classes={{ paper: props.classes.cModal }}
+        open={props.modalOpen}
+        onClose={props.handleModalClose}
+        aria-labelledby='form-dialog-title'
+      >
+        <ModalContent handleModalClose={props.handleModalClose} params={props.params} />
+      </Dialog>
     </Layout>
   );
 };
