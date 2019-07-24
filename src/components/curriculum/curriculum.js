@@ -1,35 +1,29 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Layout from '../layout';
-import Content from './content';
 
-export default props => {
+export default ({ data, isFetching, location: { pathname } }) => {
+  const path = (pathname[pathname.length - 1] === '/' ? pathname.slice(0, -1) : pathname);
+
   return (
     <Layout>
-      <Switch>
-        <Route
-          path={`${props.match.path}/:service/:level/:subject/:cog`}
-          component={props => <Content {...props} />}
-        />
-        <Route
-          path={`${props.match.path}/:service/:level/:subject`}
-          component={props => <Content {...props} />}
-        />
-        <Route
-          path={`${props.match.path}/:service/:level`}
-          component={props => <Content {...props} />}
-        />
-        <Route
-          path={`${props.match.path}/:service`}
-          component={props => <Content {...props} />}
-        />
-        <Route
-          exact
-          path={`${props.match.path}`}
-          component={props => <Content {...props} />}
-        />
-      </Switch>
+      {isFetching ? (
+        // TODO: Add loading screen while fetching curriculum
+        <div>FETCHING DATA</div>
+      ) : (
+        <ul>
+          {data.map(item => {
+            return (
+              <li key={item.id}>
+                <Link to={`${path}/${item.name.toLowerCase()}`}>
+                  {item.name}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </Layout>
   );
 };

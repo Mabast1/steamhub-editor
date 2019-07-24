@@ -18,8 +18,11 @@ export default compose(
   withStyles(styles)
 )(({ classes, handleDrawerToggle, history, location: { pathname } }) => {
   // TODO: Surely there is a better way of doing this
-  const path = pathname.split('/');
-  const newPathname = [...path.slice(0, path.length - 1)].join('/');
+  const path =
+    pathname[pathname.length - 1] === '/'
+      ? pathname.slice(0, -1).split('/')
+      : pathname.split('/');
+  const prevPath = [...path.slice(0, path.length - 1)].join('/');
 
   return (
     <AppBar position='fixed' elevation={0} className={classes.appBar}>
@@ -41,7 +44,7 @@ export default compose(
               color='inherit'
               aria-label='Go back'
               edge='start'
-              onClick={() => history.push(newPathname)}
+              onClick={() => history.push(prevPath)}
               className={classes.menuButton}
             >
               <ArrowBackIcon />
