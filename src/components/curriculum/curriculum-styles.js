@@ -23,10 +23,20 @@ export default theme => ({
       textAlign: 'center',
       color: 'rgba(0, 0, 0, 0.6)',
       '& .MuiSvgIcon-root': {
+        color: 'rgb(146, 206, 255)',
         fontSize: '4rem'
+      }
+    },
+    [theme.breakpoints.up('sm')]: {
+      cursor: 'default',
+      '& .cCardContent': {
+        padding: '20px',
+        fontSize: '14px',
+        minHeight: '106px'
       },
-      [theme.breakpoints.up('sm')]: {
-        padding: '24px'
+      '&:hover': {
+        backgroundColor: '#E8F0FE',
+        borderColor: '#E8F0FE'
       }
     }
   },
@@ -46,13 +56,13 @@ export default theme => ({
     position: 'absolute',
     right: '30px',
     bottom: '30px',
-    backgroundColor: '#EE6128',
+    backgroundColor: '#1967D2',
     color: 'white',
     '&:hover': {
-      backgroundColor: '#E1541B'
+      backgroundColor: '#0C5AC5'
     }
   },
   cModal: {
-    width: '400px'
+    width: '640px'
   }
 });

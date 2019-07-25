@@ -8,7 +8,7 @@ import styles from './drawer-styles';
 import DrawerMenu from './drawerMenu';
 
 export default withStyles(styles)(props => {
-  const { classes, mobileOpen, handleDrawerToggle } = props;
+  const { classes, mobileOpen, handleDrawerToggle, handleModalOpen } = props;
 
   return (
     <nav className={classes.drawer} aria-label='Mailbox folders'>
@@ -25,7 +25,10 @@ export default withStyles(styles)(props => {
             keepMounted: true
           }}
         >
-          <DrawerMenu handleDrawerToggle={handleDrawerToggle} />
+          <DrawerMenu
+            handleDrawerToggle={handleDrawerToggle}
+            handleModalOpen={handleModalOpen}
+          />
         </Drawer>
       </Hidden>
       <Hidden xsDown implementation='js'>
@@ -36,7 +39,10 @@ export default withStyles(styles)(props => {
           variant='permanent'
           open
         >
-          <DrawerMenu handleDrawerToggle={handleDrawerToggle} />
+          <DrawerMenu
+            handleDrawerToggle={handleDrawerToggle}
+            handleModalOpen={handleModalOpen}
+          />
         </Drawer>
       </Hidden>
     </nav>

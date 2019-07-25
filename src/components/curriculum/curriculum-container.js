@@ -18,68 +18,72 @@ export default compose(
 
   React.useEffect(() => {
     setIsFetching(true);
-    let docs = [];
+    let docs, listener;
 
     const getData = (collection, next) => {
-      collection
-        .get()
-        .then(snapshot => {
-          snapshot.forEach(doc => {
-            next(doc);
-          });
-        })
-        .then(() => {
-          setData(docs);
-          setIsFetching(false);
+      return collection.onSnapshot(snapshot => {
+        docs = [];
+
+        snapshot.forEach(doc => {
+          next(doc);
         });
+
+        setData(docs);
+        setIsFetching(false);
+      });
     };
 
     switch (params.length) {
       case 1:
-        getData(props.firebase.services(), doc => {
+        listener = getData(props.firebase.services(), doc => {
           docs.push({ id: doc.id, name: doc.data().service });
         });
         break;
       case 2:
-        getData(props.firebase.levels(), doc => {
-          if (doc.data().service.toLowerCase() === params[1]) {
+        listener = getData(props.firebase.levels(), doc => {
+          if (doc.data().service === params[1]) {
             docs.push({ id: doc.id, name: doc.data().level });
           }
         });
         break;
       case 3:
-        getData(props.firebase.subjects(), doc => {
+        listener = getData(props.firebase.subjects(), doc => {
           if (
-            doc.data().level.toLowerCase() === params[2] &&
-            doc.data().service.toLowerCase() === params[1]
+            doc.data().level === params[2] &&
+            doc.data().service === params[1]
           ) {
             docs.push({ id: doc.id, name: doc.data().subject });
           }
         });
         break;
       case 4:
-        getData(props.firebase.cogs(), doc => {
+        listener = getData(props.firebase.cogs(), doc => {
           if (
-            doc.data().subject.toLowerCase() === params[3] &&
-            doc.data().grade.toLowerCase() === params[2] &&
-            doc.data().type.toLowerCase() === params[1]
+            doc.data().subject === params[3] &&
+            doc.data().grade === params[2] &&
+            doc.data().type === params[1]
           ) {
             docs.push({ id: doc.id, name: doc.data().cogname });
           }
         });
         break;
       case 5:
-        getData(props.firebase.modules(), doc => {
-          if (doc.data().cogname.toLowerCase() === params[4]) {
+        listener = getData(props.firebase.modules(), doc => {
+          if (doc.data().cogname === params[4]) {
             docs.push({ id: doc.id, name: doc.data().module });
           }
         });
         break;
       default:
+        listener = () => {};
         setData([]);
         setIsFetching(false);
         break;
     }
+
+    return () => {
+      listener();
+    };
   }, [props.location.pathname]);
 
   const handleModalOpen = () => {

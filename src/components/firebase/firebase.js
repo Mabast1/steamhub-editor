@@ -74,7 +74,7 @@ class Firebase {
   services = () => this.db.collection('services');
 
   // Storage API
-  storageRef = () => this.storage.ref();
+  storageRef = path => this.storage.ref(path);
 }
 
 export default Firebase;

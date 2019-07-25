@@ -19,7 +19,7 @@ export default props => {
   );
 
   return (
-    <Layout>
+    <Layout handleModalOpen={props.handleModalOpen}>
       {props.isFetching ? (
         // TODO: Add loading screen while fetching curriculum
         <div>FETCHING DATA</div>
@@ -34,7 +34,7 @@ export default props => {
                     className={props.classes.cCard}
                     onClick={() =>
                       props.history.push(
-                        `/${props.params.join('/')}/${item.name.toLowerCase()}`
+                        `/${props.params.join('/')}/${item.name}`
                       )
                     }
                   >
@@ -48,7 +48,7 @@ export default props => {
                     className={props.classes.cCard}
                     onDoubleClick={() =>
                       props.history.push(
-                        `/${props.params.join('/')}/${item.name.toLowerCase()}`
+                        `/${props.params.join('/')}/${item.name}`
                       )
                     }
                   >
@@ -79,7 +79,10 @@ export default props => {
         onClose={props.handleModalClose}
         aria-labelledby='form-dialog-title'
       >
-        <ModalContent handleModalClose={props.handleModalClose} params={props.params} />
+        <ModalContent
+          handleModalClose={props.handleModalClose}
+          params={props.params}
+        />
       </Dialog>
     </Layout>
   );

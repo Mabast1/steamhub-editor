@@ -2,11 +2,12 @@ import React from 'react';
 
 import TextField from '@material-ui/core/TextField';
 
-export default () => (
+export default ({ handleInputChange }) => (
   <TextField
+    name='name'
+    onChange={handleInputChange}
     variant='outlined'
     margin='dense'
-    // label='Folder Name'
     placeholder='Untitled folder'
     type='text'
     fullWidth
