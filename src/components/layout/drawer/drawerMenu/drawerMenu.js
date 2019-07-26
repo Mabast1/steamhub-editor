@@ -4,7 +4,6 @@ import { withRouter, Link } from 'react-router-dom';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { withStyles, useTheme } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import Fab from '@material-ui/core/Fab';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -28,7 +27,6 @@ export default compose(
   return (
     <div className={classes.drawerMenuContainer}>
       <div className={classes.toolbar} />
-      <Divider />
       <List>
         <ListItem
           component={Link}

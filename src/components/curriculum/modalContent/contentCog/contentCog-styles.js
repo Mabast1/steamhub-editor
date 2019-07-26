@@ -12,7 +12,10 @@ export default theme => ({
       overflow: 'hidden',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
-      maxWidth: '250px'
+      marginRight: '12px'
+    },
+    '& .success-msg': {
+      color: 'green'
     }
   },
   modalDivider: {

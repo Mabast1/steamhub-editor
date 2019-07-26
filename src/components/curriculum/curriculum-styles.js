@@ -1,4 +1,26 @@
 export default theme => ({
+  breadcrumbs: {
+    display: 'flex',
+    minHeight: '56px',
+    minWidth: '420px',
+    color: 'rgba(0, 0, 0, 0.6)',
+    userSelect: 'none',
+    '& .MuiBreadcrumbs-separator': {
+      margin: 0
+    },
+    '& .MuiTypography-root': {
+      padding: '6px 8px'
+    },
+    '& a': {
+      fontSize: '16px',
+      color: 'rgba(0, 0, 0, 0.6)',
+      letterSpacing: '0.00938em',
+      textTransform: 'none'
+    },
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
+  },
   cGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',

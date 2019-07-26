@@ -4,9 +4,9 @@ export default theme => ({
   appBar: {
     backgroundColor: '#fff',
     color: 'rgba(0, 0, 0, 0.6)',
-    marginLeft: drawerWidth,
     [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`
+      borderBottom: '1px solid #EAEAEA',
+      zIndex: theme.zIndex.drawer + 1
     }
   },
   searchBar: {
@@ -16,6 +16,7 @@ export default theme => ({
     border: '1px solid #EAEAEA',
     borderRadius: '4px',
     [theme.breakpoints.up('sm')]: {
+      marginLeft: drawerWidth + 17,
       maxWidth: '520px'
     }
   },
