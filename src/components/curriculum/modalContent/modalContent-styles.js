@@ -9,13 +9,13 @@ export default theme => ({
     padding: '16px 24px',
     '& .MuiButton-root': {
       fontSize: '13px'
-    },
-    '& .MuiButton-containedPrimary': {
-      backgroundColor: '#1967D2',
-      color: 'white',
-      '&:hover': {
-        backgroundColor: '#0C5AC5'
-      }
+    }
+  },
+  submitBtn: {
+    backgroundColor: '#1967D2',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#0C5AC5'
     }
   }
 });

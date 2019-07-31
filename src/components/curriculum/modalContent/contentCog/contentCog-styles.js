@@ -29,6 +29,15 @@ export default theme => ({
       flexGrow: 1
     }
   },
+  dropDown: {
+    margin: '8px 0 4px',
+    '& .MuiSelect-select:focus': {
+      backgroundColor: 'transparent'
+    },
+    '& .MuiSelect-icon': {
+      marginRight: '8px'
+    }
+  },
   skills: {
     display: 'flex',
     alignItems: 'center',

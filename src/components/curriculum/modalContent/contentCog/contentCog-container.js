@@ -12,47 +12,33 @@ export default compose(
   withFirebase,
   withStyles(styles)
 )(props => {
-  const { inputState, setInputState } = props;
+  const { inputState, setInputState, params } = props;
 
-  const handleUploadMedia = e => {
-    const file = e.target.files[0];
-
-    if (file && file.size < 5000000) {
-      const uploadTask = props.firebase
-        .storageRef('/cog')
-        .child(`${Date.now()}-${file.name}`)
-        .put(file);
-
-      uploadTask.on(
-        'state_changed',
-        snapshot => {
-          let progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-          setInputState({
-            ...inputState,
-            isUploading: true,
-            uploadProgress: progress
-          });
-        },
-        error => {
-          console.error(error);
-          setInputState({ ...inputState, isUploading: false });
-        },
-        () => {
-          uploadTask.snapshot.ref.getDownloadURL().then(url => {
-            setInputState({ ...inputState, isUploading: false, url });
-          });
-        }
-      );
-    }
-  };
+  let gradeLevels = [
+    { value: '', text: 'Select grade level' },
+    { value: 'All', text: 'N/A' },
+    { value: 'Sparks', text: 'Sparks' },
+    { value: 'Innovators', text: 'Innovators' },
+    { value: 'Inventors', text: 'Inventors' }
+  ];
+  if (params[1] === 'STEM Academy') {
+    gradeLevels = [
+      { value: '', text: 'Select grade level' },
+      { value: 'All', text: 'N/A' },
+      { value: 'Kinder', text: 'Kinder' },
+      { value: 'First', text: 'First' },
+      { value: 'Second', text: 'Second' },
+      { value: 'Third', text: 'Third' },
+      { value: 'Fourth', text: 'Fourth' },
+      { value: 'Fifth', text: 'Fifth' }
+    ];
+  }
 
   const handleMultiInputChange = (name, action) => {
-    const newArray = inputState[name].map((skill, index) => {
-      if (index !== action.index) return skill;
+    const newArray = inputState[name].map((item, index) => {
+      if (index !== action.index) return item;
 
-      return { ...skill, text: action.item };
+      return { ...item, text: action.item };
     });
 
     setInputState({ ...inputState, [name]: newArray });
@@ -83,7 +69,7 @@ export default compose(
 
   return (
     <ContentCog
-      handleUploadMedia={handleUploadMedia}
+      gradeLevels={gradeLevels}
       handleMultiInputChange={handleMultiInputChange}
       handleAddInput={handleAddInput}
       handleRemoveInput={handleRemoveInput}

@@ -16,13 +16,6 @@ import Layout from '../layout';
 import ModalContent from './modalContent';
 
 export default props => {
-  const CardContent = childProps => (
-    <div className='cCardContent'>
-      {props.params.length < 5 ? <FolderIcon /> : <DescriptionIcon />}
-      <div className={props.classes.cText}>{childProps.children}</div>
-    </div>
-  );
-
   return (
     <Layout handleModalOpen={props.handleModalOpen}>
       <Breadcrumbs
@@ -40,7 +33,9 @@ export default props => {
               {index === props.params.length - 1 ? (
                 <Typography>{index === 0 ? 'Curriculum' : value}</Typography>
               ) : (
-                <Button component={Link} to={to}>{index === 0 ? 'Curriculum' : value}</Button>
+                <Button component={Link} to={to}>
+                  {index === 0 ? 'Curriculum' : value}
+                </Button>
               )}
             </React.Fragment>
           );
@@ -54,7 +49,7 @@ export default props => {
         <div className={props.classes.cGrid}>
           {props.data.map(item => {
             return (
-              <React.Fragment key={item.id}>
+              <React.Fragment key={item.name}>
                 {/* Single click on mobile, and double click on desktop to open folder */}
                 <Hidden smUp implementation='js'>
                   <div
@@ -65,9 +60,16 @@ export default props => {
                       )
                     }
                   >
-                    <CardContent>
-                      <p>{item.name}</p>
-                    </CardContent>
+                    <div className='cCardContent'>
+                      {item.type === 'folder' ? (
+                        <FolderIcon />
+                      ) : (
+                        <DescriptionIcon />
+                      )}
+                      <div className={props.classes.cText}>
+                        <p>{item.name}</p>
+                      </div>
+                    </div>
                   </div>
                 </Hidden>
                 <Hidden xsDown implementation='js'>
@@ -79,9 +81,16 @@ export default props => {
                       )
                     }
                   >
-                    <CardContent>
-                      <p>{item.name}</p>
-                    </CardContent>
+                    <div className='cCardContent'>
+                      {item.type === 'folder' ? (
+                        <FolderIcon />
+                      ) : (
+                        <DescriptionIcon />
+                      )}
+                      <div className={props.classes.cText}>
+                        <p>{item.name}</p>
+                      </div>
+                    </div>
                   </div>
                 </Hidden>
               </React.Fragment>

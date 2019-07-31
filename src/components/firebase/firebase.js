@@ -60,18 +60,14 @@ class Firebase {
   doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
 
   // Database API
+  getDocument = path => this.db.doc(path);
+  getCollection = path => this.db.collection(path);
   user = id => this.db.doc(`users/${id}`);
   users = () => this.db.collection('users');
   module = id => this.db.doc(`modules/${id}`);
   modules = () => this.db.collection('modules');
   cog = id => this.db.doc(`cogs/${id}`);
   cogs = () => this.db.collection('cogs');
-  subject = id => this.db.doc(`subjects/${id}`);
-  subjects = () => this.db.collection('subjects');
-  level = id => this.db.doc(`levels/${id}`);
-  levels = () => this.db.collection('levels');
-  service = id => this.db.doc(`services/${id}`);
-  services = () => this.db.collection('services');
 
   // Storage API
   storageRef = path => this.storage.ref(path);

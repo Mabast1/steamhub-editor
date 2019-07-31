@@ -6,20 +6,22 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default props => {
+  const { classes, isInvalid, handleModalClose, handleSubmit } = props;
   return (
     <React.Fragment>
-      <DialogTitle className={props.classes.modalTitle}>New folder</DialogTitle>
-      <DialogContent className={props.classes.modalContent}>
+      <DialogTitle className={classes.modalTitle}>New folder</DialogTitle>
+      <DialogContent className={classes.modalContent}>
         {props.Content}
       </DialogContent>
-      <DialogActions className={props.classes.modalActions}>
-        <Button onClick={props.handleModalClose} color='default'>
+      <DialogActions className={classes.modalActions}>
+        <Button onClick={handleModalClose} color='default'>
           Cancel
         </Button>
         <Button
-          onClick={props.handleSubmit}
+          className={classes.submitBtn}
+          disabled={isInvalid}
+          onClick={handleSubmit}
           variant='contained'
-          color='primary'
         >
           Create
         </Button>

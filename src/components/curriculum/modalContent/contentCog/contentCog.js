@@ -1,16 +1,20 @@
 import React from 'react';
 
+import Select from '@material-ui/core/Select';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
 import RemoveIcon from '@material-ui/icons/RemoveCircleOutline';
 
+import UploadButton from './uploadBtn';
+
 export default ({
   classes,
-  inputState: { skills, url, isUploading, uploadProgress },
-  handleUploadMedia,
+  firebase,
+  gradeLevels,
+  inputState: { name, descr, subject, grade, rwc, skills },
   handleInputChange,
   handleMultiInputChange,
   handleAddInput,
@@ -24,30 +28,19 @@ export default ({
     <React.Fragment>
       <TextField
         name='name'
-        onChange={handleInputChange}
+        value={name ? name : ''}
+        onChange={e => handleInputChange(e.target.name, e.target.value)}
         variant='outlined'
         margin='dense'
-        label='COG Name'
+        placeholder='COG name'
         type='text'
         fullWidth
       />
       <div className={classes.modalUpload}>
-        <Button component='label' variant='outlined' color='primary'>
-          Browse
-          <input
-            onChange={handleUploadMedia}
-            type='file'
-            style={{ display: 'none' }}
-          />
-        </Button>
-        {isUploading && uploadProgress ? (
-          <p>{`Uploading... (${Math.round(uploadProgress * 100) / 100}%)`}</p>
-        ) : url && url !== '' ? (
-          <p className='success-msg'>File uploaded</p>
-        ) : (
-          <p>Upload media (Max. 5 MB)</p>
-        )}
-        {isUploading && <CircularProgress size={16} thickness={4} />}
+        <UploadButton
+          firebase={firebase}
+          handleInputChange={handleInputChange}
+        />
       </div>
 
       <div className={classes.modalDivider}>
@@ -55,7 +48,8 @@ export default ({
       </div>
       <TextField
         name='descr'
-        onChange={handleInputChange}
+        value={descr ? descr : ''}
+        onChange={e => handleInputChange(e.target.name, e.target.value)}
         variant='outlined'
         margin='dense'
         placeholder='Overview'
@@ -65,14 +59,67 @@ export default ({
       />
 
       <div className={classes.modalDivider}>
+        Subject <Divider />
+      </div>
+      <Select
+        className={classes.dropDown}
+        style={!subject ? { color: 'rgba(0, 0, 0, 0.4)' } : null}
+        value={subject ? subject : ''}
+        onChange={e => handleInputChange(e.target.name, e.target.value)}
+        margin='dense'
+        displayEmpty
+        fullWidth
+        input={<OutlinedInput name='subject' />}
+      >
+        <MenuItem value='' disabled>
+          Select subject
+        </MenuItem>
+        <MenuItem value='All'>N/A</MenuItem>
+        <MenuItem value='3D Printing'>3D Printing</MenuItem>
+        <MenuItem value='Coding'>Coding & Programming</MenuItem>
+        <MenuItem value='Culinary'>Culinary Art</MenuItem>
+        <MenuItem value='Engineering'>Design Based Engineering</MenuItem>
+        <MenuItem value='Drone'>Drone Engineering</MenuItem>
+        <MenuItem value='Entrepreneur'>Entrepreneurship</MenuItem>
+        <MenuItem value='Science'>Investigative Science Lab</MenuItem>
+        <MenuItem value='Maker Studio'>Maker Studio</MenuItem>
+        <MenuItem value='Mental Math'>Mental Math</MenuItem>
+        <MenuItem value='Minecraft'>Minecraft</MenuItem>
+        <MenuItem value='Movie Studio'>Movie Studio</MenuItem>
+        <MenuItem value='Robotics'>Robotics</MenuItem>
+        <MenuItem value='Visual Art'>Visual Art Studio</MenuItem>
+      </Select>
+
+      <div className={classes.modalDivider}>
+        Grade Level <Divider />
+      </div>
+      <Select
+        className={classes.dropDown}
+        style={!grade ? { color: 'rgba(0, 0, 0, 0.4)' } : null}
+        value={grade ? grade : ''}
+        onChange={e => handleInputChange(e.target.name, e.target.value)}
+        margin='dense'
+        displayEmpty
+        fullWidth
+        input={<OutlinedInput name='grade' />}
+      >
+        {gradeLevels.map((item, index) => (
+          <MenuItem key={index} disabled={index === 0} value={item.value}>
+            {item.text}
+          </MenuItem>
+        ))}
+      </Select>
+
+      <div className={classes.modalDivider}>
         Real World Connections <Divider />
       </div>
       <TextField
         name='rwc'
-        onChange={handleInputChange}
+        value={rwc ? rwc : ''}
+        onChange={e => handleInputChange(e.target.name, e.target.value)}
         variant='outlined'
         margin='dense'
-        placeholder='Real World Connections'
+        placeholder='Real world connections'
         type='text'
         multiline
         fullWidth
@@ -98,6 +145,7 @@ export default ({
                 />
               )}
               <TextField
+                value={skills[index] ? skills[index].text : ''}
                 onChange={e =>
                   handleMultiInputChange('skills', {
                     index,

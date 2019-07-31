@@ -1,3 +1,4 @@
 import { setAuthUser } from './user';
+import { getCurrentFolderInfo, resetCurrentFolderInfo } from './folder';
 
-export { setAuthUser };
+export { setAuthUser, getCurrentFolderInfo, resetCurrentFolderInfo };
