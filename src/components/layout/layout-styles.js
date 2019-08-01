@@ -1,6 +1,7 @@
 export default theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
+    padding: '0 17px'
   },
   toolbar: {
     // ...theme.mixins.toolbar,

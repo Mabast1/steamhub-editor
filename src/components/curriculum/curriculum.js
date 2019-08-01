@@ -49,16 +49,21 @@ export default props => {
         <div className={props.classes.cGrid}>
           {props.data.map(item => {
             return (
-              <React.Fragment key={item.name}>
+              <React.Fragment key={item.id}>
                 {/* Single click on mobile, and double click on desktop to open folder */}
                 <Hidden smUp implementation='js'>
                   <div
                     className={props.classes.cCard}
-                    onClick={() =>
-                      props.history.push(
-                        `/${props.params.join('/')}/${item.name}`
-                      )
-                    }
+                    onClick={() => {
+                      let to = '';
+                      if (item.type === 'file') {
+                        to = `/e/${item.id}`;
+                      } else {
+                        to = `/${props.params.join('/')}/${item.id}`;
+                      }
+
+                      props.history.push(to);
+                    }}
                   >
                     <div className='cCardContent'>
                       {item.type === 'folder' ? (
@@ -75,11 +80,17 @@ export default props => {
                 <Hidden xsDown implementation='js'>
                   <div
                     className={props.classes.cCard}
-                    onDoubleClick={() =>
-                      props.history.push(
-                        `/${props.params.join('/')}/${item.name}`
-                      )
-                    }
+                    onClick={e => e.preventDefault()}
+                    onDoubleClick={() => {
+                      if (item.type === 'file') {
+                        let win = window.open(`/e/${item.id}`, '_blank');
+                        win.focus();
+                      } else {
+                        props.history.push(
+                          `/${props.params.join('/')}/${item.id}`
+                        );
+                      }
+                    }}
                   >
                     <div className='cCardContent'>
                       {item.type === 'folder' ? (

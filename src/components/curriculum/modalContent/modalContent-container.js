@@ -10,6 +10,7 @@ import ContentCog from './contentCog';
 import ContentModule from './contentModule';
 
 import { withFirebase } from '../../firebase';
+import { containSpecialChar } from '../../../utils/string';
 
 const mapStateToProps = state => ({
   currentFolderInfo: state.currentFolderInfo
@@ -25,7 +26,8 @@ export default compose(
 
   // Set form based on the current folder
   let filteredSkills = [];
-  let isInvalid = !inputState.name || !inputState.tag;
+  let isInvalid =
+    !inputState.name || containSpecialChar(inputState.name) || !inputState.tag;
   let Content = (
     <ContentDefault
       inputState={inputState}
@@ -39,6 +41,7 @@ export default compose(
 
     isInvalid =
       !inputState.name ||
+      containSpecialChar(inputState.name) ||
       !inputState.url ||
       !inputState.descr ||
       !inputState.subject ||
@@ -54,7 +57,11 @@ export default compose(
       />
     );
   } else if (currentFolderInfo.tag === 'module') {
-    isInvalid = !inputState.name || !inputState.descr || !inputState.moduleNum;
+    isInvalid =
+      !inputState.name ||
+      containSpecialChar(inputState.name) ||
+      !inputState.descr ||
+      !inputState.moduleNum;
     Content = (
       <ContentModule
         inputState={inputState}
@@ -78,9 +85,9 @@ export default compose(
     });
 
     // TODO: Possibly check for duplicate, dont just merge folder.
-    const addFolder = document => {
+    const addFolder = (document, id) => {
       firebase
-        .getDocument(`${dbPath}/folder/${inputState.name}`)
+        .getDocument(`${dbPath}/folder/${id}`)
         .set(document, { merge: true });
     };
 
@@ -98,11 +105,14 @@ export default compose(
           type: params[1]
         })
         .then(doc => {
-          addFolder({
-            id: doc.id,
-            type: 'folder',
-            tag: 'module'
-          });
+          addFolder(
+            {
+              refId: doc.id,
+              type: 'folder',
+              tag: 'module'
+            },
+            inputState.name
+          );
         });
 
       handleModalClose();
@@ -112,7 +122,7 @@ export default compose(
       let modules, cogname;
 
       firebase
-        .cog(currentFolderInfo.id)
+        .cog(currentFolderInfo.refId)
         .get()
         .then(doc => {
           const data = doc.data();
@@ -127,7 +137,7 @@ export default compose(
         })
         .then(() => {
           if (!isDuplicateModule) {
-            firebase.cog(currentFolderInfo.id).set(
+            firebase.cog(currentFolderInfo.refId).set(
               {
                 modules: [
                   ...modules,
@@ -146,14 +156,18 @@ export default compose(
               .add({
                 module: inputState.name,
                 cogname: cogname,
+                cogId: props.currentFolderInfo.refId,
                 overview: inputState.descr,
                 module_number: inputState.moduleNum
               })
               .then(doc => {
-                addFolder({
-                  id: doc.id,
-                  type: 'file'
-                });
+                addFolder(
+                  {
+                    name: inputState.name,
+                    type: 'file'
+                  },
+                  doc.id
+                );
               });
 
             handleModalClose();
@@ -165,10 +179,13 @@ export default compose(
           }
         });
     } else {
-      addFolder({
-        type: 'folder',
-        tag: inputState.tag
-      });
+      addFolder(
+        {
+          type: 'folder',
+          tag: inputState.tag
+        },
+        inputState.name
+      );
 
       handleModalClose();
     }

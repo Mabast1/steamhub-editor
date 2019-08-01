@@ -34,7 +34,6 @@ export default compose(
   React.useEffect(() => {
     setIsFetching(true);
 
-    // let folders = [];
     let dbPath = '';
     params.forEach((path, index) => {
       if (index === 1) dbPath = `folder/${path}`;
@@ -55,7 +54,13 @@ export default compose(
         let subfolders = [];
 
         snapshot.forEach(doc => {
-          subfolders.push({ ...doc.data(), name: doc.id });
+          const data = doc.data();
+
+          if (!data.name) {
+            data.name = doc.id;
+          }
+
+          subfolders.push({ ...data, id: doc.id });
         });
 
         setData([...subfolders]);
@@ -77,13 +82,14 @@ export default compose(
 
   return (
     <Curriculum
+      classes={props.classes}
+      history={props.history}
       data={data}
       isFetching={isFetching}
       params={params}
       modalOpen={modalOpen}
       handleModalOpen={handleModalOpen}
       handleModalClose={handleModalClose}
-      {...props}
     />
   );
 });

@@ -1,15 +1,19 @@
 export default theme => ({
   breadcrumbs: {
     display: 'flex',
-    minHeight: '56px',
-    minWidth: '420px',
+    padding: '16px 0',
     color: 'rgba(0, 0, 0, 0.6)',
     userSelect: 'none',
     '& .MuiBreadcrumbs-separator': {
       margin: 0
     },
     '& .MuiTypography-root': {
-      padding: '6px 8px'
+      padding: '6px 8px',
+      fontWeight: 300
+    },
+    '& .MuiButton-root': {
+      lineHeight: 'normal',
+      fontWeight: 400
     },
     '& a': {
       fontSize: '16px',
@@ -23,10 +27,10 @@ export default theme => ({
   },
   cGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(148px, 1fr))',
     gridGap: '17px',
     [theme.breakpoints.up('md')]: {
-      gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))'
+      gridTemplateColumns: 'repeat(auto-fill, minmax(172px, 1fr))'
     }
   },
   cCard: {
@@ -53,8 +57,12 @@ export default theme => ({
       cursor: 'default',
       '& .cCardContent': {
         padding: '20px',
-        fontSize: '14px',
-        minHeight: '106px'
+        minHeight: '106px',
+        [theme.breakpoints.up('md')]: {
+          fontSize: '14px',
+          lineHeight: '1.15rem',
+          padding: '26px'
+        }
       },
       '&:hover': {
         backgroundColor: '#E8F0FE',
@@ -71,7 +79,10 @@ export default theme => ({
       overflow: 'hidden',
       margin: 0,
       marginTop: '4px',
-      userSelect: 'none'
+      userSelect: 'none',
+      [theme.breakpoints.up('md')]: {
+        marginTop: '14px'
+      }
     }
   },
   fab: {
