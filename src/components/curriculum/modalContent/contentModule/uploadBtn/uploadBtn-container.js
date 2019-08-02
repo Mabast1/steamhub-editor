@@ -6,7 +6,7 @@ import UploadButton from './uploadBtn';
 export default props => {
   return (
     <UploadMedia
-      storagePath='/cog'
+      storagePath='/module'
       firebase={props.firebase}
       handleInputChange={props.handleInputChange}
       Component={UploadButton}

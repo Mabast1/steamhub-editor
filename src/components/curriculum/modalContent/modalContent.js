@@ -6,10 +6,18 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default props => {
-  const { classes, isInvalid, handleModalClose, handleSubmit } = props;
+  const {
+    classes,
+    isInvalid,
+    currentFolderInfo,
+    handleModalClose,
+    handleSubmit
+  } = props;
   return (
     <React.Fragment>
-      <DialogTitle className={classes.modalTitle}>New folder</DialogTitle>
+      <DialogTitle className={classes.modalTitle}>
+        {currentFolderInfo.tag === 'module' ? 'New file' : 'New folder'}
+      </DialogTitle>
       <DialogContent className={classes.modalContent}>
         {props.Content}
       </DialogContent>

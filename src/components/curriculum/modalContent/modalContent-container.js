@@ -60,6 +60,7 @@ export default compose(
     isInvalid =
       !inputState.name ||
       containSpecialChar(inputState.name) ||
+      !inputState.url ||
       !inputState.descr ||
       !inputState.moduleNum;
     Content = (
@@ -102,7 +103,8 @@ export default compose(
           grade: inputState.grade,
           rwc: [inputState.rwc],
           skills: filteredSkills,
-          type: params[1]
+          type: params[1],
+          viewed: 0
         })
         .then(doc => {
           addFolder(
@@ -156,7 +158,7 @@ export default compose(
               .add({
                 module: inputState.name,
                 cogname: cogname,
-                cogId: props.currentFolderInfo.refId,
+                cover: inputState.url,
                 overview: inputState.descr,
                 module_number: inputState.moduleNum
               })
