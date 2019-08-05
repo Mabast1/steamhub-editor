@@ -2,13 +2,12 @@ import React from 'react';
 import shortid from 'shortid';
 import { withStyles } from '@material-ui/core/styles';
 
-import styles from './resources-styles';
-import Resource from './resources';
+import styles from './materials-styles';
+import Materials from './materials';
 
 export default withStyles(styles)(props => {
   const { inputState, setInputState } = props;
 
-  // TODO: Refactor multi-input handlers. Do Not Repeat Yourself!
   const handleMultiInputChange = (name, action) => {
     const newArray = inputState[name].map((item, index) => {
       if (index !== action.index) return item;
@@ -43,7 +42,7 @@ export default withStyles(styles)(props => {
   };
 
   return (
-    <Resource
+    <Materials
       handleMultiInputChange={handleMultiInputChange}
       handleAddInput={handleAddInput}
       handleRemoveInput={handleRemoveInput}

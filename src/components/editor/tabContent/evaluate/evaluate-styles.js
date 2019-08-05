@@ -13,18 +13,18 @@ export default theme => ({
     }
   },
   multiInputGroup: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    marginBottom: '12px',
     '& .MuiTextField-root': {
-      margin: 0,
-      '& .Mui-focused fieldset': {
-        border: '1px solid #1967D2'
+      margin: 0
+    },
+    '&:hover': {
+      '& .MuiSvgIcon-root': {
+        opacity: 1
       }
-    },
-    '&:hover > .MuiSvgIcon-root': {
-      opacity: 1
-    },
+    }
+  },
+  questionInput: {
+    display: 'flex',
+    marginBottom: '20px',
     '& .MuiSvgIcon-root': {
       cursor: 'pointer',
       marginRight: '12px',
@@ -33,32 +33,33 @@ export default theme => ({
       '&:hover': {
         color: '#1967D2'
       }
+    }
+  },
+  optionInput: {
+    display: 'flex',
+    marginLeft: '36px',
+    marginBottom: '8px',
+    '&:last-of-type': {
+      marginBottom: '40px'
     },
-    '& > div:first-of-type': {
-      marginRight: '16px',
-      flexGrow: 1
-    },
-    '& > div:last-of-type': {
-      width: '70%'
+    '& .MuiRadio-root': {
+      height: '24px',
+      width: '24px',
+      marginRight: '8px'
     }
   },
   removeBtn: {
     opacity: 0,
     '&:hover': {
       color: '#cb2431!important'
-    },
-    '&:hover ~ .MuiTextField-root fieldset': {
-      borderColor: 'red'
     }
   },
-  textbox: {
-    margin: 0,
-    marginBottom: '40px',
-    '& .Mui-focused fieldset': {
-      border: '1px solid #1967D2!important'
-    },
-    '& .MuiInputBase-input': {
-      minHeight: '280px'
+  publishModule: {
+    margin: '40px 0',
+    width: '100%',
+    backgroundColor: '#1967D2',
+    '&:hover': {
+      backgroundColor: '#0C5AC5'
     }
   }
 });

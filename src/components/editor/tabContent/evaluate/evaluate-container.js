@@ -1,14 +1,33 @@
 import React from 'react';
+import { compose } from 'recompose';
 import shortid from 'shortid';
 import { withStyles } from '@material-ui/core/styles';
 
-import styles from './resources-styles';
-import Resource from './resources';
+import styles from './evaluate-styles';
+import Evaluate from './evaluate';
 
-export default withStyles(styles)(props => {
+import { withFirebase } from '../../../firebase';
+
+export default compose(
+  withFirebase,
+  withStyles(styles)
+)(props => {
   const { inputState, setInputState } = props;
 
-  // TODO: Refactor multi-input handlers. Do Not Repeat Yourself!
+  const onPublishModule = () => {
+    const data = { ...inputState };
+
+    data.standards = data.standards.filter(x => x.stdCode || x.stdDesc);
+    data.vocab = data.vocab.filter(x => x.vocab);
+    data.material_teacher = data.material_teacher.filter(x => x.teacherItem);
+    data.material_student = data.material_student.filter(x => x.studentItem);
+    data.material_group = data.material_group.filter(x => x.groupItem);
+    data.steps = data.steps.filter(x => x.step);
+    data.evaluate = data.evaluate.filter(x => x.question);
+
+    props.firebase.module(inputState.id).set(data, { merge: true });
+  };
+
   const handleMultiInputChange = (name, action) => {
     const newArray = inputState[name].map((item, index) => {
       if (index !== action.index) return item;
@@ -43,7 +62,8 @@ export default withStyles(styles)(props => {
   };
 
   return (
-    <Resource
+    <Evaluate
+      onPublishModule={onPublishModule}
       handleMultiInputChange={handleMultiInputChange}
       handleAddInput={handleAddInput}
       handleRemoveInput={handleRemoveInput}

@@ -34,12 +34,17 @@ export default theme => ({
         color: '#1967D2'
       }
     },
-    '& > div:first-of-type': {
-      marginRight: '16px',
+    '& > div:not(:last-of-type)': {
+      marginRight: '16px'
+    },
+    '& > div:nth-of-type(1)': {
       flexGrow: 1
     },
-    '& > div:last-of-type': {
-      width: '70%'
+    '& > div:nth-of-type(2)': {
+      width: '72px'
+    },
+    '& > div:nth-of-type(3)': {
+      width: '45%'
     }
   },
   removeBtn: {
@@ -53,7 +58,6 @@ export default theme => ({
   },
   textbox: {
     margin: 0,
-    marginBottom: '40px',
     '& .Mui-focused fieldset': {
       border: '1px solid #1967D2!important'
     },

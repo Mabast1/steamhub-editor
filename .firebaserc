@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "new-steamhub"
+  },
+  "targets": {
+    "new-steamhub": {
+      "hosting": {
+        "editor": [
+          "editor-steamhub"
+        ]
+      }
+    }
+  }
+}
