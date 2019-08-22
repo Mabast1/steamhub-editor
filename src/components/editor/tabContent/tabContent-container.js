@@ -24,8 +24,8 @@ export default withStyles(styles)(props => {
           id: shortid.generate(),
           teacherItem: '',
           teacherQuantity: '',
-          teacherNote: ''
-        }
+          teacherNote: '',
+        },
       ];
     }
 
@@ -35,8 +35,8 @@ export default withStyles(styles)(props => {
           id: shortid.generate(),
           studentItem: '',
           studentQuantity: '',
-          studentNote: ''
-        }
+          studentNote: '',
+        },
       ];
     }
 
@@ -46,39 +46,26 @@ export default withStyles(styles)(props => {
           id: shortid.generate(),
           groupItem: '',
           groupQuantity: '',
-          groupNote: ''
-        }
+          groupNote: '',
+        },
       ];
     }
 
-    if (!data.engage) {
-      data.engage = {
-        text: '',
-        media: {
-          type: '',
-          url: ''
-        }
-      };
-    }
-
-    if (!data.explain) {
-      data.explain = {
-        text: '',
-        media: {
-          type: '',
-          url: ''
-        }
-      };
-    }
-
-    if (!data.elaborate) {
-      data.elaborate = {
-        text: '',
-        media: {
-          type: '',
-          url: ''
-        }
-      };
+    if (
+      !data.engage ||
+      data.engage.constructor !== Array ||
+      data.engage.length === 0
+    ) {
+      data.engage = [
+        {
+          id: shortid.generate(),
+          text: '',
+          media: {
+            type: '',
+            url: '',
+          },
+        },
+      ];
     }
 
     if (!data.steps || data.steps.length === 0) {
@@ -88,9 +75,43 @@ export default withStyles(styles)(props => {
           step: '',
           stepMedia: {
             type: '',
-            url: ''
-          }
-        }
+            url: '',
+          },
+        },
+      ];
+    }
+
+    if (
+      !data.explain ||
+      data.explain.constructor !== Array ||
+      data.explain.length === 0
+    ) {
+      data.explain = [
+        {
+          id: shortid.generate(),
+          text: '',
+          media: {
+            type: '',
+            url: '',
+          },
+        },
+      ];
+    }
+
+    if (
+      !data.elaborate ||
+      data.elaborate.constructor !== Array ||
+      data.elaborate.length === 0
+    ) {
+      data.elaborate = [
+        {
+          id: shortid.generate(),
+          text: '',
+          media: {
+            type: '',
+            url: '',
+          },
+        },
       ];
     }
 
@@ -103,8 +124,8 @@ export default withStyles(styles)(props => {
           optionB: '',
           optionC: '',
           optionD: '',
-          question: ''
-        }
+          question: '',
+        },
       ];
     }
 
@@ -114,7 +135,7 @@ export default withStyles(styles)(props => {
   function handleInputState(name, value) {
     setInputState(prevState => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   }
 

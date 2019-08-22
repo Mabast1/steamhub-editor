@@ -1,4 +1,5 @@
 import React from 'react';
+import shortid from 'shortid';
 import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -9,34 +10,54 @@ import { withFirebase } from '../../../firebase';
 
 export default compose(
   withFirebase,
-  withStyles(styles)
+  withStyles(styles),
 )(props => {
+  const { inputState, setInputState } = props;
   const [isUploading, setUploading] = React.useState(false);
 
-  const handleText = (section, field, value) => {
-    props.setInputState(prevState => ({
-      ...prevState,
-      [section]: {
-        ...prevState[section],
-        [field]: value
-      }
-    }));
-  };
+  const handleMultiInputChange = (name, action) => {
+    setInputState(prevState => {
+      const newArray = prevState[name].map((item, index) => {
+        if (index !== action.index) return item;
 
-  const handleMedia = (section, parent, field, value) => {
-    props.setInputState(prevState => ({
-      ...prevState,
-      [section]: {
-        ...prevState[section],
-        [parent]: {
-          ...prevState[section][parent],
-          [field]: value
+        if (action.nested) {
+          return {
+            ...item,
+            media: { ...item.media, [action.field]: action.value },
+          };
+        } else {
+          return { ...item, [action.field]: action.value };
         }
-      }
-    }));
+      });
+
+      return { ...prevState, [name]: newArray };
+    });
   };
 
-  const handleUploadMedia = e => {
+  const handleAddInput = (name, fields) => {
+    let newArray;
+    if (inputState[name] && inputState[name].length > 0) {
+      newArray = [
+        ...inputState[name].slice(0, inputState[name].length),
+        { ...fields, id: shortid.generate() },
+      ];
+    } else {
+      newArray = [{ ...fields, id: shortid.generate() }];
+    }
+
+    setInputState({ ...inputState, [name]: newArray });
+  };
+
+  const handleRemoveInput = (name, index) => {
+    const newArray = [
+      ...inputState[name].slice(0, index),
+      ...inputState[name].slice(index + 1),
+    ];
+
+    setInputState({ ...inputState, [name]: newArray });
+  };
+
+  const handleUploadMedia = index => e => {
     const file = e.target.files[0];
 
     if (file && file.size < 5000000) {
@@ -56,9 +77,14 @@ export default compose(
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then(url => {
             setUploading(false);
-            handleMedia('engage', 'media', 'url', url);
+            handleMultiInputChange('engage', {
+              index,
+              field: 'url',
+              value: url,
+              nested: true,
+            });
           });
-        }
+        },
       );
     }
   };
@@ -66,9 +92,10 @@ export default compose(
   return (
     <Engage
       isUploading={isUploading}
-      handleText={handleText}
-      handleMedia={handleMedia}
       handleUploadMedia={handleUploadMedia}
+      handleMultiInputChange={handleMultiInputChange}
+      handleAddInput={handleAddInput}
+      handleRemoveInput={handleRemoveInput}
       {...props}
     />
   );
