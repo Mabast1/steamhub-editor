@@ -1,5 +1,22 @@
 import React from 'react';
+import compose from 'recompose/compose';
 
-const Dashboard = () => <h1>Dashboard</h1>;
+import Layout from '../Layout';
+import withProtectedRoute from '../ProtectedRoute';
+import { withFirebase } from '../Firebase';
 
-export default Dashboard;
+const Dashboard = ({ firebase }) => {
+  return (
+    <Layout>
+      <h1 style={{ margin: 0 }}>Dashboard</h1>
+      <button type="button" onClick={firebase.doSignOut}>
+        Sign Out
+      </button>
+    </Layout>
+  );
+};
+
+export default compose(
+  withProtectedRoute(authUser => !!authUser),
+  withFirebase
+)(Dashboard);

@@ -2,4 +2,4 @@
 /build
 
 # misc
-/src/serviceWorker.ts
+/src/serviceWorker.js
