@@ -109,7 +109,7 @@ export default theme => ({
   mainRoot: {
     padding: '24px 17px calc(53px + 24px)',
     [theme.breakpoints.up('sm')]: {
-      padding: 'calc(62px + 40px) 0 40px',
+      padding: 'calc(62px + 60px) 30px 60px',
     },
   },
 });
