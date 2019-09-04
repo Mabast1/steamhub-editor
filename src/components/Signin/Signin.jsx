@@ -9,7 +9,7 @@ import KeyIcon from '@material-ui/icons/VpnKey';
 import EyeIcon from '@material-ui/icons/RemoveRedEye';
 import WarningIcon from '@material-ui/icons/Warning';
 
-export default ({ state, classes, handleLogin, handleInputChange, toggleHidePassword }) => {
+const Signin = ({ state, classes, handleLogin, handleInputChange, toggleHidePassword }) => {
   // Form input validation
   const isInvalid = state.password === '' || state.email === '';
 
@@ -63,3 +63,5 @@ export default ({ state, classes, handleLogin, handleInputChange, toggleHidePass
     </div>
   );
 };
+
+export default Signin;

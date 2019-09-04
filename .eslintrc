@@ -11,7 +11,8 @@
   "plugins": ["prettier"],
   "rules": {
     "react/prop-types": 0,
-    "react/jsx-props-no-spreading": 0,
+    "react/jsx-props-no-spreading": "warn",
+    "react/no-array-index-key": "warn",
     "prettier/prettier": ["error"]
   },
   "env": {

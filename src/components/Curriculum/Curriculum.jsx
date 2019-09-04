@@ -1,35 +1,59 @@
 import React from 'react';
-import compose from 'recompose/compose';
 
-import { withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 
-import styles from './Curriculum-styles';
 import Layout from '../Layout';
-import DesktopLoader from './ContentLoader';
-import withProtectedRoute from '../ProtectedRoute';
+import { DesktopLoader, MobileLoader } from './ContentLoader';
 
-const Curriculum = ({ classes }) => {
+const Curriculum = ({ classes, isFetching, curriculum, loadNextPage }) => {
   return (
     <Layout>
       <div className={classes.contentRoot}>
-        <Hidden smDown implementation="js">
-          {Array(4)
-            .fill('')
-            .map((_, i) => (
-              // Disable ESLint rule
-              // eslint-disable-next-line react/no-array-index-key
-              <div key={i} style={{ opacity: 1 - 0.25 * i }} className="content-loader">
-                <DesktopLoader />
+        {curriculum.map(doc => {
+          const data = doc.data();
+
+          return (
+            <div key={doc.id} className="content">
+              <div className="cover">
+                <img src={data.cover} alt={data.name} />
               </div>
-            ))}
-        </Hidden>
+              <div className="details">
+                <p className="title">{data.name}</p>
+                <p className="author">{data.author}</p>
+                <p className="overview">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae voluptates
+                  facilis necessitatibus nulla eaque? Velit tenetur harum blanditiis libero ad,
+                  assumenda amet consectetur eos est nisi rerum animi, dolorum odio.
+                </p>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Display loading animation while fetching data */}
+        {isFetching && (
+          <>
+            {Array(4)
+              .fill('')
+              .map((_, i) => (
+                <div key={i} style={{ opacity: 1 - 0.25 * i }} className="content-loader">
+                  <Hidden mdUp implementation="css">
+                    <MobileLoader />
+                  </Hidden>
+                  <Hidden smDown implementation="css">
+                    <DesktopLoader />
+                  </Hidden>
+                </div>
+              ))}
+          </>
+        )}
       </div>
+
+      <button type="button" onClick={loadNextPage}>
+        Load more...
+      </button>
     </Layout>
   );
 };
 
-export default compose(
-  withProtectedRoute(authUser => !!authUser),
-  withStyles(styles)
-)(Curriculum);
+export default Curriculum;
