@@ -1,8 +1,6 @@
 import React from 'react';
-import compose from 'recompose/compose';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import AppBar from '@material-ui/core/AppBar';
 import InputBase from '@material-ui/core/InputBase';
@@ -13,11 +11,15 @@ import ProfileCircleIcon from '@material-ui/icons/AccountCircle';
 import ProfileIcon from '@material-ui/icons/PersonRounded';
 import SearchIcon from '@material-ui/icons/Search';
 
-import styles from './Layout-styles';
+import useStyles from './Layout-styles';
 import idealabLogo from '../../media/logo.png';
 import * as ROUTES from '../../constants/routes';
 
-const Layout = ({ classes, children, location: { pathname } }) => {
+const Layout = ({ children, location: { pathname } }) => {
+  // We use the Hook rather than the HOC approach, since it allows us to pass props into the style
+  // Read more at https://material-ui.com/styles/basics/#adapting-based-on-props
+  const classes = useStyles();
+
   return (
     <>
       <AppBar position="fixed" color="primary" className={classes.appBar}>
@@ -27,7 +29,7 @@ const Layout = ({ classes, children, location: { pathname } }) => {
               <DashboardIcon className={pathname === ROUTES.DASHBOARD ? 'selected' : ''} />
             </IconButton>
             <IconButton component={Link} to={ROUTES.CURRICULUM} aria-label="curriculum">
-              <FolderIcon className={pathname === ROUTES.CURRICULUM ? 'selected' : ''} />
+              <FolderIcon className={pathname.includes(ROUTES.CURRICULUM) ? 'selected' : ''} />
             </IconButton>
             <IconButton component={Link} to={ROUTES.PROFILE} aria-label="profile">
               <ProfileIcon className={pathname === ROUTES.PROFILE ? 'selected' : ''} />
@@ -52,7 +54,7 @@ const Layout = ({ classes, children, location: { pathname } }) => {
               <li className={pathname === ROUTES.DASHBOARD ? 'selected' : ''}>
                 <Link to={ROUTES.DASHBOARD}>Dashboard</Link>
               </li>
-              <li className={pathname === ROUTES.CURRICULUM ? 'selected' : ''}>
+              <li className={pathname.includes(ROUTES.CURRICULUM) ? 'selected' : ''}>
                 <Link to={ROUTES.CURRICULUM}>Curriculum</Link>
               </li>
             </ul>
@@ -69,7 +71,4 @@ const Layout = ({ classes, children, location: { pathname } }) => {
   );
 };
 
-export default compose(
-  withRouter,
-  withStyles(styles)
-)(Layout);
+export default Layout;

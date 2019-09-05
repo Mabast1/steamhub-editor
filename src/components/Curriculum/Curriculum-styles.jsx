@@ -1,4 +1,6 @@
-export default theme => ({
+import { makeStyles } from '@material-ui/core/styles';
+
+export default makeStyles(theme => ({
   contentRoot: {
     display: 'grid',
     placeItems: 'center',
@@ -16,6 +18,8 @@ export default theme => ({
       border: '1px solid #eaeaea',
       borderRadius: 4,
       cursor: 'pointer',
+      textDecoration: 'none',
+      color: 'inherit',
       [theme.breakpoints.up('md')]: {
         border: 0,
         gridTemplateColumns: '246px 1fr',
@@ -104,4 +108,4 @@ export default theme => ({
       },
     },
   },
-});
+}));

@@ -9,9 +9,12 @@ import KeyIcon from '@material-ui/icons/VpnKey';
 import EyeIcon from '@material-ui/icons/RemoveRedEye';
 import WarningIcon from '@material-ui/icons/Warning';
 
-const Signin = ({ state, classes, handleLogin, handleInputChange, toggleHidePassword }) => {
+import useStyles from './Signin-styles';
+
+const Signin = ({ state, handleLogin, handleInputChange, toggleHidePassword }) => {
   // Form input validation
   const isInvalid = state.password === '' || state.email === '';
+  const classes = useStyles();
 
   return (
     <div className={classes.signinContainer}>

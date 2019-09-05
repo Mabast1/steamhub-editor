@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import { withRouter } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
@@ -14,9 +13,8 @@ const mapStateToProps = state => ({
 export default condition => Component =>
   compose(
     connect(mapStateToProps),
-    withRouter,
     withFirebase
-  )(({ firebase, history, authUser }) => {
+  )(({ firebase, authUser, history, match, location }) => {
     React.useEffect(() => {
       // Listen to user state changes to track if user authorized or not to see the page
       const authUserListener = firebase.onAuthListener(
@@ -34,5 +32,13 @@ export default condition => Component =>
       };
     }, [firebase, history]);
 
-    return <>{condition(authUser) ? <Component /> : <div>Loading...</div>}</>;
+    return (
+      <>
+        {condition(authUser) ? (
+          <Component history={history} match={match} location={location} />
+        ) : (
+          <div>Loading...</div>
+        )}
+      </>
+    );
   });

@@ -1,4 +1,6 @@
-export default theme => ({
+import { makeStyles } from '@material-ui/core/styles';
+
+export default makeStyles(theme => ({
   appBar: {
     top: 'auto',
     bottom: 0,
@@ -112,4 +114,4 @@ export default theme => ({
       padding: 'calc(62px + 60px) 30px 60px',
     },
   },
-});
+}));

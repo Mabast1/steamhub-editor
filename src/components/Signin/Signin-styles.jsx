@@ -1,4 +1,6 @@
-export default theme => ({
+import { makeStyles } from '@material-ui/core/styles';
+
+export default makeStyles(theme => ({
   signinContainer: {
     display: 'flex',
     padding: '0 17px',
@@ -79,4 +81,4 @@ export default theme => ({
       marginLeft: '5px',
     },
   },
-});
+}));

@@ -5,9 +5,9 @@ import Layout from '../Layout';
 import withProtectedRoute from '../ProtectedRoute';
 import { withFirebase } from '../Firebase';
 
-const Dashboard = ({ firebase }) => {
+const Dashboard = ({ firebase, location }) => {
   return (
-    <Layout>
+    <Layout location={location}>
       <h1 style={{ margin: 0 }}>Dashboard</h1>
       <button type="button" onClick={firebase.doSignOut}>
         Sign Out

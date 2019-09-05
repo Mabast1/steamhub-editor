@@ -1,32 +1,32 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import Hidden from '@material-ui/core/Hidden';
 
+import useStyles from './Curriculum-styles';
 import Layout from '../Layout';
 import { DesktopLoader, MobileLoader } from './ContentLoader';
+import * as ROUTES from '../../constants/routes';
 
-const Curriculum = ({ classes, isFetching, curriculum, loadNextPage }) => {
+const Curriculum = ({ location, isFetching, curriculum, loadNextPage }) => {
+  const classes = useStyles();
+
   return (
-    <Layout>
+    <Layout location={location}>
       <div className={classes.contentRoot}>
         {curriculum.map(doc => {
-          const data = doc.data();
+          const cog = doc.data();
 
           return (
-            <div key={doc.id} className="content">
+            <Link key={doc.id} className="content" to={`${ROUTES.CURRICULUM}/${doc.id}`}>
               <div className="cover">
-                <img src={data.cover} alt={data.name} />
+                <img src={cog.cover} alt={cog.name} />
               </div>
               <div className="details">
-                <p className="title">{data.name}</p>
-                <p className="author">{data.author}</p>
-                <p className="overview">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae voluptates
-                  facilis necessitatibus nulla eaque? Velit tenetur harum blanditiis libero ad,
-                  assumenda amet consectetur eos est nisi rerum animi, dolorum odio.
-                </p>
+                <p className="title">{cog.name}</p>
+                <p className="author">{cog.authorName}</p>
+                <p className="overview">{cog.overview}</p>
               </div>
-            </div>
+            </Link>
           );
         })}
 

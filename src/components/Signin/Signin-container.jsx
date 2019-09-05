@@ -1,13 +1,10 @@
 import React from 'react';
-import compose from 'recompose/compose';
-import { withStyles } from '@material-ui/core/styles';
 
-import styles from './Signin-styles';
 import Signin from './Signin';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
 
-const SigninContainer = ({ classes, firebase, history }) => {
+const SigninContainer = ({ firebase, history }) => {
   // React hooks
   const INITIAL_STATE = {
     email: '',
@@ -46,7 +43,6 @@ const SigninContainer = ({ classes, firebase, history }) => {
   return (
     <Signin
       state={state}
-      classes={classes}
       handleLogin={handleLogin}
       handleInputChange={handleInputChange}
       toggleHidePassword={toggleHidePassword}
@@ -54,7 +50,4 @@ const SigninContainer = ({ classes, firebase, history }) => {
   );
 };
 
-export default compose(
-  withFirebase,
-  withStyles(styles)
-)(SigninContainer);
+export default withFirebase(SigninContainer);

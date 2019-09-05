@@ -1,20 +1,20 @@
 import React from 'react';
 import compose from 'recompose/compose';
-import { withStyles } from '@material-ui/core/styles';
 
-import styles from './Curriculum-styles';
 import Curriculum from './Curriculum';
 import { withFirebase } from '../Firebase';
 import withProtectedRoute from '../ProtectedRoute';
 
-const CurriculumContainer = ({ classes, firebase }) => {
+const CurriculumContainer = ({ firebase, location }) => {
+  // React hooks
   const [curriculum, setCurriculum] = React.useState([]);
   const [isFetching, setFetching] = React.useState(false);
 
-  // Fetch data on component load
   React.useEffect(() => {
     setFetching(true);
 
+    // Fetch first 25 data on component load
+    // Read more at https://firebase.google.com/docs/firestore/query-data/query-cursors#paginate_a_query
     firebase
       .cogs()
       .orderBy('updatedAt')
@@ -32,7 +32,10 @@ const CurriculumContainer = ({ classes, firebase }) => {
   }, [firebase]);
 
   // Event handlers
-  const loadNextPage = () => {
+
+  // Here useCallback is used to prevent unnecessary re-render due to reference equality
+  // Read more at https://reactjs.org/docs/hooks-reference.html#usecallback
+  const loadNextPage = React.useCallback(() => {
     setFetching(true);
 
     firebase
@@ -52,11 +55,11 @@ const CurriculumContainer = ({ classes, firebase }) => {
       .catch(() => {
         setFetching(false);
       });
-  };
+  }, [firebase, curriculum]);
 
   return (
     <Curriculum
-      classes={classes}
+      location={location}
       isFetching={isFetching}
       curriculum={curriculum}
       loadNextPage={loadNextPage}
@@ -66,6 +69,5 @@ const CurriculumContainer = ({ classes, firebase }) => {
 
 export default compose(
   withProtectedRoute(authUser => !!authUser),
-  withFirebase,
-  withStyles(styles)
+  withFirebase
 )(CurriculumContainer);
