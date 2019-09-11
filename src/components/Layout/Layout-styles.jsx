@@ -111,7 +111,10 @@ export default makeStyles(theme => ({
   mainRoot: {
     padding: '24px 17px calc(53px + 24px)',
     [theme.breakpoints.up('sm')]: {
-      padding: 'calc(62px + 60px) 30px 60px',
+      padding: 'calc(62px + 38px) 30px 60px',
+    },
+    [theme.breakpoints.up('md')]: {
+      padding: 'calc(62px + 48px) 30px 60px',
     },
   },
 }));

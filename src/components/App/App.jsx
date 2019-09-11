@@ -7,8 +7,9 @@ import * as ROUTES from '../../constants/routes';
 const Landing = lazy(() => import('../Landing'));
 const Signin = lazy(() => import('../Signin'));
 const Dashboard = lazy(() => import('../Dashboard'));
-const Curriculum = lazy(() => import('../Curriculum'));
 const Profile = lazy(() => import('../Profile'));
+const Curriculum = lazy(() => import('../Curriculum'));
+const CogEditor = lazy(() => import('../Editor/Cog'));
 
 const App = () => {
   return (
@@ -18,8 +19,9 @@ const App = () => {
           <Route exact path={ROUTES.LANDING} render={() => <Landing />} />
           <Route path={ROUTES.SIGNIN} render={props => <Signin {...props} />} />
           <Route path={ROUTES.DASHBOARD} render={props => <Dashboard {...props} />} />
-          <Route path={ROUTES.CURRICULUM} render={props => <Curriculum {...props} />} />
           <Route path={ROUTES.PROFILE} render={() => <Profile />} />
+          <Route exact path={ROUTES.CURRICULUM} render={props => <Curriculum {...props} />} />
+          <Route path={`${ROUTES.CURRICULUM}/:id`} render={props => <CogEditor {...props} />} />
         </Switch>
       </Suspense>
     </>

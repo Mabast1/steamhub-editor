@@ -1,17 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Fab from '@material-ui/core/Fab';
 import Hidden from '@material-ui/core/Hidden';
+import FilterIcon from '@material-ui/icons/FilterList';
+import AddIcon from '@material-ui/icons/Add';
 
 import useStyles from './Curriculum-styles';
 import Layout from '../Layout';
 import { DesktopLoader, MobileLoader } from './ContentLoader';
 import * as ROUTES from '../../constants/routes';
 
-const Curriculum = ({ location, isFetching, curriculum, loadNextPage }) => {
+const Curriculum = ({ pathname, isFetching, curriculum, loadNextPage }) => {
   const classes = useStyles();
 
   return (
-    <Layout location={location}>
+    <Layout pathname={pathname}>
+      {/* Filter tab */}
+      <div className={classes.filterTab}>
+        <Button disableRipple className={classes.newClass}>
+          <AddIcon />
+          New Class
+        </Button>
+        <IconButton size="small">
+          <FilterIcon />
+        </IconButton>
+        <span>Filter by</span>
+      </div>
+
+      {/* Display classes */}
       <div className={classes.contentRoot}>
         {curriculum.map(doc => {
           const cog = doc.data();
@@ -52,6 +71,11 @@ const Curriculum = ({ location, isFetching, curriculum, loadNextPage }) => {
       <button type="button" onClick={loadNextPage}>
         Load more...
       </button>
+
+      {/* Floating action button for mobile */}
+      <Fab className={classes.fab} aria-label="Create new class">
+        <AddIcon />
+      </Fab>
     </Layout>
   );
 };

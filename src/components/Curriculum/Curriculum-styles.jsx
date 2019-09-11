@@ -1,6 +1,26 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles(theme => ({
+  // Filter tab
+  filterTab: {
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    marginBottom: 12,
+    [theme.breakpoints.up('sm')]: {
+      margin: '0 auto 20px',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 850,
+    },
+    '& > span': {
+      color: 'rgba(0, 0, 0, 0.6)',
+      fontSize: 14,
+      marginLeft: 0,
+      marginRight: 6,
+    },
+  },
+  // Content grid
   contentRoot: {
     display: 'grid',
     placeItems: 'center',
@@ -12,7 +32,7 @@ export default makeStyles(theme => ({
       gridTemplateColumns: '1fr',
       gridAutoRows: 'auto',
     },
-    // Main content (card)
+    // Card style
     '& .content': {
       display: 'grid',
       border: '1px solid #eaeaea',
@@ -33,6 +53,9 @@ export default makeStyles(theme => ({
         },
         '& img': {
           transform: 'scale(1.04)',
+        },
+        '& .title': {
+          color: '#4285f4',
         },
       },
       // Card cover image
@@ -106,6 +129,52 @@ export default makeStyles(theme => ({
         height: '100%',
         width: '100%',
       },
+    },
+  },
+  // Add new class button
+  newClass: {
+    display: 'none',
+    marginLeft: 'auto',
+    padding: 0,
+    paddingBottom: 3,
+    color: '#4285f4',
+    transition: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline-flex',
+      alignItems: 'center',
+    },
+    '&:hover': {
+      color: '#296CDB',
+      backgroundColor: 'transparent',
+      '&::after': {
+        backgroundColor: '#4285f4',
+        borderRadius: '2px 2px 0 0',
+        bottom: 0,
+        content: "''",
+        height: '2px',
+        left: 0,
+        position: 'absolute',
+        width: '100%',
+      },
+    },
+    '& svg': {
+      marginRight: 6,
+    },
+    '& > span': {
+      textTransform: 'none',
+    },
+  },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing(9),
+    right: theme.spacing(4),
+    color: 'white',
+    backgroundColor: '#4285f4',
+    '&:hover': {
+      backgroundColor: '#3578E7',
+    },
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
     },
   },
 }));

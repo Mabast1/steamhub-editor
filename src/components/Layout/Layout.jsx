@@ -15,7 +15,7 @@ import useStyles from './Layout-styles';
 import idealabLogo from '../../media/logo.png';
 import * as ROUTES from '../../constants/routes';
 
-const Layout = ({ children, location: { pathname } }) => {
+const Layout = ({ children, pathname }) => {
   // We use the Hook rather than the HOC approach, since it allows us to pass props into the style
   // Read more at https://material-ui.com/styles/basics/#adapting-based-on-props
   const classes = useStyles();
