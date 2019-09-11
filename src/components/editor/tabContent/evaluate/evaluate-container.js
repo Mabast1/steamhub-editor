@@ -19,6 +19,7 @@ export default compose(
 
     data.standards = data.standards.filter(x => x.stdCode || x.stdDesc);
     data.vocab = data.vocab.filter(x => x.vocab);
+    data.resources = data.resources.filter(x => x.name);
     data.material_teacher = data.material_teacher.filter(x => x.teacherItem);
     data.material_student = data.material_student.filter(x => x.studentItem);
     data.material_group = data.material_group.filter(x => x.groupItem);

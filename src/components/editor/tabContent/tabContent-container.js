@@ -18,6 +18,16 @@ export default withStyles(styles)(props => {
       data.vocab = [{ id: shortid.generate(), vocab: '', vocabDef: '' }];
     }
 
+    if (!data.resources || data.resources.length === 0) {
+      data.resources = [
+        {
+          id: shortid.generate(),
+          name: '',
+          url: '',
+        },
+      ];
+    }
+
     if (!data.material_teacher || data.material_teacher.length === 0) {
       data.material_teacher = [
         {
