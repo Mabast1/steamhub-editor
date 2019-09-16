@@ -3,9 +3,9 @@ import React from 'react';
 import Layout from '../Layout';
 import withProtectedRoute from '../ProtectedRoute';
 
-const Profile = () => {
+const Profile = ({ location: { pathname } }) => {
   return (
-    <Layout>
+    <Layout pathname={pathname}>
       <h1 style={{ margin: 0 }}>Profile</h1>
     </Layout>
   );

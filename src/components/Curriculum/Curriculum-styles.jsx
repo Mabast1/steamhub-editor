@@ -32,7 +32,44 @@ export default makeStyles(theme => ({
       gridTemplateColumns: '1fr',
       gridAutoRows: 'auto',
     },
-    // Card style
+    '& > div': {
+      position: 'relative',
+      [theme.breakpoints.up('md')]: {
+        width: 850,
+        '&:hover': {
+          '& > button': {
+            display: 'inline-flex',
+          },
+          '& .content': {
+            boxShadow: '0 2px 14px rgba(0, 0, 0, 0.06)',
+            [theme.breakpoints.up('md')]: {
+              boxShadow: 'none',
+            },
+            '& img': {
+              transform: 'scale(1.04)',
+            },
+            '& .title': {
+              color: '#4285f4',
+            },
+          },
+        },
+      },
+      // More option button
+      '& > button': {
+        position: 'absolute',
+        padding: 8,
+        right: 8,
+        top: 8,
+        zIndex: 101,
+        [theme.breakpoints.up('md')]: {
+          display: 'none',
+          padding: 4,
+          right: 4,
+          top: 4,
+        },
+      },
+    },
+    // Card main content
     '& .content': {
       display: 'grid',
       border: '1px solid #eaeaea',
@@ -45,18 +82,6 @@ export default makeStyles(theme => ({
         gridTemplateColumns: '246px 1fr',
         gridTemplateRows: 138,
         width: 850,
-      },
-      '&:hover': {
-        boxShadow: '0 2px 14px rgba(0, 0, 0, 0.06)',
-        [theme.breakpoints.up('md')]: {
-          boxShadow: 'none',
-        },
-        '& img': {
-          transform: 'scale(1.04)',
-        },
-        '& .title': {
-          color: '#4285f4',
-        },
       },
       // Card cover image
       '& > .cover': {
@@ -79,7 +104,7 @@ export default makeStyles(theme => ({
       },
       // Card detail info
       '& > .details': {
-        padding: 18,
+        padding: '16px 18px',
         overflow: 'hidden',
         [theme.breakpoints.up('md')]: {
           padding: '4px 24px',
@@ -90,7 +115,7 @@ export default makeStyles(theme => ({
           whiteSpace: 'nowrap',
           textOverflow: 'ellipsis',
           '&.title': {
-            marginBottom: 8,
+            marginBottom: 5,
             fontWeight: 600,
             [theme.breakpoints.up('md')]: {
               marginBottom: 4,
@@ -128,6 +153,21 @@ export default makeStyles(theme => ({
       '& > svg': {
         height: '100%',
         width: '100%',
+      },
+    },
+  },
+  // Card menu button
+  cardMenu: {
+    '& ul': {
+      padding: '6px 0',
+    },
+    '& li': {
+      padding: '4px 14px 4px 12px',
+      minHeight: 'unset',
+      fontSize: 14,
+      color: '#e84545',
+      '& > svg': {
+        marginRight: 6,
       },
     },
   },

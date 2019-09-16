@@ -19,7 +19,7 @@ const App = () => {
           <Route exact path={ROUTES.LANDING} render={() => <Landing />} />
           <Route path={ROUTES.SIGNIN} render={props => <Signin {...props} />} />
           <Route path={ROUTES.DASHBOARD} render={props => <Dashboard {...props} />} />
-          <Route path={ROUTES.PROFILE} render={() => <Profile />} />
+          <Route path={ROUTES.PROFILE} render={props => <Profile {...props} />} />
           <Route exact path={ROUTES.CURRICULUM} render={props => <Curriculum {...props} />} />
           <Route path={`${ROUTES.CURRICULUM}/:id`} render={props => <CogEditor {...props} />} />
         </Switch>
