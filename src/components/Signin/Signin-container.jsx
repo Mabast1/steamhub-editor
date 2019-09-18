@@ -5,7 +5,6 @@ import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
 
 const SigninContainer = ({ firebase, history }) => {
-  // React hooks
   const INITIAL_STATE = {
     email: '',
     password: '',
@@ -14,7 +13,7 @@ const SigninContainer = ({ firebase, history }) => {
   };
   const [state, setState] = React.useState(INITIAL_STATE);
 
-  // Event handlers
+  // #region Event handlers
   const handleLogin = event => {
     const { email, password } = state;
 
@@ -39,6 +38,7 @@ const SigninContainer = ({ firebase, history }) => {
       hidePassword: !prevState.hidePassword,
     }));
   };
+  // #endregion Event handlers
 
   return (
     <Signin

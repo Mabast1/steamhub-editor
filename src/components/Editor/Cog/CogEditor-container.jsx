@@ -6,27 +6,46 @@ import { withFirebase } from '../../Firebase';
 const CogEditorContainer = ({ firebase, match: { params }, location: { pathname } }) => {
   const [cog, setCog] = React.useState({});
 
-  // Fetch class document on component load
+  // Fetch data on component load
   React.useEffect(() => {
-    firebase
+    const cogPromise = firebase
       .cog(params.id)
       .get()
       .then(doc => {
         if (doc.exists) {
-          const data = { ...doc.data(), id: doc.id, error: null };
-          setCog(data);
-        } else {
-          throw new Error('Document not found.');
+          return { ...doc.data(), id: doc.id, error: null };
         }
+
+        throw new Error('Document not found.');
+      });
+
+    const modulesPromise = firebase
+      .modules()
+      .where('cogId', '==', params.id)
+      .orderBy('number')
+      .get()
+      .then(snapshot => {
+        return snapshot.docs.map(module => ({ id: module.id, name: module.data().name }));
+      });
+
+    Promise.all([cogPromise, modulesPromise])
+      .then(([a, b]) => {
+        setCog({ ...a, modules: b });
       })
       .catch(error => {
         setCog({ error });
       });
   }, [firebase, params.id]);
 
+  // #region Event handlers
+  const handleStateChange = React.useCallback((field, value) => {
+    setCog(prevState => ({ ...prevState, [field]: value }));
+  }, []);
+  // #endregion Event handlers
+
   console.log(cog);
 
-  return <CogEditor cog={cog} pathname={pathname} />;
+  return <CogEditor pathname={pathname} cog={cog} handleStateChange={handleStateChange} />;
 };
 
 export default withFirebase(CogEditorContainer);

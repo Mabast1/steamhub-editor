@@ -86,9 +86,8 @@ const CurriculumContainer = ({ authUser, firebase, location: { pathname } }) => 
         authorName: authUser.name,
         cover: '',
         grade: '',
-        modules: [],
         overview: '',
-        rwc: [],
+        rwc: '',
         skills: [],
         subject: '',
         title: '',
@@ -109,6 +108,7 @@ const CurriculumContainer = ({ authUser, firebase, location: { pathname } }) => 
         .delete()
         .then(() => {
           closeCardMenu();
+
           // Remove the document from React state to force component re-render
           const newCurriculum = curriculum.filter(doc => doc.id !== cardMenu.id);
           setCurriculum(newCurriculum);
@@ -123,8 +123,8 @@ const CurriculumContainer = ({ authUser, firebase, location: { pathname } }) => 
       pathname={pathname}
       isFetching={isFetching}
       curriculum={curriculum}
-      cardMenu={cardMenu}
       loadNextPage={loadNextPage}
+      cardMenu={cardMenu}
       openCardMenu={openCardMenu}
       closeCardMenu={closeCardMenu}
       handleCreateCog={handleCreateCog}

@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import * as serviceWorker from './serviceWorker';
 
 import './index.css';
 import App from './components/App';
@@ -25,5 +24,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-
-serviceWorker.unregister();
