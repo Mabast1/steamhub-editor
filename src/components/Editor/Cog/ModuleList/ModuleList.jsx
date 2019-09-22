@@ -1,10 +1,13 @@
 import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import HandleIcon from '@material-ui/icons/Menu';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import useStyles from './ModuleList-styles';
+import * as ROUTES from '../../../../constants/routes';
 
-const ModuleList = ({ modules, handleStateChange }) => {
+const ModuleList = ({ modules, handleStateChange, handleDeleteModule }) => {
   const classes = useStyles();
 
   // #region Event handlers
@@ -27,6 +30,11 @@ const ModuleList = ({ modules, handleStateChange }) => {
       handleStateChange('modules', newModules);
     }
   };
+
+  const handleEditModule = id => {
+    const win = window.open(`${ROUTES.MODULE}/${id}`, '_blank');
+    win.focus();
+  };
   // #endregion Event handlers
 
   return (
@@ -47,6 +55,11 @@ const ModuleList = ({ modules, handleStateChange }) => {
                         <HandleIcon />
                       </div>
                       {module.name}
+                      <EditIcon className="editIcon" onClick={() => handleEditModule(module.id)} />
+                      <DeleteIcon
+                        className="deleteIcon"
+                        onClick={() => handleDeleteModule(module.id)}
+                      />
                     </div>
                   )}
                 </Draggable>

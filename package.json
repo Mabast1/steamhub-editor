@@ -23,6 +23,7 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "shortid": "^2.2.15",
     "slate": "^0.47.8",
     "slate-html-serializer": "^0.8.10",
     "slate-react": "^0.22.8"

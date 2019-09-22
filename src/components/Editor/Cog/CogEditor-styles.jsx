@@ -4,17 +4,23 @@ export default makeStyles(theme => ({
   contentRoot: {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
-    gridGap: 26,
+    gridGap: 28,
     width: 640,
     margin: '0 auto',
     '& .input-label': {
       margin: 0,
-      marginBottom: 10,
-      fontSize: 15,
+      marginBottom: 12,
+      fontSize: 17,
       fontWeight: 500,
     },
     '& > .grid-span': {
       gridColumn: '1 / span 2',
+    },
+    '& .helper-txt': {
+      margin: 0,
+      marginTop: 4,
+      color: 'rgba(0, 0, 0, 0.6)',
+      fontSize: 13,
     },
   },
   input: {
@@ -42,7 +48,7 @@ export default makeStyles(theme => ({
   },
   coverPic: {
     height: 172,
-    width: 307,
+    width: 306,
     '&:hover': {
       '& .bg-backdrop': {
         opacity: 1,
@@ -72,6 +78,38 @@ export default makeStyles(theme => ({
       alignItems: 'center',
       justifyContent: 'center',
       transition: theme.transitions.create('opacity'),
+    },
+  },
+  chip: {
+    color: '#4285f4',
+    border: '1px solid #4285f4',
+    margin: '6px 6px 0px 0px',
+    '& > svg': {
+      color: '#4285f4',
+      '&:hover': {
+        color: '#296CDB',
+      },
+    },
+  },
+  newModule: {
+    display: 'grid',
+    height: 52,
+    placeItems: 'center',
+    marginTop: 14,
+    border: '1px dashed #4285f4',
+    color: '#4285f4',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgba(143, 210, 255, 0.06)',
+    },
+  },
+  saveButton: {
+    marginTop: 24,
+    backgroundColor: '#4285f4',
+    color: 'white',
+    boxShadow: 'none',
+    '&:hover': {
+      backgroundColor: '#296CDB',
     },
   },
 }));
