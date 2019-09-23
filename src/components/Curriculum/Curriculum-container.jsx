@@ -113,9 +113,24 @@ const CurriculumContainer = ({ authUser, firebase, location: { pathname } }) => 
           const newCurriculum = curriculum.filter(doc => doc.id !== cardMenu.id);
           setCurriculum(newCurriculum);
         })
+        .then(() => {
+          firebase
+            .modules()
+            .where('cogId', '==', cardMenu.id)
+            .get()
+            .then(snapshot => {
+              const batch = firebase.batch();
+              snapshot.forEach(doc => batch.delete(doc.ref));
+
+              return batch.commit();
+            })
+            .catch(() => {
+              throw new Error('Error removing modules.');
+            });
+        })
         .catch(err => console.error('Error removing class: ', err));
     }
-  }, [cardMenu.id, curriculum, closeCardMenu, firebase]);
+  }, [cardMenu.id, closeCardMenu, curriculum, firebase]);
   // #endregion Event handlers
 
   return (

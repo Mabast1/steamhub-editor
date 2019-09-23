@@ -63,42 +63,46 @@ export default makeStyles(theme => ({
     marginBottom: 32,
     padding: 20,
     borderRadius: 4,
-    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.14)',
+    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
     '& .input-label': {
       margin: 0,
-      marginBottom: 12,
+      marginBottom: 10,
       fontSize: 17,
-      fontWeight: 500,
+      fontWeight: 400,
     },
     '& > .grid-span': {
       gridColumn: '1 / span 2',
-    },
-    '& .helper-txt': {
-      margin: 0,
-      marginTop: 4,
-      color: 'rgba(0, 0, 0, 0.6)',
-      fontSize: 13,
     },
   },
   input: {
     width: '100%',
     backgroundColor: '#fbfcfd',
+    '& .MuiOutlinedInput-root': {
+      '&:hover': {
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor: 'rgba(0, 0, 0, 0.4)',
+        },
+      },
+    },
     '& input, .MuiInputBase-multiline, .MuiSelect-root': {
       padding: '14px 16px',
-      color: 'rgba(0, 0, 0, 0.7)',
-    },
-    '&.select-empty .MuiSelect-root': {
-      color: '#b2b2b2',
+      color: 'rgba(0, 0, 0, 0.6)',
+      fontSize: 15,
     },
     '& .MuiInputBase-multiline': {
       '& textarea:first-child': {
         minHeight: '160px',
       },
     },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'rgba(0, 0, 0, 0.08)',
+    },
+    '&.select-empty .MuiSelect-root': {
+      color: '#b2b2b2',
+    },
     '&.Mui-focused, .Mui-focused': {
       backgroundColor: '#fff',
       '& fieldset': {
-        borderColor: '#4285f4!impotant',
         border: '1px solid #4285f4!important',
       },
     },
@@ -135,6 +139,25 @@ export default makeStyles(theme => ({
       alignItems: 'center',
       justifyContent: 'center',
       transition: theme.transitions.create('opacity'),
+    },
+  },
+  newSectionButton: {
+    display: 'grid',
+    height: 52,
+    placeItems: 'center',
+    border: '1px dashed #4285f4',
+    color: '#4285f4',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgba(143, 210, 255, 0.06)',
+    },
+  },
+  newSectionDialog: {
+    minWidth: 480,
+    '& .dialog-title': {
+      margin: 0,
+      marginBottom: 16,
+      fontWeight: 600,
     },
   },
 }));

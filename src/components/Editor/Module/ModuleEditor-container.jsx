@@ -9,6 +9,7 @@ import withProtectedRoute from '../../ProtectedRoute';
 const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathname } }) => {
   const [module, setModule] = React.useState({});
   const [tabIndex, setTabIndex] = React.useState(0);
+  const [isNewSectionDialogOpen, setNewSectionDialog] = React.useState(false);
 
   React.useEffect(() => {
     firebase
@@ -34,15 +35,36 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
     handleStateChange('tabs', newTabs);
   }, [handleStateChange, module.tabs]);
 
-  // TODO: Refactor
-  const handleInputTabName = React.useCallback(
-    (index, value) => {
+  const handleTabChange = React.useCallback(
+    (field, value) => {
       const newTabs = module.tabs.slice();
-      newTabs[index].tabName = value;
+      newTabs[tabIndex][field] = value;
 
       handleStateChange('tabs', newTabs);
     },
-    [handleStateChange, module.tabs]
+    [handleStateChange, module.tabs, tabIndex]
+  );
+
+  const handleAddNewSection = React.useCallback(
+    type => {
+      const newSection = [
+        ...module.tabs[tabIndex].sections,
+        { id: shortid.generate(), data: [], sectionName: '', type },
+      ];
+
+      handleTabChange('sections', newSection);
+    },
+    [handleTabChange, module.tabs, tabIndex]
+  );
+
+  const handleSectionChange = React.useCallback(
+    (sectionIndex, field, value) => {
+      const newSection = module.tabs[tabIndex].sections.slice();
+      newSection[sectionIndex][field] = value;
+
+      handleTabChange('sections', newSection);
+    },
+    [handleTabChange, module.tabs, tabIndex]
   );
   // #endregion Event handlers
 
@@ -52,9 +74,13 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
       module={module}
       tabIndex={tabIndex}
       setTabIndex={setTabIndex}
+      isNewSectionDialogOpen={isNewSectionDialogOpen}
       handleStateChange={handleStateChange}
       handleAddTab={handleAddTab}
-      handleInputTabName={handleInputTabName}
+      handleTabChange={handleTabChange}
+      setNewSectionDialog={setNewSectionDialog}
+      handleAddNewSection={handleAddNewSection}
+      handleSectionChange={handleSectionChange}
     />
   );
 };

@@ -57,6 +57,8 @@ class Firebase {
   doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
 
   // Database API
+  batch = () => this.db.batch();
+
   user = id => this.db.doc(`users/${id}`);
 
   users = () => this.db.collection('users');

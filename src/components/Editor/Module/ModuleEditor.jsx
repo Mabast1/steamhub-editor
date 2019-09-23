@@ -1,24 +1,32 @@
 import React from 'react';
 
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import Dialog from '@material-ui/core/Dialog';
 import AddIcon from '@material-ui/icons/Add';
 
 import useStyles from './ModuleEditor-styles';
 import Layout from '../../Layout';
 import Tabs from './Tabs';
+import NewSectionDialog from './NewSectionDialog';
+import Sections from './Sections';
 
 const ModuleEditor = ({
   pathname,
   module,
   tabIndex,
   setTabIndex,
+  isNewSectionDialogOpen,
   handleStateChange,
   handleAddTab,
-  handleInputTabName,
+  handleTabChange,
+  setNewSectionDialog,
+  handleAddNewSection,
+  handleSectionChange,
 }) => {
   const IMAGE_PLACEHOLDER =
     'https://firebasestorage.googleapis.com/v0/b/steamhub-dev.appspot.com/o/placeholder.png?alt=media&token=f41c489a-a64a-43ec-b20d-3e3418750844';
@@ -53,9 +61,10 @@ const ModuleEditor = ({
           </List>
         </Drawer>
 
+        {/* Main Content */}
         <div style={{ margin: '0 auto' }}>
           {/* Tab Info */}
-          <div className={classes.contentRoot}>
+          <section className={classes.contentRoot}>
             {/* Tab Name */}
             <div className="grid-span">
               <p className="input-label">Tab Name</p>
@@ -64,7 +73,7 @@ const ModuleEditor = ({
                 value={
                   module.tabs && module.tabs[tabIndex].tabName ? module.tabs[tabIndex].tabName : ''
                 }
-                onChange={e => handleInputTabName(tabIndex, e.target.value)}
+                onChange={e => handleTabChange('tabName', e.target.value)}
                 placeholder="Tab Name"
                 variant="outlined"
                 inputProps={{
@@ -72,11 +81,11 @@ const ModuleEditor = ({
                 }}
               />
             </div>
-          </div>
+          </section>
 
           {/* Basic Module Info */}
           {tabIndex === 0 && (
-            <div className={classes.contentRoot}>
+            <section className={classes.contentRoot}>
               {/* Cover Picture */}
               <div>
                 <p className="input-label">Cover Picture</p>
@@ -140,10 +149,40 @@ const ModuleEditor = ({
                   }}
                 />
               </div>
-            </div>
+            </section>
           )}
 
           {/* Sections */}
+          {module.tabs && (
+            <Sections
+              sections={module.tabs[tabIndex].sections}
+              handleTabChange={handleTabChange}
+              handleSectionChange={handleSectionChange}
+            />
+          )}
+
+          {/* Add New Section Button */}
+          <>
+            <Button
+              className={classes.newSectionButton}
+              onClick={() => setNewSectionDialog(true)}
+              component="span"
+              disableRipple
+            >
+              Add new section
+            </Button>
+
+            <Dialog
+              classes={{ paper: classes.newSectionDialog }}
+              open={isNewSectionDialogOpen}
+              onClose={() => setNewSectionDialog(false)}
+            >
+              <NewSectionDialog
+                handleClose={() => setNewSectionDialog(false)}
+                handleAddNewSection={handleAddNewSection}
+              />
+            </Dialog>
+          </>
         </div>
       </div>
     </Layout>
