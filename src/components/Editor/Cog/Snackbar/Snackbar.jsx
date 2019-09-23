@@ -71,7 +71,7 @@ export default ({ status, handleClose }) => (
   >
     <MySnackbarContentWrapper
       onClose={handleClose}
-      variant={status.message === 'Error saving data' ? 'error' : 'success'}
+      variant={status.message === 'Error saving data! Try again' ? 'error' : 'success'}
       message={status.message}
     />
   </Snackbar>

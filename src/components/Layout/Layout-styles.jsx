@@ -8,6 +8,7 @@ export default makeStyles(theme => ({
     borderTop: '1px solid #EAEAEA',
     boxShadow: 'none',
     color: 'black',
+    zIndex: theme.zIndex.drawer + 1,
     [theme.breakpoints.up('sm')]: {
       top: 0,
       bottom: 'auto',

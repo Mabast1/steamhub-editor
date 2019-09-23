@@ -10,6 +10,7 @@ const Dashboard = lazy(() => import('../Dashboard'));
 const Profile = lazy(() => import('../Profile'));
 const Curriculum = lazy(() => import('../Curriculum'));
 const CogEditor = lazy(() => import('../Editor/Cog'));
+const ModuleEditor = lazy(() => import('../Editor/Module'));
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path={ROUTES.PROFILE} render={props => <Profile {...props} />} />
           <Route exact path={ROUTES.CURRICULUM} render={props => <Curriculum {...props} />} />
           <Route path={`${ROUTES.CURRICULUM}/:id`} render={props => <CogEditor {...props} />} />
+          <Route path={`${ROUTES.MODULE}/:id`} render={props => <ModuleEditor {...props} />} />
         </Switch>
       </Suspense>
     </>

@@ -18,6 +18,7 @@ export default makeStyles(() => ({
         },
       },
       '& .move-handle': {
+        display: 'flex',
         padding: '12px 16px',
         color: 'rgba(0, 0, 0, 0.2)',
       },

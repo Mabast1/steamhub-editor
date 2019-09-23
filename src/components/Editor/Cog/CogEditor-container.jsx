@@ -1,8 +1,10 @@
 import React from 'react';
 import shortid from 'shortid';
+import compose from 'recompose/compose';
 
 import CogEditor from './CogEditor';
 import { withFirebase } from '../../Firebase';
+import withProtectedRoute from '../../ProtectedRoute';
 
 const CogEditorContainer = ({ firebase, match: { params }, location: { pathname } }) => {
   const [cog, setCog] = React.useState({});
@@ -87,12 +89,14 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
     firebase
       .modules()
       .add({
+        authorId: cog.authorId,
+        authorName: cog.authorName,
         cogId: params.id,
         cover: '',
         descr: '',
         name: 'New module',
         number: cog.modules.length + 1,
-        tabs: [],
+        tabs: [{ id: shortid.generate(), sections: [], tabName: 'Overview' }],
       })
       .then(doc => {
         setCog(prevState => ({
@@ -101,7 +105,7 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
         }));
       })
       .catch(err => console.error(err));
-  }, [cog.modules, params, firebase]);
+  }, [cog, params, firebase]);
 
   const handleDeleteModule = React.useCallback(
     moduleId => {
@@ -181,11 +185,12 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
 
   const handleCloseSnackbar = React.useCallback((_, reason) => {
     if (reason === 'clickaway') return;
-    setPublishStatus(prevState => ({ ...prevState, snackbar: { isOpen: false, message: '' } }));
+    setPublishStatus(prevState => ({
+      ...prevState,
+      snackbar: { ...prevState.snackbar, isOpen: false },
+    }));
   }, []);
   // #endregion Event handlers
-
-  console.log(cog);
 
   return (
     <CogEditor
@@ -203,4 +208,7 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
   );
 };
 
-export default withFirebase(CogEditorContainer);
+export default compose(
+  withProtectedRoute(authUser => !!authUser),
+  withFirebase
+)(CogEditorContainer);
