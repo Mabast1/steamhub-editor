@@ -16,7 +16,7 @@ export default makeStyles(() => ({
         backgroundColor: 'rgba(143, 210, 255, 0.14)',
       },
     },
-    '& .move-handle': {
+    '& > .move-handle': {
       display: 'flex',
       padding: 4,
       marginRight: 8,

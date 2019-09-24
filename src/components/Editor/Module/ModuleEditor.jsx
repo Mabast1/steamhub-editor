@@ -33,8 +33,6 @@ const ModuleEditor = ({
   const classes = useStyles();
   const fileBrowser = React.useRef(null);
 
-  console.log(module);
-
   return (
     <Layout pathname={pathname}>
       <div style={{ display: 'flex' }}>
@@ -86,6 +84,21 @@ const ModuleEditor = ({
           {/* Basic Module Info */}
           {tabIndex === 0 && (
             <section className={classes.contentRoot}>
+              {/* Title */}
+              <div className="grid-span">
+                <p className="input-label">Title</p>
+                <TextField
+                  className={classes.input}
+                  value={module.name ? module.name : ''}
+                  onChange={e => handleStateChange('name', e.target.value)}
+                  placeholder="Title"
+                  variant="outlined"
+                  inputProps={{
+                    'aria-label': 'Title',
+                  }}
+                />
+              </div>
+
               {/* Cover Picture */}
               <div>
                 <p className="input-label">Cover Picture</p>
@@ -115,23 +128,6 @@ const ModuleEditor = ({
                     style={{ display: 'none' }}
                   />
                 </ButtonBase>
-              </div>
-
-              <div />
-
-              {/* Title */}
-              <div className="grid-span">
-                <p className="input-label">Title</p>
-                <TextField
-                  className={classes.input}
-                  value={module.name ? module.name : ''}
-                  onChange={e => handleStateChange('name', e.target.value)}
-                  placeholder="Title"
-                  variant="outlined"
-                  inputProps={{
-                    'aria-label': 'Title',
-                  }}
-                />
               </div>
 
               {/* Overview */}

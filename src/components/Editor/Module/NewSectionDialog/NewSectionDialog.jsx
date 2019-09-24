@@ -44,11 +44,11 @@ const NewSectionDialog = ({ handleClose, handleAddNewSection }) => {
               <MenuItem disabled value="">
                 Select section type
               </MenuItem>
-              <MenuItem value={0}>Two-columns (colored)</MenuItem>
-              <MenuItem value={1}>Two-columns</MenuItem>
-              <MenuItem value={2}>Supply list</MenuItem>
+              <MenuItem value={0}>Standards</MenuItem>
+              <MenuItem value={1}>Glossary</MenuItem>
+              <MenuItem value={2}>Materials</MenuItem>
               <MenuItem value={3}>Steps</MenuItem>
-              <MenuItem value={4}>Paragraph</MenuItem>
+              {/* <MenuItem value={4}>Paragraph</MenuItem> */}
             </Select>
           </FormControl>
         </form>

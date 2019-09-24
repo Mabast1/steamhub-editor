@@ -47,9 +47,38 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
 
   const handleAddNewSection = React.useCallback(
     type => {
+      let data;
+      switch (type) {
+        case 0:
+          data = [{ id: shortid.generate(), stdCode: '', stdDesc: '' }];
+          break;
+        case 1:
+          data = [{ id: shortid.generate(), vocab: '', vocabDef: '' }];
+          break;
+        case 2:
+          data = [{ id: shortid.generate(), item: '', quantity: 0, note: '' }];
+          break;
+        case 3:
+          data = [
+            {
+              id: shortid.generate(),
+              popupColor: '',
+              popupIcon: '',
+              popupMedia: '',
+              popupMediaType: '',
+              popupText: '',
+              text: '',
+            },
+          ];
+          break;
+        default:
+          data = [];
+          break;
+      }
+
       const newSection = [
         ...module.tabs[tabIndex].sections,
-        { id: shortid.generate(), data: [], sectionName: '', type },
+        { id: shortid.generate(), data, sectionName: '', type },
       ];
 
       handleTabChange('sections', newSection);

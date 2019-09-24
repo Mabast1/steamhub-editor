@@ -31,7 +31,7 @@ export default makeStyles(theme => ({
         backgroundColor: 'rgba(143, 210, 255, 0.14)',
       },
     },
-    '& .move-handle': {
+    '& > .move-handle': {
       display: 'flex',
       padding: 4,
       marginRight: 8,
@@ -57,21 +57,21 @@ export default makeStyles(theme => ({
   // Tab content style
   contentRoot: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    // gridTemplateColumns: '1fr 1fr',
     gridGap: 28,
-    minWidth: 640,
+    minWidth: 600,
     marginBottom: 32,
     padding: 20,
     borderRadius: 4,
     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
+    [theme.breakpoints.up('lg')]: {
+      minWidth: 760,
+    },
     '& .input-label': {
       margin: 0,
       marginBottom: 10,
       fontSize: 17,
       fontWeight: 400,
-    },
-    '& > .grid-span': {
-      gridColumn: '1 / span 2',
     },
   },
   input: {
@@ -91,7 +91,7 @@ export default makeStyles(theme => ({
     },
     '& .MuiInputBase-multiline': {
       '& textarea:first-child': {
-        minHeight: '160px',
+        minHeight: '180px',
       },
     },
     '& .MuiOutlinedInput-notchedOutline': {

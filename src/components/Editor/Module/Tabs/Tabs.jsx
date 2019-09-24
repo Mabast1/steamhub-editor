@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import ListItem from '@material-ui/core/ListItem';
 import DeleteIcon from '@material-ui/icons/Delete';
-import HandleIcon from '@material-ui/icons/Menu';
+import HandleIcon from '@material-ui/icons/DragHandle';
 
 import useStyles from '../ModuleEditor-styles';
 

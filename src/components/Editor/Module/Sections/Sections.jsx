@@ -2,10 +2,11 @@ import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import InputBase from '@material-ui/core/InputBase';
-import HandleIcon from '@material-ui/icons/Menu';
+import HandleIcon from '@material-ui/icons/DragHandle';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import useStyles from './Sections-styles';
+import SectionData from './SectionData';
 
 const Tabs = ({ sections, handleTabChange, handleSectionChange }) => {
   const classes = useStyles();
@@ -63,7 +64,7 @@ const Tabs = ({ sections, handleTabChange, handleSectionChange }) => {
                     </>
 
                     {/* Section Name */}
-                    <div className="grid-span">
+                    <div style={{ marginBottom: 20 }}>
                       <InputBase
                         className={classes.inputTitle}
                         value={section.sectionName ? section.sectionName : ''}
@@ -74,6 +75,12 @@ const Tabs = ({ sections, handleTabChange, handleSectionChange }) => {
                         }}
                       />
                     </div>
+
+                    <SectionData
+                      sectionIndex={index}
+                      section={section}
+                      handleSectionChange={handleSectionChange}
+                    />
                   </section>
                 )}
               </Draggable>

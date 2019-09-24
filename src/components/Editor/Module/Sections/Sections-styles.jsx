@@ -3,9 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 export default makeStyles(() => ({
   contentRoot: {
     position: 'relative',
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gridGap: 28,
     minWidth: 640,
     marginBottom: 32,
     padding: 20,
@@ -13,21 +10,18 @@ export default makeStyles(() => ({
     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
     backgroundColor: 'white',
     '&:hover': {
-      '& .move-handle, .delete-icon': {
+      '& > .move-handle, > .delete-icon': {
         opacity: 1,
       },
     },
-    '& > .grid-span': {
-      gridColumn: '1 / span 2',
-    },
-    '& .move-handle': {
+    '& > .move-handle': {
       position: 'absolute',
       left: -48,
       top: 16,
       opacity: 0,
       color: 'rgba(0, 0, 0, 0.2)',
     },
-    '& .delete-icon': {
+    '& > .delete-icon': {
       position: 'absolute',
       left: -48,
       top: 56,
