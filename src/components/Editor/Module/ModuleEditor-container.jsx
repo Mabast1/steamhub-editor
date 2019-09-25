@@ -12,6 +12,8 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
   const [isNewSectionDialogOpen, setNewSectionDialog] = React.useState(false);
 
   React.useEffect(() => {
+    sessionStorage.clear();
+
     firebase
       .module(params.id)
       .get()
@@ -67,7 +69,7 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
               popupMedia: '',
               popupMediaType: '',
               popupText: '',
-              text: '',
+              text: '<p></p>',
             },
           ];
           break;
@@ -95,6 +97,52 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
     },
     [handleTabChange, module.tabs, tabIndex]
   );
+
+  const handlePublishModule = React.useCallback(() => {
+    const { coverFile, ...newModule } = module;
+    const newTab = module.tabs.slice();
+
+    module.tabs.forEach((tab, tabI) => {
+      tab.sections.forEach((section, secI) => {
+        if (section.type === 3) {
+          const newData = section.data.map((entry, entryI) => {
+            const htmlText = sessionStorage.getItem(entry.id);
+            return {
+              ...entry,
+              text: htmlText || entry.text,
+            };
+          });
+
+          newTab[tabI].sections[secI].data = newData;
+        }
+      });
+    });
+
+    if (coverFile) {
+      const storageRef = firebase
+        .storageRef()
+        .child(`${module.cogId}/${params.id}/${shortid.generate()}`);
+
+      // Upload cover image
+      storageRef
+        .put(coverFile)
+        .then(() => {
+          storageRef
+            .getDownloadURL()
+            .then(url => {
+              firebase
+                .module(params.id)
+                .set({ ...newModule, cover: url, tabs: newTab }, { merge: true });
+            })
+            .catch(() => {
+              throw new Error('Error uploading image.');
+            });
+        })
+        .catch(err => console.error(err));
+    } else {
+      firebase.module(params.id).set({ ...newModule, tabs: newTab }, { merge: true });
+    }
+  }, [firebase, module, params.id]);
   // #endregion Event handlers
 
   return (
@@ -110,6 +158,7 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
       setNewSectionDialog={setNewSectionDialog}
       handleAddNewSection={handleAddNewSection}
       handleSectionChange={handleSectionChange}
+      handlePublishModule={handlePublishModule}
     />
   );
 };

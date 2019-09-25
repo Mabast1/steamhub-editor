@@ -3,9 +3,22 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
+import HandleIcon from '@material-ui/icons/DragHandle';
 
-const Standard = ({ entry, index, length, handleDataChange, handleDeleteData, handleAddData }) => (
+const Standard = ({
+  entry,
+  index,
+  length,
+  handleDataChange,
+  handleDeleteData,
+  handleAddData,
+  dragHandleProps,
+}) => (
   <>
+    <div className="move-handle" {...dragHandleProps}>
+      <HandleIcon />
+    </div>
+
     <TextField
       value={entry.item ? entry.item : ''}
       onChange={e => handleDataChange(index, 'item', e.target.value)}

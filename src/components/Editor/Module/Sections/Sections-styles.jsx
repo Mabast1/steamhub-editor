@@ -1,14 +1,17 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles(() => ({
+export default makeStyles(theme => ({
   contentRoot: {
     position: 'relative',
-    minWidth: 640,
+    width: 600,
     marginBottom: 32,
     padding: 20,
     borderRadius: 4,
     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
     backgroundColor: 'white',
+    [theme.breakpoints.up('lg')]: {
+      width: 760,
+    },
     '&:hover': {
       '& > .move-handle, > .delete-icon': {
         opacity: 1,
@@ -60,13 +63,16 @@ export default makeStyles(() => ({
     fontWeight: 300,
     fontSize: 18,
     border: '1px solid transparent',
-    padding: '6px 16px',
+    padding: '12px 16px',
     borderRadius: 4,
     '&:hover': {
       borderColor: 'rgba(0, 0, 0, 0.23)',
     },
     '&.Mui-focused': {
       borderColor: '#4285f4!important',
+    },
+    '& > input': {
+      padding: 0,
     },
   },
 }));

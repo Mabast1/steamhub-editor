@@ -1,19 +1,18 @@
 import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import HandleIcon from '@material-ui/icons/DragHandle';
-
 import useStyles from './SectionData-styles';
 import Standard from './Standard';
 import Glossary from './Glossary';
 import Material from './Material';
+import SlateEditor from '../../../Slate';
 
 const SectionData = ({ section, onDragEnd, handleDataChange, handleDeleteData, handleAddData }) => {
   const classes = useStyles();
   let Component = () => <></>;
   switch (section.type) {
     case 0:
-      Component = (entry, index) => (
+      Component = (entry, index, dragHandleProps) => (
         <Standard
           entry={entry}
           index={index}
@@ -21,11 +20,12 @@ const SectionData = ({ section, onDragEnd, handleDataChange, handleDeleteData, h
           handleDataChange={handleDataChange}
           handleDeleteData={handleDeleteData}
           handleAddData={handleAddData}
+          dragHandleProps={dragHandleProps}
         />
       );
       break;
     case 1:
-      Component = (entry, index) => (
+      Component = (entry, index, dragHandleProps) => (
         <Glossary
           entry={entry}
           index={index}
@@ -33,11 +33,12 @@ const SectionData = ({ section, onDragEnd, handleDataChange, handleDeleteData, h
           handleDataChange={handleDataChange}
           handleDeleteData={handleDeleteData}
           handleAddData={handleAddData}
+          dragHandleProps={dragHandleProps}
         />
       );
       break;
     case 2:
-      Component = (entry, index) => (
+      Component = (entry, index, dragHandleProps) => (
         <Material
           entry={entry}
           index={index}
@@ -45,6 +46,20 @@ const SectionData = ({ section, onDragEnd, handleDataChange, handleDeleteData, h
           handleDataChange={handleDataChange}
           handleDeleteData={handleDeleteData}
           handleAddData={handleAddData}
+          dragHandleProps={dragHandleProps}
+        />
+      );
+      break;
+    case 3:
+      Component = (entry, index, dragHandleProps) => (
+        <SlateEditor
+          entry={entry}
+          index={index}
+          length={section.data.length}
+          // handleDataChange={handleDataChange}
+          handleDeleteData={handleDeleteData}
+          handleAddData={handleAddData}
+          dragHandleProps={dragHandleProps}
         />
       );
       break;
@@ -65,12 +80,7 @@ const SectionData = ({ section, onDragEnd, handleDataChange, handleDeleteData, h
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                   >
-                    <>
-                      <div className="move-handle" {...provided.dragHandleProps}>
-                        <HandleIcon />
-                      </div>
-                      {Component(entry, index)}
-                    </>
+                    {Component(entry, index, { ...provided.dragHandleProps })}
                   </div>
                 )}
               </Draggable>

@@ -27,6 +27,7 @@ const ModuleEditor = ({
   setNewSectionDialog,
   handleAddNewSection,
   handleSectionChange,
+  handlePublishModule,
 }) => {
   const IMAGE_PLACEHOLDER =
     'https://firebasestorage.googleapis.com/v0/b/steamhub-dev.appspot.com/o/placeholder.png?alt=media&token=f41c489a-a64a-43ec-b20d-3e3418750844';
@@ -57,6 +58,9 @@ const ModuleEditor = ({
               Add new tab
             </ListItem>
           </List>
+          <Button className={classes.publishButton} onClick={handlePublishModule}>
+            Publish Module
+          </Button>
         </Drawer>
 
         {/* Main Content */}

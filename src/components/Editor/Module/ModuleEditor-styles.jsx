@@ -59,13 +59,13 @@ export default makeStyles(theme => ({
     display: 'grid',
     // gridTemplateColumns: '1fr 1fr',
     gridGap: 28,
-    minWidth: 600,
+    width: 600,
     marginBottom: 32,
     padding: 20,
     borderRadius: 4,
     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
     [theme.breakpoints.up('lg')]: {
-      minWidth: 760,
+      width: 760,
     },
     '& .input-label': {
       margin: 0,

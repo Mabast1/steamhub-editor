@@ -49,7 +49,7 @@ const SectionDataContainer = ({ sectionIndex, section, handleSectionChange }) =>
           popupMedia: '',
           popupMediaType: '',
           popupText: '',
-          text: '',
+          text: '<p></p>',
         };
         break;
       default:

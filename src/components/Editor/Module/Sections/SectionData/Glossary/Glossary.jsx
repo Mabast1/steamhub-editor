@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
+import HandleIcon from '@material-ui/icons/DragHandle';
 
 const useStyles = makeStyles(theme => ({
   left: {
@@ -14,11 +15,23 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Standard = ({ entry, index, length, handleDataChange, handleDeleteData, handleAddData }) => {
+const Standard = ({
+  entry,
+  index,
+  length,
+  handleDataChange,
+  handleDeleteData,
+  handleAddData,
+  dragHandleProps,
+}) => {
   const classes = useStyles();
 
   return (
     <>
+      <div className="move-handle" {...dragHandleProps}>
+        <HandleIcon />
+      </div>
+
       <TextField
         className={classes.left}
         value={entry.vocab ? entry.vocab : ''}
