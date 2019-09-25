@@ -25,10 +25,12 @@ const SlateEditor = ({
   const classes = useStyles();
   const html = new Html({ rules });
   const initialValue = sessionStorage.getItem(entry.id) || entry.text;
+
   const [state, setState] = React.useState(html.deserialize(initialValue));
   const [editorRef, setEditorRef] = React.useState(null);
   const [isToolbarOpen, setToolbarOpen] = React.useState(false);
 
+  // #region Event handlers
   const openToolbar = () => {
     setToolbarOpen(true);
   };
@@ -37,49 +39,63 @@ const SlateEditor = ({
     setToolbarOpen(false);
   };
 
-  // FIXME: Refactor
-  // #region Links
-  function wrapLink(editor, href) {
+  const wrapInline = (editor, type, field, value) => {
     editor.wrapInline({
-      type: 'link',
-      data: { href },
+      type,
+      data: { [field]: value },
     });
 
     editor.moveToEnd();
-  }
-
-  function unwrapLink(editor) {
-    editor.unwrapInline('link');
-  }
-
-  const hasLinks = () => {
-    return state.inlines.some(inline => inline.type === 'link');
   };
 
-  const onClickLink = event => {
+  const unwrapInline = (editor, type) => {
+    editor.unwrapInline(type);
+  };
+
+  const hasType = type => {
+    return state.inlines.some(inline => inline.type === type);
+  };
+
+  const onToolbarInlineClick = type => event => {
     event.preventDefault();
 
     const { value } = editorRef;
-    const isLinks = hasLinks();
+    const isFormatted = hasType(type);
 
-    if (isLinks) {
-      editorRef.command(unwrapLink);
+    let string = '';
+    let field = '';
+
+    switch (type) {
+      case 'link':
+        string = 'Enter the URL of the link:';
+        field = 'href';
+        break;
+      case 'vocab':
+        string = 'Enter the definition of the word:';
+        field = 'data-content';
+        break;
+      default:
+        break;
+    }
+
+    if (isFormatted) {
+      editorRef.command(unwrapInline, type);
     } else if (value.selection.isExpanded) {
-      const href = window.prompt('Enter the URL of the link:');
+      const inputValue = window.prompt(string);
 
-      if (href == null) {
+      if (inputValue == null) {
         return;
       }
 
-      editorRef.command(wrapLink, href);
+      editorRef.command(wrapInline, type, field, inputValue);
     } else {
-      const href = window.prompt('Enter the URL of the link:');
+      const inputValue = window.prompt(string);
 
-      if (href == null) {
+      if (inputValue == null) {
         return;
       }
 
-      const text = window.prompt('Enter the text for the link:');
+      const text = window.prompt('Enter the displayed text:');
 
       if (text == null) {
         return;
@@ -88,66 +104,9 @@ const SlateEditor = ({
       editorRef
         .insertText(text)
         .moveFocusBackward(text.length)
-        .command(wrapLink, href);
+        .command(wrapInline, type, field, inputValue);
     }
   };
-  // #endregion Links
-
-  // FIXME: Refactor
-  // #region Vocabs
-  function wrapVocab(editor, href) {
-    editor.wrapInline({
-      type: 'vocab',
-      data: { 'data-content': href },
-    });
-
-    editor.moveToEnd();
-  }
-
-  function unwrapVocab(editor) {
-    editor.unwrapInline('vocab');
-  }
-
-  const hasVocab = () => {
-    return state.inlines.some(inline => inline.type === 'vocab');
-  };
-
-  const onClickVocab = event => {
-    event.preventDefault();
-
-    const { value } = editorRef;
-    const isVocab = hasVocab();
-
-    if (isVocab) {
-      editorRef.command(unwrapVocab);
-    } else if (value.selection.isExpanded) {
-      const href = window.prompt('Enter the URL of the vocab:');
-
-      if (href == null) {
-        return;
-      }
-
-      editorRef.command(wrapVocab, href);
-    } else {
-      const href = window.prompt('Enter the URL of the vocab:');
-
-      if (href == null) {
-        return;
-      }
-
-      const text = window.prompt('Enter the text for the vocab:');
-
-      if (text == null) {
-        return;
-      }
-
-      editorRef
-        .insertText(text)
-        .moveFocusBackward(text.length)
-        .command(wrapVocab, href);
-    }
-  };
-  // #endregion Vocabs
 
   const onChange = ({ value }) => {
     if (value.document !== state.document) {
@@ -202,6 +161,7 @@ const SlateEditor = ({
       }
     }
   };
+  // #endregion Event handlers
 
   return (
     <>
@@ -223,12 +183,15 @@ const SlateEditor = ({
 
           {isToolbarOpen && (
             <div className="toolbar">
-              {hasLinks() ? (
-                <LinkOffIcon className="selected" onClick={onClickLink} />
+              {hasType('link') ? (
+                <LinkOffIcon className="selected" onClick={onToolbarInlineClick('link')} />
               ) : (
-                <LinkIcon onClick={onClickLink} />
+                <LinkIcon onClick={onToolbarInlineClick('link')} />
               )}
-              <VocabIcon className={hasVocab() ? 'selected' : ''} onClick={onClickVocab} />
+              <VocabIcon
+                className={hasType('vocab') ? 'selected' : ''}
+                onClick={onToolbarInlineClick('vocab')}
+              />
               {/* TODO: Add popup */}
               <PopupIcon />
             </div>
