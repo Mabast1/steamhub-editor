@@ -6,6 +6,10 @@ import withProtectedRoute from '../ProtectedRoute';
 import { withFirebase } from '../Firebase';
 
 const Dashboard = ({ firebase, location: { pathname } }) => {
+  React.useEffect(() => {
+    document.title = `Steamhub Editor`;
+  }, []);
+
   return (
     <Layout pathname={pathname}>
       <h1 style={{ margin: 0 }}>Dashboard</h1>

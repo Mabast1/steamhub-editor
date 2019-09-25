@@ -63,7 +63,7 @@ export default makeStyles(theme => ({
     fontWeight: 300,
     fontSize: 18,
     border: '1px solid transparent',
-    padding: '12px 16px',
+    padding: '8px 16px',
     borderRadius: 4,
     '&:hover': {
       borderColor: 'rgba(0, 0, 0, 0.23)',
@@ -72,7 +72,7 @@ export default makeStyles(theme => ({
       borderColor: '#4285f4!important',
     },
     '& > input': {
-      padding: 0,
+      padding: '4px 0px',
     },
   },
 }));

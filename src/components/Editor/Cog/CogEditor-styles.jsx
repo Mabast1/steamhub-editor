@@ -41,6 +41,7 @@ export default makeStyles(theme => ({
     '& .MuiInputBase-multiline': {
       '& textarea:first-child': {
         minHeight: '160px',
+        lineHeight: 'normal',
       },
     },
     '& .MuiOutlinedInput-notchedOutline': {

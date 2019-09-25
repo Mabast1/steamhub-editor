@@ -81,7 +81,7 @@ export default makeStyles(theme => ({
           marginLeft: 14,
           '&.selected': {
             '& a': {
-              fontWeight: 600,
+              fontWeight: 500,
             },
             '&::after': {
               backgroundColor: '#4285f4',

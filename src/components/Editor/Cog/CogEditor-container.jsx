@@ -40,6 +40,8 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
 
     Promise.all([cogPromise, modulesPromise])
       .then(([a, b]) => {
+        document.title = `Steamhub Editor | ${a.title}`;
+
         setCog({ ...a, modules: b });
       })
       .catch(error => {

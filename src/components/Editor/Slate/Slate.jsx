@@ -5,7 +5,8 @@ import Html from 'slate-html-serializer';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import LinkIcon from '@material-ui/icons/InsertLink';
+import LinkIcon from '@material-ui/icons/Link';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
 import HandleIcon from '@material-ui/icons/DragHandle';
 import VocabIcon from '@material-ui/icons/MenuBookOutlined';
 import PopupIcon from '@material-ui/icons/RateReviewOutlined';
@@ -222,7 +223,11 @@ const SlateEditor = ({
 
           {isToolbarOpen && (
             <div className="toolbar">
-              <LinkIcon className={hasLinks() ? 'selected' : ''} onClick={onClickLink} />
+              {hasLinks() ? (
+                <LinkOffIcon className="selected" onClick={onClickLink} />
+              ) : (
+                <LinkIcon onClick={onClickLink} />
+              )}
               <VocabIcon className={hasVocab() ? 'selected' : ''} onClick={onClickVocab} />
               {/* TODO: Add popup */}
               <PopupIcon />

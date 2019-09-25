@@ -42,10 +42,12 @@ export default makeStyles(theme => ({
       },
       '& p': {
         margin: 0,
+        fontSize: 15,
       },
       '& .vocab-popup': {
-        color: 'white',
-        backgroundColor: 'orange',
+        color: 'rgba(0, 0, 0, 0.7)',
+        borderBottom: '1px dotted black',
+        fontWeight: 500,
       },
     },
   },

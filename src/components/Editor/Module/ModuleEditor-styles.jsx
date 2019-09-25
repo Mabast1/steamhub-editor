@@ -15,28 +15,30 @@ export default makeStyles(theme => ({
       ...theme.mixins.toolbar,
     },
   },
-  // Tab style
+  // Drawer style
   tab: {
     alignItems: 'center',
     color: 'rgba(0, 0, 0, 0.8)',
-    fontSize: 15,
+    fontSize: 14,
     '&:hover': {
       '& > svg': {
         opacity: 1,
       },
     },
     '&.new-tab': {
+      backgroundColor: 'rgba(143, 210, 255, 0.14)',
       color: '#4285f4',
       '&:hover': {
-        backgroundColor: 'rgba(143, 210, 255, 0.14)',
+        backgroundColor: 'rgba(118, 185, 230, 0.16)',
+        color: '#296CDB',
       },
     },
     '& > .move-handle': {
       display: 'flex',
       padding: 4,
-      marginRight: 8,
+      marginRight: 6,
       '& > svg': {
-        fill: 'rgba(0, 0, 0, 0.4)',
+        fill: 'rgba(0, 0, 0, 0.2)',
       },
     },
     '& .no-handle': {
@@ -57,7 +59,6 @@ export default makeStyles(theme => ({
   // Tab content style
   contentRoot: {
     display: 'grid',
-    // gridTemplateColumns: '1fr 1fr',
     gridGap: 28,
     width: 600,
     marginBottom: 32,
@@ -92,6 +93,7 @@ export default makeStyles(theme => ({
     '& .MuiInputBase-multiline': {
       '& textarea:first-child': {
         minHeight: '180px',
+        lineHeight: 'normal',
       },
     },
     '& .MuiOutlinedInput-notchedOutline': {
@@ -157,7 +159,18 @@ export default makeStyles(theme => ({
     '& .dialog-title': {
       margin: 0,
       marginBottom: 16,
-      fontWeight: 600,
+      fontWeight: 500,
+    },
+  },
+  publishButton: {
+    margin: 'auto auto 40px',
+    backgroundColor: '#4285f4',
+    color: 'white',
+    height: 48,
+    width: 200,
+    borderRadius: 24,
+    '&:hover': {
+      backgroundColor: '#296CDB',
     },
   },
 }));

@@ -7,13 +7,16 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Dialog from '@material-ui/core/Dialog';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
 
 import useStyles from './ModuleEditor-styles';
 import Layout from '../../Layout';
 import Tabs from './Tabs';
 import NewSectionDialog from './NewSectionDialog';
 import Sections from './Sections';
+import Snackbar from '../Cog/Snackbar';
 
 const ModuleEditor = ({
   pathname,
@@ -21,6 +24,7 @@ const ModuleEditor = ({
   tabIndex,
   setTabIndex,
   isNewSectionDialogOpen,
+  publishStatus,
   handleStateChange,
   handleAddTab,
   handleTabChange,
@@ -28,6 +32,7 @@ const ModuleEditor = ({
   handleAddNewSection,
   handleSectionChange,
   handlePublishModule,
+  handleCloseSnackbar,
 }) => {
   const IMAGE_PLACEHOLDER =
     'https://firebasestorage.googleapis.com/v0/b/steamhub-dev.appspot.com/o/placeholder.png?alt=media&token=f41c489a-a64a-43ec-b20d-3e3418750844';
@@ -44,7 +49,7 @@ const ModuleEditor = ({
           classes={{ paper: classes.drawerPaper }}
         >
           <div className={classes.toolbar} />
-          <List>
+          <List style={{ marginTop: 16 }}>
             <Tabs
               tabs={module.tabs}
               tabIndex={tabIndex}
@@ -58,9 +63,23 @@ const ModuleEditor = ({
               Add new tab
             </ListItem>
           </List>
-          <Button className={classes.publishButton} onClick={handlePublishModule}>
-            Publish Module
+          <Button
+            className={classes.publishButton}
+            onClick={handlePublishModule}
+            disabled={publishStatus.isUploading}
+            color="primary"
+            variant="contained"
+          >
+            <div style={{ display: 'flex', marginRight: 10 }}>
+              {!publishStatus.isUploading ? (
+                <SaveIcon fontSize="small" />
+              ) : (
+                <CircularProgress size={20} thickness={4} />
+              )}
+            </div>
+            Save Module
           </Button>
+          <Snackbar status={publishStatus.snackbar} handleClose={handleCloseSnackbar} />
         </Drawer>
 
         {/* Main Content */}

@@ -116,7 +116,7 @@ export default makeStyles(theme => ({
           textOverflow: 'ellipsis',
           '&.title': {
             marginBottom: 5,
-            fontWeight: 600,
+            fontWeight: 500,
             [theme.breakpoints.up('md')]: {
               marginBottom: 4,
             },

@@ -37,7 +37,7 @@ const Standard = ({
         onChange={e => handleDataChange(index, 'stdCode', e.target.value)}
         label="Code"
         variant="outlined"
-        margin="dense"
+        // margin="dense"
         inputProps={{ 'aria-label': 'Standard code' }}
       />
 

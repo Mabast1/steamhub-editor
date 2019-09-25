@@ -63,7 +63,7 @@ export default ({ status, handleClose }) => (
   <Snackbar
     anchorOrigin={{
       vertical: 'bottom',
-      horizontal: 'left',
+      horizontal: 'right',
     }}
     open={status.isOpen}
     autoHideDuration={6000}

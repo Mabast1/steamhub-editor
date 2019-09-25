@@ -15,8 +15,10 @@ export default makeStyles(() => ({
       margin: '0px 12px 0px 0px',
       '& label': {
         color: 'rgba(0, 0, 0, 0.2)',
+        transform: 'translate(14px, 15px) scale(1)',
         '&.MuiInputLabel-shrink': {
           color: 'rgba(0, 0, 0, 0.4)',
+          transform: 'translate(14px, -6px) scale(0.75)',
         },
       },
       '& .MuiInputBase-root': {
@@ -33,6 +35,7 @@ export default makeStyles(() => ({
           },
         },
         '& input': {
+          padding: '14px 16px',
           color: 'rgba(0, 0, 0, 0.6)',
           fontSize: 15,
         },

@@ -13,6 +13,8 @@ const CurriculumContainer = ({ authUser, firebase, location: { pathname } }) => 
   const [cardMenu, setCardMenu] = React.useState({ id: '', anchor: null });
 
   React.useEffect(() => {
+    document.title = `Steamhub Editor`;
+
     let cogRef = firebase.cogs();
     if (!authUser.roles.includes('CORPORATE')) {
       cogRef = cogRef.where('authorId', '==', authUser.uid);

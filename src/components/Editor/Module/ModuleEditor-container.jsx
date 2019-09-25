@@ -10,6 +10,10 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
   const [module, setModule] = React.useState({});
   const [tabIndex, setTabIndex] = React.useState(0);
   const [isNewSectionDialogOpen, setNewSectionDialog] = React.useState(false);
+  const [publishStatus, setPublishStatus] = React.useState({
+    isUploading: false,
+    snackbar: { isOpen: false, message: '' },
+  });
 
   React.useEffect(() => {
     sessionStorage.clear();
@@ -19,7 +23,10 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
       .get()
       .then(doc => {
         if (doc.exists) {
-          setModule(doc.data());
+          const data = doc.data();
+          document.title = `Steamhub Editor | ${data.name}`;
+
+          setModule(data);
         } else {
           throw new Error('Module not found.');
         }
@@ -98,14 +105,38 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
     [handleTabChange, module.tabs, tabIndex]
   );
 
+  const publishModule = React.useCallback(
+    data => {
+      firebase
+        .module(params.id)
+        .set(data, { merge: true })
+        .then(() => {
+          setPublishStatus({
+            isUploading: false,
+            snackbar: { isOpen: true, message: 'Class has been successfully saved!' },
+          });
+        })
+        .catch(() => {
+          setPublishStatus({
+            isUploading: false,
+            snackbar: { isOpen: true, message: 'Error saving data! Try again' },
+          });
+        });
+    },
+    [firebase, params.id]
+  );
+
   const handlePublishModule = React.useCallback(() => {
     const { coverFile, ...newModule } = module;
     const newTab = module.tabs.slice();
 
+    setPublishStatus(prevState => ({ ...prevState, isUploading: true }));
+
+    // Grab serialized HTML texts from session storage
     module.tabs.forEach((tab, tabI) => {
       tab.sections.forEach((section, secI) => {
         if (section.type === 3) {
-          const newData = section.data.map((entry, entryI) => {
+          const newData = section.data.map(entry => {
             const htmlText = sessionStorage.getItem(entry.id);
             return {
               ...entry,
@@ -118,31 +149,32 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
       });
     });
 
+    // Upload cover image only if necessary
     if (coverFile) {
       const storageRef = firebase
         .storageRef()
         .child(`${module.cogId}/${params.id}/${shortid.generate()}`);
 
-      // Upload cover image
       storageRef
         .put(coverFile)
         .then(() => {
-          storageRef
-            .getDownloadURL()
-            .then(url => {
-              firebase
-                .module(params.id)
-                .set({ ...newModule, cover: url, tabs: newTab }, { merge: true });
-            })
-            .catch(() => {
-              throw new Error('Error uploading image.');
-            });
+          storageRef.getDownloadURL().then(url => {
+            publishModule({ ...newModule, cover: url, tabs: newTab });
+          });
         })
         .catch(err => console.error(err));
     } else {
-      firebase.module(params.id).set({ ...newModule, tabs: newTab }, { merge: true });
+      publishModule({ ...newModule, tabs: newTab });
     }
-  }, [firebase, module, params.id]);
+  }, [firebase, module, params.id, publishModule]);
+
+  const handleCloseSnackbar = React.useCallback((_, reason) => {
+    if (reason === 'clickaway') return;
+    setPublishStatus(prevState => ({
+      ...prevState,
+      snackbar: { ...prevState.snackbar, isOpen: false },
+    }));
+  }, []);
   // #endregion Event handlers
 
   return (
@@ -152,6 +184,7 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
       tabIndex={tabIndex}
       setTabIndex={setTabIndex}
       isNewSectionDialogOpen={isNewSectionDialogOpen}
+      publishStatus={publishStatus}
       handleStateChange={handleStateChange}
       handleAddTab={handleAddTab}
       handleTabChange={handleTabChange}
@@ -159,6 +192,7 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
       handleAddNewSection={handleAddNewSection}
       handleSectionChange={handleSectionChange}
       handlePublishModule={handlePublishModule}
+      handleCloseSnackbar={handleCloseSnackbar}
     />
   );
 };

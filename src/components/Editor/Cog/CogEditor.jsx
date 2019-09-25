@@ -6,6 +6,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import SaveIcon from '@material-ui/icons/Save';
 
 import useStyles from './CogEditor-styles';
 import Layout from '../../Layout';
@@ -220,6 +222,13 @@ const CogEditor = ({
           disabled={publishStatus.isUploading}
           variant="contained"
         >
+          <div style={{ display: 'flex', marginRight: 10 }}>
+            {!publishStatus.isUploading ? (
+              <SaveIcon fontSize="small" />
+            ) : (
+              <CircularProgress size={20} thickness={4} />
+            )}
+          </div>
           Save
         </Button>
       </div>
