@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import CloseIcon from '@material-ui/icons/Close';
 
 // #region icon selections
 import ImageIcon from '@material-ui/icons/Image';
@@ -30,7 +31,7 @@ import StarsIcon from '@material-ui/icons/Stars';
 
 import { withFirebase } from '../../../Firebase';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   dialogRoot: {
     '& .MuiDialogContent-root > div': {
       display: 'flex',
@@ -81,6 +82,7 @@ const useStyles = makeStyles(theme => ({
 
 const PopupDialog = ({
   firebase,
+  storageUrl,
   sectionIndex,
   entryIndex,
   data,
@@ -91,7 +93,12 @@ const PopupDialog = ({
   const classes = useStyles();
   const fileBrowser = React.useRef(null);
   const [state, setState] = React.useState({ ...entry });
-  const isInvalid = Boolean(!state.popupColor || !state.popupIcon);
+  const isInvalid = Boolean(
+    !state.popupColor ||
+      !state.popupIcon ||
+      (!state.popupText && !state.popupMedia) ||
+      (state.popupMedia && !state.popupMediaType)
+  );
 
   const handleInputChange = (field, value) => {
     setState(prevState => ({ ...prevState, [field]: value }));
@@ -102,7 +109,7 @@ const PopupDialog = ({
     const { popupMediaFile, ...newState } = state;
 
     if (popupMediaFile) {
-      const storageRef = firebase.storageRef().child(`temp/${shortid.generate()}`);
+      const storageRef = firebase.storageRef().child(`${storageUrl}/${shortid.generate()}`);
 
       storageRef
         .put(popupMediaFile)
@@ -122,22 +129,28 @@ const PopupDialog = ({
   };
 
   const handleReset = () => {
-    const newData = data.slice();
-    newData[entryIndex] = {
-      ...state,
-      popupColor: '',
-      popupIcon: '',
-      popupMedia: '',
-      popupMediaType: '',
-      popupText: '',
-    };
+    if (window.confirm('Do you want to reset this popup?')) {
+      const newData = data.slice();
+      newData[entryIndex] = {
+        ...state,
+        popupColor: '',
+        popupIcon: '',
+        popupMedia: '',
+        popupMediaType: '',
+        popupText: '',
+      };
 
-    handleSectionChange(sectionIndex, 'data', newData);
-    closePopupDialog();
+      handleSectionChange(sectionIndex, 'data', newData);
+      closePopupDialog();
+    }
   };
 
   return (
     <div className={classes.dialogRoot}>
+      <CloseIcon
+        style={{ position: 'absolute', top: 20, right: 20, cursor: 'pointer' }}
+        onClick={closePopupDialog}
+      />
       <DialogTitle>Insert Popup</DialogTitle>
       <DialogContent>
         {/* Popup Media */}

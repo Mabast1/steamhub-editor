@@ -27,12 +27,12 @@ export default makeStyles(theme => ({
     '& .slate-input': {
       marginRight: 8,
       padding: '14px 16px',
-      flexGrow: 1,
       backgroundColor: '#fbfcfd',
       border: '1px solid rgba(0, 0, 0, 0.08)',
       borderRadius: 4,
       color: 'rgba(0, 0, 0, 0.6)',
       transition: theme.transitions.create('border-color'),
+      wordBreak: 'break-word',
       '&:hover': {
         borderColor: 'rgba(0, 0, 0, 0.4)',
       },

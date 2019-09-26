@@ -19,6 +19,7 @@ import Sections from './Sections';
 import Snackbar from '../Cog/Snackbar';
 
 const ModuleEditor = ({
+  storageUrl,
   pathname,
   module,
   tabIndex,
@@ -174,6 +175,7 @@ const ModuleEditor = ({
           {/* Sections */}
           {module.tabs && (
             <Sections
+              storageUrl={storageUrl}
               sections={module.tabs[tabIndex].sections}
               handleTabChange={handleTabChange}
               handleSectionChange={handleSectionChange}

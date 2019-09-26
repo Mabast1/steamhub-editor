@@ -209,6 +209,7 @@ const CogEditor = ({
           <Button
             className={classes.newModule}
             onClick={handleAddModule}
+            disabled={publishStatus.isUploading}
             component="span"
             disableRipple
           >

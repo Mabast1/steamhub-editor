@@ -7,6 +7,7 @@ import { withFirebase } from '../../Firebase';
 import withProtectedRoute from '../../ProtectedRoute';
 
 const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathname } }) => {
+  const [storageUrl, setStorageUrl] = React.useState('');
   const [module, setModule] = React.useState({});
   const [tabIndex, setTabIndex] = React.useState(0);
   const [isNewSectionDialogOpen, setNewSectionDialog] = React.useState(false);
@@ -26,6 +27,7 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
           const data = doc.data();
           document.title = `Steamhub Editor | ${data.name}`;
 
+          setStorageUrl(`${data.cogId}/${params.id}`);
           setModule(data);
         } else {
           throw new Error('Module not found.');
@@ -151,9 +153,7 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
 
     // Upload cover image only if necessary
     if (coverFile) {
-      const storageRef = firebase
-        .storageRef()
-        .child(`${module.cogId}/${params.id}/${shortid.generate()}`);
+      const storageRef = firebase.storageRef().child(`${storageUrl}/${shortid.generate()}`);
 
       storageRef
         .put(coverFile)
@@ -166,7 +166,7 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
     } else {
       publishModule({ ...newModule, tabs: newTab });
     }
-  }, [firebase, module, params.id, publishModule]);
+  }, [firebase, module, publishModule, storageUrl]);
 
   const handleCloseSnackbar = React.useCallback((_, reason) => {
     if (reason === 'clickaway') return;
@@ -179,6 +179,7 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
 
   return (
     <ModuleEditor
+      storageUrl={storageUrl}
       pathname={pathname}
       module={module}
       tabIndex={tabIndex}

@@ -3,7 +3,7 @@ import shortid from 'shortid';
 
 import SectionData from './SectionData';
 
-const SectionDataContainer = ({ sectionIndex, section, handleSectionChange }) => {
+const SectionDataContainer = ({ storageUrl, sectionIndex, section, handleSectionChange }) => {
   // #region Event handlers
   const onDragEnd = result => {
     const { destination, source, draggableId } = result;
@@ -74,6 +74,7 @@ const SectionDataContainer = ({ sectionIndex, section, handleSectionChange }) =>
 
   return (
     <SectionData
+      storageUrl={storageUrl}
       sectionIndex={sectionIndex}
       section={section}
       onDragEnd={onDragEnd}

@@ -17,6 +17,7 @@ import rules from './rules';
 import PopupDialog from './PopupDialog';
 
 const SlateEditor = ({
+  storageUrl,
   sectionIndex,
   data,
   entry,
@@ -193,6 +194,7 @@ const SlateEditor = ({
             onClick={openToolbar}
             renderBlock={renderNode}
             renderInline={renderInline}
+            style={entry.popupColor ? { borderColor: entry.popupColor } : null}
           />
 
           {isToolbarOpen && (
@@ -227,6 +229,7 @@ const SlateEditor = ({
         onClose={closePopupDialog}
       >
         <PopupDialog
+          storageUrl={storageUrl}
           sectionIndex={sectionIndex}
           data={data}
           entryIndex={index}

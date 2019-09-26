@@ -88,6 +88,8 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
   );
 
   const handleAddModule = React.useCallback(() => {
+    setPublishStatus(prevState => ({ ...prevState, isUploading: true }));
+
     firebase
       .modules()
       .add({
@@ -105,8 +107,13 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
           ...prevState,
           modules: [...prevState.modules, { id: doc.id, name: 'New module' }],
         }));
+
+        setPublishStatus(prevState => ({ ...prevState, isUploading: false }));
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        setPublishStatus(prevState => ({ ...prevState, isUploading: true }));
+      });
   }, [cog, params, firebase]);
 
   const handleDeleteModule = React.useCallback(

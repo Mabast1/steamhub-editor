@@ -8,7 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import useStyles from './Sections-styles';
 import SectionData from './SectionData';
 
-const Tabs = ({ sections, handleTabChange, handleSectionChange }) => {
+const Tabs = ({ storageUrl, sections, handleTabChange, handleSectionChange }) => {
   const classes = useStyles();
 
   // #region Event handlers
@@ -77,6 +77,7 @@ const Tabs = ({ sections, handleTabChange, handleSectionChange }) => {
                     </div>
 
                     <SectionData
+                      storageUrl={storageUrl}
                       sectionIndex={index}
                       section={section}
                       handleSectionChange={handleSectionChange}

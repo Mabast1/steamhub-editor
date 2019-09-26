@@ -8,6 +8,7 @@ import Material from './Material';
 import SlateEditor from '../../../Slate';
 
 const SectionData = ({
+  storageUrl,
   sectionIndex,
   section,
   onDragEnd,
@@ -61,6 +62,7 @@ const SectionData = ({
     case 3:
       Component = (entry, index, dragHandleProps) => (
         <SlateEditor
+          storageUrl={storageUrl}
           sectionIndex={sectionIndex}
           data={section.data}
           entry={entry}

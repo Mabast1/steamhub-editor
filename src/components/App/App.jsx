@@ -17,7 +17,7 @@ const App = () => {
     <>
       <Suspense fallback={null}>
         <Switch>
-          <Route exact path={ROUTES.LANDING} render={() => <Landing />} />
+          <Route exact path={ROUTES.LANDING} render={props => <Landing {...props} />} />
           <Route path={ROUTES.SIGNIN} render={props => <Signin {...props} />} />
           <Route path={ROUTES.DASHBOARD} render={props => <Dashboard {...props} />} />
           <Route path={ROUTES.PROFILE} render={props => <Profile {...props} />} />
