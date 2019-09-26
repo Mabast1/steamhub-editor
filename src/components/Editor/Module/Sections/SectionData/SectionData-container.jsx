@@ -74,8 +74,10 @@ const SectionDataContainer = ({ sectionIndex, section, handleSectionChange }) =>
 
   return (
     <SectionData
+      sectionIndex={sectionIndex}
       section={section}
       onDragEnd={onDragEnd}
+      handleSectionChange={handleSectionChange}
       handleDataChange={handleDataChange}
       handleDeleteData={handleDeleteData}
       handleAddData={handleAddData}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Editor } from 'slate-react';
 import Html from 'slate-html-serializer';
 
+import Dialog from '@material-ui/core/Dialog';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -13,11 +14,15 @@ import PopupIcon from '@material-ui/icons/RateReviewOutlined';
 
 import useStyles from './Slate-styles';
 import rules from './rules';
+import PopupDialog from './PopupDialog';
 
 const SlateEditor = ({
+  sectionIndex,
+  data,
   entry,
   index,
   length,
+  handleSectionChange,
   handleDeleteData,
   handleAddData,
   dragHandleProps,
@@ -29,6 +34,7 @@ const SlateEditor = ({
   const [state, setState] = React.useState(html.deserialize(initialValue));
   const [editorRef, setEditorRef] = React.useState(null);
   const [isToolbarOpen, setToolbarOpen] = React.useState(false);
+  const [isPopupDialogOpen, setPopupDialogOpen] = React.useState(false);
 
   // #region Event handlers
   const openToolbar = () => {
@@ -37,6 +43,14 @@ const SlateEditor = ({
 
   const closeToolbar = () => {
     setToolbarOpen(false);
+  };
+
+  const openPopupDialog = () => {
+    setPopupDialogOpen(true);
+  };
+
+  const closePopupDialog = () => {
+    setPopupDialogOpen(false);
   };
 
   const wrapInline = (editor, type, field, value) => {
@@ -192,8 +206,10 @@ const SlateEditor = ({
                 className={hasType('vocab') ? 'selected' : ''}
                 onClick={onToolbarInlineClick('vocab')}
               />
-              {/* TODO: Add popup */}
-              <PopupIcon />
+              <PopupIcon
+                className={entry.popupColor && entry.popupIcon ? 'selected' : ''}
+                onClick={openPopupDialog}
+              />
             </div>
           )}
         </div>
@@ -204,6 +220,21 @@ const SlateEditor = ({
       ) : (
         <DeleteIcon className="delete-icon" onClick={() => handleDeleteData(entry.id)} />
       )}
+
+      <Dialog
+        classes={{ paper: classes.popupDialog }}
+        open={isPopupDialogOpen}
+        onClose={closePopupDialog}
+      >
+        <PopupDialog
+          sectionIndex={sectionIndex}
+          data={data}
+          entryIndex={index}
+          entry={entry}
+          handleSectionChange={handleSectionChange}
+          closePopupDialog={closePopupDialog}
+        />
+      </Dialog>
     </>
   );
 };

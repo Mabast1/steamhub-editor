@@ -7,7 +7,15 @@ import Glossary from './Glossary';
 import Material from './Material';
 import SlateEditor from '../../../Slate';
 
-const SectionData = ({ section, onDragEnd, handleDataChange, handleDeleteData, handleAddData }) => {
+const SectionData = ({
+  sectionIndex,
+  section,
+  onDragEnd,
+  handleSectionChange,
+  handleDataChange,
+  handleDeleteData,
+  handleAddData,
+}) => {
   const classes = useStyles();
   let Component = () => <></>;
   switch (section.type) {
@@ -53,10 +61,12 @@ const SectionData = ({ section, onDragEnd, handleDataChange, handleDeleteData, h
     case 3:
       Component = (entry, index, dragHandleProps) => (
         <SlateEditor
+          sectionIndex={sectionIndex}
+          data={section.data}
           entry={entry}
           index={index}
           length={section.data.length}
-          // handleDataChange={handleDataChange}
+          handleSectionChange={handleSectionChange}
           handleDeleteData={handleDeleteData}
           handleAddData={handleAddData}
           dragHandleProps={dragHandleProps}

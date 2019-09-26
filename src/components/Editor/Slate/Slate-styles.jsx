@@ -51,4 +51,7 @@ export default makeStyles(theme => ({
       },
     },
   },
+  popupDialog: {
+    width: 640,
+  },
 }));
