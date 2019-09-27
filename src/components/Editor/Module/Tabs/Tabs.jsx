@@ -1,13 +1,14 @@
 import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
+import InputBase from '@material-ui/core/InputBase';
 import ListItem from '@material-ui/core/ListItem';
 import DeleteIcon from '@material-ui/icons/Delete';
 import HandleIcon from '@material-ui/icons/DragHandle';
 
 import useStyles from '../ModuleEditor-styles';
 
-const Tabs = ({ tabs, tabIndex, setTabIndex, handleStateChange }) => {
+const Tabs = ({ tabs, tabIndex, setTabIndex, handleStateChange, handleTabChange }) => {
   const classes = useStyles();
 
   // #region Event handlers
@@ -63,7 +64,14 @@ const Tabs = ({ tabs, tabIndex, setTabIndex, handleStateChange }) => {
                       <div className="move-handle" {...provided.dragHandleProps}>
                         <HandleIcon />
                       </div>
-                      {tab.tabName}
+                      <InputBase
+                        className={classes.tabNameInput}
+                        value={tab.tabName}
+                        placeholder="Enter tab name"
+                        onChange={e => handleTabChange('tabName', e.target.value)}
+                        inputProps={{ 'aria-label': 'Tab name' }}
+                      />
+                      {/* <input type="text" value={tab.tabName} /> */}
                       {index > 0 && <DeleteIcon onClick={handleDeleteTab(tab.id)} />}
                     </ListItem>
                   )}

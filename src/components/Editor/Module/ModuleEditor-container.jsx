@@ -42,7 +42,7 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
   }, []);
 
   const handleAddTab = React.useCallback(() => {
-    const newTabs = [...module.tabs, { id: shortid.generate(), sections: [], tabName: 'New Tab' }];
+    const newTabs = [...module.tabs, { id: shortid.generate(), sections: [], tabName: '' }];
     handleStateChange('tabs', newTabs);
   }, [handleStateChange, module.tabs]);
 

@@ -56,6 +56,7 @@ const ModuleEditor = ({
               tabIndex={tabIndex}
               setTabIndex={setTabIndex}
               handleStateChange={handleStateChange}
+              handleTabChange={handleTabChange}
             />
             <ListItem button className={`${classes.tab} new-tab`} onClick={handleAddTab}>
               <div className="move-handle">
@@ -64,6 +65,7 @@ const ModuleEditor = ({
               Add new tab
             </ListItem>
           </List>
+
           <Button
             className={classes.publishButton}
             onClick={handlePublishModule}
@@ -85,26 +87,6 @@ const ModuleEditor = ({
 
         {/* Main Content */}
         <div style={{ margin: '0 auto' }}>
-          {/* Tab Info */}
-          <section className={classes.contentRoot}>
-            {/* Tab Name */}
-            <div className="grid-span">
-              <p className="input-label">Tab Name</p>
-              <TextField
-                className={classes.input}
-                value={
-                  module.tabs && module.tabs[tabIndex].tabName ? module.tabs[tabIndex].tabName : ''
-                }
-                onChange={e => handleTabChange('tabName', e.target.value)}
-                placeholder="Tab Name"
-                variant="outlined"
-                inputProps={{
-                  'aria-label': 'Tab Name',
-                }}
-              />
-            </div>
-          </section>
-
           {/* Basic Module Info */}
           {tabIndex === 0 && (
             <section className={classes.contentRoot}>

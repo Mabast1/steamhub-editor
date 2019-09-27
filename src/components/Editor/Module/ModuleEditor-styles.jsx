@@ -21,9 +21,13 @@ export default makeStyles(theme => ({
     color: 'rgba(0, 0, 0, 0.8)',
     fontSize: 14,
     '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.08)',
       '& > svg': {
         opacity: 1,
       },
+    },
+    '&.Mui-selected': {
+      backgroundColor: 'rgba(0, 0, 0, 0.08)',
     },
     '&.new-tab': {
       backgroundColor: 'rgba(143, 210, 255, 0.14)',
@@ -47,13 +51,27 @@ export default makeStyles(theme => ({
       marginRight: 8,
     },
     '& > svg': {
-      marginLeft: 'auto',
+      marginLeft: 10,
       opacity: 0,
       color: 'rgba(0, 0, 0, 0.14)',
       cursor: 'pointer',
       '&:hover': {
         color: '#e84545',
       },
+    },
+  },
+  tabNameInput: {
+    fontSize: 14,
+    color: 'rgba(0, 0, 0, 0. 8)',
+    border: '1px solid transparent',
+    '&:hover': {
+      borderColor: 'rgba(0, 0, 0, 0.4)',
+    },
+    '&.Mui-focused': {
+      borderColor: '#4285f4',
+    },
+    '& > input': {
+      padding: 6,
     },
   },
   // Tab content style
@@ -146,10 +164,14 @@ export default makeStyles(theme => ({
   newSectionButton: {
     display: 'grid',
     height: 52,
+    width: 640,
     placeItems: 'center',
     border: '1px dashed #4285f4',
     color: '#4285f4',
     cursor: 'pointer',
+    [theme.breakpoints.up('lg')]: {
+      width: 800,
+    },
     '&:hover': {
       backgroundColor: 'rgba(143, 210, 255, 0.06)',
     },
