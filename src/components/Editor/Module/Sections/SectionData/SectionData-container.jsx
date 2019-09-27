@@ -23,8 +23,10 @@ const SectionDataContainer = ({ storageUrl, sectionIndex, section, handleSection
 
   const handleDeleteData = React.useCallback(
     dataId => {
-      const newData = section.data.filter(entry => entry.id !== dataId);
-      handleSectionChange(sectionIndex, 'data', newData);
+      if (window.confirm('Are you sure you want to remove this row?')) {
+        const newData = section.data.filter(entry => entry.id !== dataId);
+        handleSectionChange(sectionIndex, 'data', newData);
+      }
     },
     [handleSectionChange, section.data, sectionIndex]
   );

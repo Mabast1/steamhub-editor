@@ -143,8 +143,10 @@ const ModuleEditor = ({
                     onChange={e => {
                       const file = e.target.files[0];
 
-                      handleStateChange('cover', URL.createObjectURL(file));
-                      handleStateChange('coverFile', file);
+                      if (file) {
+                        handleStateChange('cover', URL.createObjectURL(file));
+                        handleStateChange('coverFile', file);
+                      }
                     }}
                     accept="image/*"
                     type="file"

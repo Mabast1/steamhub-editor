@@ -116,6 +116,8 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
         .module(params.id)
         .set(data, { merge: true })
         .then(() => {
+          setModule({ ...data });
+
           setPublishStatus({
             isUploading: false,
             snackbar: { isOpen: true, message: 'Class has been successfully saved!' },

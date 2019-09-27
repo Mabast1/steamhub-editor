@@ -137,16 +137,21 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
   );
 
   const publishCog = React.useCallback(
-    (data, modules) => {
+    data => {
+      const updatedAt = Math.floor(Date.now() / 1000);
+      const skills = data.skills.map(skill => skill.label);
+      const { error, modules, ...newData } = data;
+
       firebase
-        .cog(data.id)
-        .set({ ...data }, { merge: true })
+        .cog(newData.id)
+        .set({ ...newData, skills, updatedAt }, { merge: true })
         .then(() => {
           // Re-order module numbers
           modules.forEach((module, index) => {
             firebase.module(module.id).set({ number: index + 1 }, { merge: true });
           });
 
+          setCog({ ...data });
           setPublishStatus({
             isUploading: false,
             snackbar: { isOpen: true, message: 'Class has been successfully saved!' },
@@ -163,10 +168,7 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
   );
 
   const handleSaveCog = React.useCallback(() => {
-    const updatedAt = Math.floor(Date.now() / 1000);
-    const skills = cog.skills.map(skill => skill.label);
-    const newCog = { ...cog, skills, updatedAt };
-    const { error, modules, coverFile, ...data } = newCog;
+    const { coverFile, ...data } = cog;
 
     setPublishStatus(prevState => ({ ...prevState, isUploading: true }));
 
@@ -180,7 +182,7 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
           storageRef
             .getDownloadURL()
             .then(url => {
-              publishCog({ ...data, cover: url }, modules);
+              publishCog({ ...data, cover: url });
             })
             .catch(() => {
               throw new Error('Error uploading image.');
@@ -188,7 +190,7 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
         })
         .catch(err => console.error(err));
     } else {
-      publishCog(data, modules);
+      publishCog(data);
     }
   }, [cog, publishCog, firebase]);
 
