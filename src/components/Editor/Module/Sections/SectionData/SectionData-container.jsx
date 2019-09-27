@@ -52,6 +52,9 @@ const SectionDataContainer = ({ storageUrl, sectionIndex, section, handleSection
           text: '<p></p>',
         };
         break;
+      case 4:
+        data = { id: shortid.generate(), text: '' };
+        break;
       default:
         break;
     }

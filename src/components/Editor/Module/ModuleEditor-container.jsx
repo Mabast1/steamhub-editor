@@ -82,6 +82,9 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
             },
           ];
           break;
+        case 4:
+          data = [{ id: shortid.generate(), text: '' }];
+          break;
         default:
           data = [];
           break;

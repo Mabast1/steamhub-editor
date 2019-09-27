@@ -6,6 +6,7 @@ import Standard from './Standard';
 import Glossary from './Glossary';
 import Material from './Material';
 import SlateEditor from '../../../Slate';
+import Expandable from './Expandable';
 
 const SectionData = ({
   storageUrl,
@@ -69,6 +70,19 @@ const SectionData = ({
           index={index}
           length={section.data.length}
           handleSectionChange={handleSectionChange}
+          handleDeleteData={handleDeleteData}
+          handleAddData={handleAddData}
+          dragHandleProps={dragHandleProps}
+        />
+      );
+      break;
+    case 4:
+      Component = (entry, index, dragHandleProps) => (
+        <Expandable
+          entry={entry}
+          index={index}
+          length={section.data.length}
+          handleDataChange={handleDataChange}
           handleDeleteData={handleDeleteData}
           handleAddData={handleAddData}
           dragHandleProps={dragHandleProps}

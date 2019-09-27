@@ -48,6 +48,7 @@ const NewSectionDialog = ({ handleClose, handleAddNewSection }) => {
               <MenuItem value={1}>Glossaries</MenuItem>
               <MenuItem value={2}>Materials</MenuItem>
               <MenuItem value={3}>Cards</MenuItem>
+              <MenuItem value={4}>Expandables</MenuItem>
             </Select>
           </FormControl>
         </form>
