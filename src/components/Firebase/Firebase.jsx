@@ -71,6 +71,10 @@ class Firebase {
 
   cogs = () => this.db.collection('cogs');
 
+  templates = userId => this.db.collection(`users/${userId}/templates`);
+
+  template = (userId, templateId) => this.db.collection(`users/${userId}/templates/${templateId}`);
+
   // Storage API
   storageRef = path => this.storage.ref(path);
 }

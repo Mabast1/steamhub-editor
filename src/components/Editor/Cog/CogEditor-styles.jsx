@@ -104,7 +104,7 @@ export default makeStyles(theme => ({
   },
   newModule: {
     display: 'grid',
-    height: 52,
+    height: 48,
     placeItems: 'center',
     marginTop: 14,
     border: '1px dashed #4285f4',
@@ -115,7 +115,8 @@ export default makeStyles(theme => ({
     },
   },
   saveButton: {
-    marginTop: 24,
+    height: 48,
+    marginTop: 32,
     backgroundColor: '#4285f4',
     color: 'white',
     boxShadow: 'none',

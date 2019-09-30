@@ -36,11 +36,14 @@ export default makeStyles(theme => ({
         backgroundColor: 'rgba(118, 185, 230, 0.16)',
         color: '#296CDB',
       },
+      '& > .move-handle': {
+        marginRight: 10,
+      },
     },
     '& > .move-handle': {
       display: 'flex',
       padding: 4,
-      marginRight: 6,
+      marginRight: 4,
       '& > svg': {
         fill: 'rgba(0, 0, 0, 0.2)',
       },
@@ -51,7 +54,7 @@ export default makeStyles(theme => ({
       marginRight: 8,
     },
     '& > svg': {
-      marginLeft: 10,
+      marginLeft: 8,
       opacity: 0,
       color: 'rgba(0, 0, 0, 0.14)',
       cursor: 'pointer',
@@ -177,15 +180,30 @@ export default makeStyles(theme => ({
     },
   },
   newSectionDialog: {
-    minWidth: 480,
+    minWidth: 540,
     '& .dialog-title': {
       margin: 0,
-      marginBottom: 16,
+      marginBottom: 18,
       fontWeight: 500,
+      fontSize: 18,
     },
   },
+  saveTemplate: {
+    margin: 'auto',
+    marginBottom: 0,
+    color: '#296CDB',
+    fontSize: 14,
+    textDecoration: 'underline',
+    '& > svg': {
+      fontSize: '1.15rem',
+      marginLeft: 4,
+    },
+  },
+  tooltip: {
+    maxWidth: 200,
+  },
   publishButton: {
-    margin: 'auto auto 40px',
+    margin: '20px auto 40px',
     backgroundColor: '#4285f4',
     color: 'white',
     height: 48,

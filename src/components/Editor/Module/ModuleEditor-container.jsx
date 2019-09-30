@@ -11,6 +11,7 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
   const [module, setModule] = React.useState({});
   const [tabIndex, setTabIndex] = React.useState(0);
   const [isNewSectionDialogOpen, setNewSectionDialog] = React.useState(false);
+  const [isTemplateDialogOpen, setTemplateDialog] = React.useState(false);
   const [publishStatus, setPublishStatus] = React.useState({
     isUploading: false,
     snackbar: { isOpen: false, message: '' },
@@ -180,26 +181,50 @@ const ModuleEditorContainer = ({ firebase, match: { params }, location: { pathna
       snackbar: { ...prevState.snackbar, isOpen: false },
     }));
   }, []);
+
+  const handleOpenNewSectionDialog = React.useCallback(() => {
+    setNewSectionDialog(true);
+  }, []);
+
+  const handleCloseNewSectionDialog = React.useCallback(() => {
+    setNewSectionDialog(false);
+  }, []);
+
+  const handleOpenTemplateDialog = React.useCallback(() => {
+    setTemplateDialog(true);
+  }, []);
+
+  const handleCloseTemplateDialog = React.useCallback(() => {
+    setTemplateDialog(false);
+  }, []);
   // #endregion Event handlers
 
+  // Testing the following trick to optimize performance
+  // https://medium.com/missive-app/45-faster-react-functional-components-now-3509a668e69f
   return (
-    <ModuleEditor
-      storageUrl={storageUrl}
-      pathname={pathname}
-      module={module}
-      tabIndex={tabIndex}
-      setTabIndex={setTabIndex}
-      isNewSectionDialogOpen={isNewSectionDialogOpen}
-      publishStatus={publishStatus}
-      handleStateChange={handleStateChange}
-      handleAddTab={handleAddTab}
-      handleTabChange={handleTabChange}
-      setNewSectionDialog={setNewSectionDialog}
-      handleAddNewSection={handleAddNewSection}
-      handleSectionChange={handleSectionChange}
-      handlePublishModule={handlePublishModule}
-      handleCloseSnackbar={handleCloseSnackbar}
-    />
+    <>
+      {ModuleEditor({
+        storageUrl,
+        pathname,
+        module,
+        tabIndex,
+        setTabIndex,
+        isNewSectionDialogOpen,
+        isTemplateDialogOpen,
+        publishStatus,
+        handleStateChange,
+        handleAddTab,
+        handleTabChange,
+        handleOpenNewSectionDialog,
+        handleCloseNewSectionDialog,
+        handleOpenTemplateDialog,
+        handleCloseTemplateDialog,
+        handleAddNewSection,
+        handleSectionChange,
+        handlePublishModule,
+        handleCloseSnackbar,
+      })}
+    </>
   );
 };
 

@@ -183,7 +183,7 @@ const PopupDialog = ({
                   handleInputChange('popupMedia', URL.createObjectURL(file));
                   handleInputChange('popupMediaFile', file);
                 }}
-                accept="image/*"
+                accept="video/*, image/*"
                 type="file"
                 ref={fileBrowser}
                 style={{ display: 'none' }}

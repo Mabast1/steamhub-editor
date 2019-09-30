@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Drawer from '@material-ui/core/Drawer';
@@ -10,11 +11,13 @@ import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
+import HelpIcon from '@material-ui/icons/HelpOutlineOutlined';
 
 import useStyles from './ModuleEditor-styles';
 import Layout from '../../Layout';
 import Tabs from './Tabs';
 import NewSectionDialog from './NewSectionDialog';
+import TemplateDialog from './TemplateDialog';
 import Sections from './Sections';
 import Snackbar from '../Cog/Snackbar';
 
@@ -25,11 +28,15 @@ const ModuleEditor = ({
   tabIndex,
   setTabIndex,
   isNewSectionDialogOpen,
+  isTemplateDialogOpen,
   publishStatus,
   handleStateChange,
   handleAddTab,
   handleTabChange,
-  setNewSectionDialog,
+  handleOpenNewSectionDialog,
+  handleCloseNewSectionDialog,
+  handleOpenTemplateDialog,
+  handleCloseTemplateDialog,
   handleAddNewSection,
   handleSectionChange,
   handlePublishModule,
@@ -65,6 +72,30 @@ const ModuleEditor = ({
               Add new tab
             </ListItem>
           </List>
+
+          <Tooltip
+            classes={{ tooltip: classes.tooltip }}
+            title='Save current module as template. If you wish to save your recent changes, hit "save module" instead.'
+            enterDelay={600}
+            leaveDelay={400}
+          >
+            <ButtonBase
+              className={classes.saveTemplate}
+              onClick={handleOpenTemplateDialog}
+              aria-label="Save as template"
+            >
+              Save as template
+              <HelpIcon />
+            </ButtonBase>
+          </Tooltip>
+
+          <Dialog
+            classes={{ paper: classes.newSectionDialog }}
+            open={isTemplateDialogOpen}
+            onClose={handleCloseTemplateDialog}
+          >
+            <TemplateDialog tabs={module.tabs} handleClose={handleCloseTemplateDialog} />
+          </Dialog>
 
           <Button
             className={classes.publishButton}
@@ -170,7 +201,7 @@ const ModuleEditor = ({
           <>
             <Button
               className={classes.newSectionButton}
-              onClick={() => setNewSectionDialog(true)}
+              onClick={handleOpenNewSectionDialog}
               component="span"
               disableRipple
             >
@@ -180,10 +211,10 @@ const ModuleEditor = ({
             <Dialog
               classes={{ paper: classes.newSectionDialog }}
               open={isNewSectionDialogOpen}
-              onClose={() => setNewSectionDialog(false)}
+              onClose={handleCloseNewSectionDialog}
             >
               <NewSectionDialog
-                handleClose={() => setNewSectionDialog(false)}
+                handleClose={handleCloseNewSectionDialog}
                 handleAddNewSection={handleAddNewSection}
               />
             </Dialog>
