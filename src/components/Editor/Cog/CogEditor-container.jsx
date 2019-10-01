@@ -8,6 +8,7 @@ import withProtectedRoute from '../../ProtectedRoute';
 
 const CogEditorContainer = ({ firebase, match: { params }, location: { pathname } }) => {
   const [cog, setCog] = React.useState({});
+  const [createModuleDialogOpen, setCreateModuleDialog] = React.useState(false);
   const [publishStatus, setPublishStatus] = React.useState({
     isUploading: false,
     snackbar: { isOpen: false, message: '' },
@@ -87,34 +88,37 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
     []
   );
 
-  const handleAddModule = React.useCallback(() => {
-    setPublishStatus(prevState => ({ ...prevState, isUploading: true }));
+  const handleAddModule = React.useCallback(
+    tabs => {
+      setPublishStatus(prevState => ({ ...prevState, isUploading: true }));
 
-    firebase
-      .modules()
-      .add({
-        authorId: cog.authorId,
-        authorName: cog.authorName,
-        cogId: params.id,
-        cover: '',
-        descr: '',
-        name: 'New module',
-        number: cog.modules.length + 1,
-        tabs: [{ id: shortid.generate(), sections: [], tabName: 'Overview' }],
-      })
-      .then(doc => {
-        setCog(prevState => ({
-          ...prevState,
-          modules: [...prevState.modules, { id: doc.id, name: 'New module' }],
-        }));
+      firebase
+        .modules()
+        .add({
+          authorId: cog.authorId,
+          authorName: cog.authorName,
+          cogId: params.id,
+          cover: '',
+          descr: '',
+          name: 'New module',
+          number: cog.modules.length + 1,
+          tabs,
+        })
+        .then(doc => {
+          setCog(prevState => ({
+            ...prevState,
+            modules: [...prevState.modules, { id: doc.id, name: 'New module' }],
+          }));
 
-        setPublishStatus(prevState => ({ ...prevState, isUploading: false }));
-      })
-      .catch(err => {
-        console.error(err);
-        setPublishStatus(prevState => ({ ...prevState, isUploading: true }));
-      });
-  }, [cog, params, firebase]);
+          setPublishStatus(prevState => ({ ...prevState, isUploading: false }));
+        })
+        .catch(err => {
+          console.error(err);
+          setPublishStatus(prevState => ({ ...prevState, isUploading: true }));
+        });
+    },
+    [cog, params, firebase]
+  );
 
   const handleDeleteModule = React.useCallback(
     moduleId => {
@@ -201,6 +205,14 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
       snackbar: { ...prevState.snackbar, isOpen: false },
     }));
   }, []);
+
+  const handleOpenCreateModuleDialog = React.useCallback(() => {
+    setCreateModuleDialog(true);
+  }, []);
+
+  const handleCloseCreateModuleDialog = React.useCallback(() => {
+    setCreateModuleDialog(false);
+  }, []);
   // #endregion Event handlers
 
   return (
@@ -208,6 +220,7 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
       pathname={pathname}
       cog={cog}
       publishStatus={publishStatus}
+      createModuleDialogOpen={createModuleDialogOpen}
       handleStateChange={handleStateChange}
       handleAddChip={handleAddChip}
       handleDeleteChip={handleDeleteChip}
@@ -215,6 +228,8 @@ const CogEditorContainer = ({ firebase, match: { params }, location: { pathname 
       handleDeleteModule={handleDeleteModule}
       handleSaveCog={handleSaveCog}
       handleCloseSnackbar={handleCloseSnackbar}
+      handleOpenCreateModuleDialog={handleOpenCreateModuleDialog}
+      handleCloseCreateModuleDialog={handleCloseCreateModuleDialog}
     />
   );
 };

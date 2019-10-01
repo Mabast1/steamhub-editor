@@ -2,6 +2,7 @@ import React from 'react';
 import { Editor } from 'slate-react';
 import Html from 'slate-html-serializer';
 
+import Tooltip from '@material-ui/core/Tooltip';
 import Dialog from '@material-ui/core/Dialog';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import AddIcon from '@material-ui/icons/Add';
@@ -166,9 +167,16 @@ const SlateEditor = ({
         const { data } = node;
         const href = data.get('data-content');
         return (
-          <span {...attributes} className="vocab-popup" data-content={href}>
-            {children}
-          </span>
+          <Tooltip
+            classes={{ tooltip: classes.tooltip }}
+            title={href}
+            enterDelay={500}
+            leaveDelay={200}
+          >
+            <span {...attributes} className="vocab-popup" data-content={href}>
+              {children}
+            </span>
+          </Tooltip>
         );
       }
       default: {
@@ -199,19 +207,40 @@ const SlateEditor = ({
 
           {isToolbarOpen && (
             <div className="toolbar">
-              {hasType('link') ? (
-                <LinkOffIcon className="selected" onClick={onToolbarInlineClick('link')} />
-              ) : (
-                <LinkIcon onClick={onToolbarInlineClick('link')} />
-              )}
-              <VocabIcon
-                className={hasType('vocab') ? 'selected' : ''}
-                onClick={onToolbarInlineClick('vocab')}
-              />
-              <PopupIcon
-                className={entry.popupColor && entry.popupIcon ? 'selected' : ''}
-                onClick={openPopupDialog}
-              />
+              <Tooltip
+                classes={{ tooltip: classes.tooltip }}
+                title="Insert hyperlink"
+                enterDelay={500}
+                leaveDelay={200}
+              >
+                {hasType('link') ? (
+                  <LinkOffIcon className="selected" onClick={onToolbarInlineClick('link')} />
+                ) : (
+                  <LinkIcon onClick={onToolbarInlineClick('link')} />
+                )}
+              </Tooltip>
+              <Tooltip
+                classes={{ tooltip: classes.tooltip }}
+                title="Insert word definition"
+                enterDelay={500}
+                leaveDelay={200}
+              >
+                <VocabIcon
+                  className={hasType('vocab') ? 'selected' : ''}
+                  onClick={onToolbarInlineClick('vocab')}
+                />
+              </Tooltip>
+              <Tooltip
+                classes={{ tooltip: classes.tooltip }}
+                title="Insert popup"
+                enterDelay={500}
+                leaveDelay={200}
+              >
+                <PopupIcon
+                  className={entry.popupColor && entry.popupIcon ? 'selected' : ''}
+                  onClick={openPopupDialog}
+                />
+              </Tooltip>
             </div>
           )}
         </div>
@@ -227,6 +256,8 @@ const SlateEditor = ({
         classes={{ paper: classes.popupDialog }}
         open={isPopupDialogOpen}
         onClose={closePopupDialog}
+        disableBackdropClick
+        disableEscapeKeyDown
       >
         <PopupDialog
           storageUrl={storageUrl}

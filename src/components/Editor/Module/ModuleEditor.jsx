@@ -20,6 +20,7 @@ import NewSectionDialog from './NewSectionDialog';
 import TemplateDialog from './TemplateDialog';
 import Sections from './Sections';
 import Snackbar from '../Cog/Snackbar';
+import IMAGE_PLACEHOLDER from '../../../constants/mediaPlaceholder';
 
 const ModuleEditor = ({
   storageUrl,
@@ -42,8 +43,6 @@ const ModuleEditor = ({
   handlePublishModule,
   handleCloseSnackbar,
 }) => {
-  const IMAGE_PLACEHOLDER =
-    'https://firebasestorage.googleapis.com/v0/b/steamhub-dev.appspot.com/o/placeholder.png?alt=media&token=f41c489a-a64a-43ec-b20d-3e3418750844';
   const classes = useStyles();
   const fileBrowser = React.useRef(null);
 
@@ -76,8 +75,9 @@ const ModuleEditor = ({
           <Tooltip
             classes={{ tooltip: classes.tooltip }}
             title='Save current module as template. If you wish to save your recent changes, hit "save module" instead.'
-            enterDelay={600}
-            leaveDelay={400}
+            placement="top"
+            enterDelay={500}
+            leaveDelay={200}
           >
             <ButtonBase
               className={classes.saveTemplate}

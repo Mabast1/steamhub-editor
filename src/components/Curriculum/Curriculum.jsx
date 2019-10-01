@@ -16,6 +16,7 @@ import useStyles from './Curriculum-styles';
 import Layout from '../Layout';
 import { DesktopLoader, MobileLoader } from './ContentLoader';
 import * as ROUTES from '../../constants/routes';
+import IMAGE_PLACEHOLDER from '../../constants/mediaPlaceholder';
 
 const Curriculum = ({
   pathname,
@@ -28,8 +29,6 @@ const Curriculum = ({
   handleCreateCog,
   handleDeleteCog,
 }) => {
-  const IMAGE_PLACEHOLDER =
-    'https://firebasestorage.googleapis.com/v0/b/steamhub-dev.appspot.com/o/placeholder.png?alt=media&token=f41c489a-a64a-43ec-b20d-3e3418750844';
   const classes = useStyles();
 
   return (

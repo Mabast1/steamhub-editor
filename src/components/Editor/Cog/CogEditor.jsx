@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -13,10 +14,13 @@ import useStyles from './CogEditor-styles';
 import Layout from '../../Layout';
 import ModuleList from './ModuleList';
 import Snackbar from './Snackbar';
+import CreateModuleDialog from './CreateModuleDialog';
+import IMAGE_PLACEHOLDER from '../../../constants/mediaPlaceholder';
 
 const CogEditor = ({
   pathname,
   cog,
+  createModuleDialogOpen,
   publishStatus,
   handleStateChange,
   handleAddChip,
@@ -25,9 +29,9 @@ const CogEditor = ({
   handleDeleteModule,
   handleSaveCog,
   handleCloseSnackbar,
+  handleOpenCreateModuleDialog,
+  handleCloseCreateModuleDialog,
 }) => {
-  const IMAGE_PLACEHOLDER =
-    'https://firebasestorage.googleapis.com/v0/b/steamhub-dev.appspot.com/o/placeholder.png?alt=media&token=f41c489a-a64a-43ec-b20d-3e3418750844';
   const classes = useStyles();
   const fileBrowser = React.useRef(null);
 
@@ -210,7 +214,7 @@ const CogEditor = ({
           />
           <Button
             className={classes.newModule}
-            onClick={handleAddModule}
+            onClick={handleOpenCreateModuleDialog}
             disabled={publishStatus.isUploading}
             component="span"
             disableRipple
@@ -218,6 +222,18 @@ const CogEditor = ({
             Add new module
           </Button>
         </div>
+
+        <Dialog
+          classes={{ paper: classes.popupDialog }}
+          open={createModuleDialogOpen}
+          onClose={handleCloseCreateModuleDialog}
+          scroll="paper"
+        >
+          <CreateModuleDialog
+            handleClose={handleCloseCreateModuleDialog}
+            handleAddModule={handleAddModule}
+          />
+        </Dialog>
 
         <Button
           className={`${classes.saveButton} grid-span`}

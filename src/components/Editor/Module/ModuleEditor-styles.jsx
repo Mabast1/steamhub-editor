@@ -201,6 +201,7 @@ export default makeStyles(theme => ({
   },
   tooltip: {
     maxWidth: 200,
+    margin: '6px 0',
   },
   publishButton: {
     margin: '20px auto 40px',

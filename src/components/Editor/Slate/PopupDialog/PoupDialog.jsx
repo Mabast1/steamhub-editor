@@ -25,8 +25,14 @@ import PanToolIcon from '@material-ui/icons/PanTool';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import RestoreIcon from '@material-ui/icons/Restore';
-import SearchIcon from '@material-ui/icons/Search';
-import StarsIcon from '@material-ui/icons/Stars';
+import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
+import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
+import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
+import AudiotrackIcon from '@material-ui/icons/Audiotrack';
+import BrushIcon from '@material-ui/icons/Brush';
+import ColorLensIcon from '@material-ui/icons/ColorLens';
+import LocalCafeIcon from '@material-ui/icons/LocalCafe';
+import StarIcon from '@material-ui/icons/Star';
 // #endregion icon selections
 
 import { withFirebase } from '../../../Firebase';
@@ -57,9 +63,22 @@ const useStyles = makeStyles(() => ({
             borderColor: 'rgba(0, 0, 0, 0.4)',
           },
         },
+        '&.Mui-error': {
+          '& > fieldset': {
+            borderColor: '#f44336!important',
+          },
+        },
         '&.Mui-focused': {
           '& > fieldset': {
             border: '1px solid #4285f4!important',
+          },
+        },
+        '&.Mui-disabled': {
+          backgroundColor: 'rgba(0, 0, 0, 0.04)',
+          '&:hover': {
+            '& > fieldset': {
+              borderColor: 'rgba(0, 0, 0, 0.08)',
+            },
           },
         },
         '& > input': {
@@ -93,6 +112,7 @@ const PopupDialog = ({
   const classes = useStyles();
   const fileBrowser = React.useRef(null);
   const [state, setState] = React.useState({ ...entry });
+  const [isUploading, setUploading] = React.useState(false);
   const isInvalid = Boolean(
     !state.popupColor ||
       !state.popupIcon ||
@@ -104,27 +124,29 @@ const PopupDialog = ({
     setState(prevState => ({ ...prevState, [field]: value }));
   };
 
+  const handleUploadMedia = file => {
+    const storageRef = firebase.storageRef().child(`${storageUrl}/${shortid.generate()}`);
+    setUploading(true);
+
+    storageRef
+      .put(file)
+      .then(() => {
+        storageRef.getDownloadURL().then(url => {
+          handleInputChange('popupMedia', url);
+          setUploading(false);
+        });
+      })
+      .catch(err => {
+        console.error(err);
+        setUploading(false);
+      });
+  };
+
   const handleSubmit = () => {
     const newData = data.slice();
-    const { popupMediaFile, ...newState } = state;
+    newData[entryIndex] = { ...state };
 
-    if (popupMediaFile) {
-      const storageRef = firebase.storageRef().child(`${storageUrl}/${shortid.generate()}`);
-
-      storageRef
-        .put(popupMediaFile)
-        .then(() => {
-          storageRef.getDownloadURL().then(url => {
-            newData[entryIndex] = { ...newState, popupMedia: url };
-            handleSectionChange(sectionIndex, 'data', newData);
-          });
-        })
-        .catch(err => console.error(err));
-    } else {
-      newData[entryIndex] = { ...newState };
-      handleSectionChange(sectionIndex, 'data', newData);
-    }
-
+    handleSectionChange(sectionIndex, 'data', newData);
     closePopupDialog();
   };
 
@@ -143,6 +165,10 @@ const PopupDialog = ({
       handleSectionChange(sectionIndex, 'data', newData);
       closePopupDialog();
     }
+  };
+
+  const isValidHexColor = s => {
+    return /^#[0-9A-F]{6}$/i.test(s);
   };
 
   return (
@@ -174,14 +200,14 @@ const PopupDialog = ({
               onClick={() => fileBrowser.current.click()}
               variant="contained"
               style={{ marginRight: 8, height: 45, boxShadow: 'none' }}
+              disabled={isUploading}
             >
               Browse
               <input
                 onChange={e => {
                   const file = e.target.files[0];
 
-                  handleInputChange('popupMedia', URL.createObjectURL(file));
-                  handleInputChange('popupMediaFile', file);
+                  if (file) handleUploadMedia(file);
                 }}
                 accept="video/*, image/*"
                 type="file"
@@ -193,6 +219,7 @@ const PopupDialog = ({
               className={classes.input}
               value={state.popupMedia ? state.popupMedia : ''}
               onChange={e => handleInputChange('popupMedia', e.target.value)}
+              disabled={isUploading}
               placeholder="Browse from computer or paste url here"
               variant="outlined"
               inputProps={{
@@ -212,9 +239,7 @@ const PopupDialog = ({
             placeholder="Popup text"
             variant="outlined"
             multiline
-            inputProps={{
-              'aria-label': 'Popup Text',
-            }}
+            inputProps={{ 'aria-label': 'Popup Text' }}
           />
         </div>
 
@@ -269,22 +294,53 @@ const PopupDialog = ({
               <MenuItem value="restore">
                 <RestoreIcon />
               </MenuItem>
-              <MenuItem value="search">
-                <SearchIcon />
+              <MenuItem value="emoji_objects">
+                <EmojiObjectsIcon />
               </MenuItem>
-              <MenuItem value="stars">
-                <StarsIcon />
+              <MenuItem value="emoji_events">
+                <EmojiEventsIcon />
+              </MenuItem>
+              <MenuItem value="sports_esports">
+                <SportsEsportsIcon />
+              </MenuItem>
+              <MenuItem value="audiotrack">
+                <AudiotrackIcon />
+              </MenuItem>
+              <MenuItem value="brush">
+                <BrushIcon />
+              </MenuItem>
+              <MenuItem value="color_lens">
+                <ColorLensIcon />
+              </MenuItem>
+              <MenuItem value="local_cafe">
+                <LocalCafeIcon />
+              </MenuItem>
+              <MenuItem value="star">
+                <StarIcon />
               </MenuItem>
             </Select>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 48 }}>
             <p className="input-label">Popup Accent Color</p>
-            <input
-              type="color"
-              value={state.popupColor ? state.popupColor : '#FFFFFF'}
-              onChange={e => handleInputChange('popupColor', e.target.value)}
-            />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <TextField
+                value={state.popupColor ? state.popupColor : ''}
+                onChange={e => handleInputChange('popupColor', e.target.value)}
+                error={!isValidHexColor(state.popupColor) && Boolean(state.popupColor)}
+                placeholder="#FFFFFF"
+                variant="outlined"
+                inputProps={{ 'aria-label': 'Popup accent color' }}
+                style={{ width: 120 }}
+              />
+
+              <input
+                type="color"
+                value={state.popupColor ? state.popupColor : '#FFFFFF'}
+                onChange={e => handleInputChange('popupColor', e.target.value)}
+                style={{ marginLeft: 12 }}
+              />
+            </div>
           </div>
         </div>
       </DialogContent>
@@ -292,7 +348,11 @@ const PopupDialog = ({
         <Button onClick={handleReset} color="secondary">
           Reset
         </Button>
-        <Button onClick={handleSubmit} color="primary" disabled={isInvalid}>
+        <Button
+          onClick={handleSubmit}
+          color="primary"
+          disabled={isInvalid || isUploading || !isValidHexColor(state.popupColor)}
+        >
           Add
         </Button>
       </DialogActions>

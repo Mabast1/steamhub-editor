@@ -124,4 +124,9 @@ export default makeStyles(theme => ({
       backgroundColor: '#296CDB',
     },
   },
+  popupDialog: {
+    maxHeight: 560,
+    maxWidth: 740,
+    width: 740,
+  },
 }));

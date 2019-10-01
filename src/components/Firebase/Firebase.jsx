@@ -73,7 +73,7 @@ class Firebase {
 
   templates = userId => this.db.collection(`users/${userId}/templates`);
 
-  template = (userId, templateId) => this.db.collection(`users/${userId}/templates/${templateId}`);
+  template = (userId, templateId) => this.db.doc(`users/${userId}/templates/${templateId}`);
 
   // Storage API
   storageRef = path => this.storage.ref(path);

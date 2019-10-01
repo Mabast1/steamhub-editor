@@ -54,4 +54,7 @@ export default makeStyles(theme => ({
   popupDialog: {
     width: 640,
   },
+  tooltip: {
+    margin: '6px 0',
+  },
 }));
