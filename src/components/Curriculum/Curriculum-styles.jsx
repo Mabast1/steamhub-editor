@@ -34,6 +34,8 @@ export default makeStyles(theme => ({
     },
     '& > div': {
       position: 'relative',
+      width: '100%',
+      height: '100%',
       [theme.breakpoints.up('md')]: {
         width: 850,
         '&:hover': {
@@ -77,6 +79,7 @@ export default makeStyles(theme => ({
       cursor: 'pointer',
       textDecoration: 'none',
       color: 'inherit',
+      width: '100%',
       [theme.breakpoints.up('md')]: {
         border: 0,
         gridTemplateColumns: '246px 1fr',
@@ -115,11 +118,8 @@ export default makeStyles(theme => ({
           whiteSpace: 'nowrap',
           textOverflow: 'ellipsis',
           '&.title': {
-            marginBottom: 5,
+            marginBottom: 4,
             fontWeight: 500,
-            [theme.breakpoints.up('md')]: {
-              marginBottom: 4,
-            },
           },
           '&.author': {
             marginTop: 0,

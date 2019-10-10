@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Fab from '@material-ui/core/Fab';
 import Hidden from '@material-ui/core/Hidden';
+import Skeleton from '@material-ui/lab/Skeleton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import FilterIcon from '@material-ui/icons/FilterList';
@@ -14,7 +15,6 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 
 import useStyles from './Curriculum-styles';
 import Layout from '../Layout';
-import { DesktopLoader, MobileLoader } from './ContentLoader';
 import * as ROUTES from '../../constants/routes';
 import IMAGE_PLACEHOLDER from '../../constants/mediaPlaceholder';
 
@@ -47,45 +47,50 @@ const Curriculum = ({
 
       {/* Display classes */}
       <div className={classes.contentRoot}>
-        {curriculum.map(doc => {
-          const cog = doc.data();
+        {(isFetching ? Array.from(new Array(4)) : curriculum).map((doc, i) => {
+          const cog = !isFetching ? doc.data() : undefined;
 
           return (
-            <div key={doc.id}>
-              <IconButton onClick={openCardMenu(doc.id)}>
-                <MoreIcon />
-              </IconButton>
-              <Link className="content" to={`${ROUTES.CURRICULUM}/${doc.id}`}>
+            <div key={isFetching ? i : doc.id}>
+              {!isFetching && (
+                <IconButton onClick={openCardMenu(doc.id)}>
+                  <MoreIcon />
+                </IconButton>
+              )}
+              <Link className="content" to={`${ROUTES.CURRICULUM}/${!isFetching ? doc.id : ''}`}>
                 <div className="cover">
-                  <img src={cog.cover ? cog.cover : IMAGE_PLACEHOLDER} alt={cog.title} />
+                  {isFetching ? (
+                    <Skeleton variant="rect" height="100%" />
+                  ) : (
+                    <img src={cog.cover ? cog.cover : IMAGE_PLACEHOLDER} alt={cog.title} />
+                  )}
                 </div>
                 <div className="details">
-                  <p className="title">{cog.title ? cog.title : 'Untitled'}</p>
-                  <p className="author">{cog.authorName}</p>
-                  <p className="overview">{cog.overview}</p>
+                  {isFetching ? (
+                    <>
+                      <Hidden mdUp implementation="css">
+                        <Skeleton height={12} width="75%" style={{ margin: 0, marginBottom: 8 }} />
+                        <Skeleton height={10} width="40%" style={{ margin: 0 }} />
+                      </Hidden>
+                      <Hidden smDown implementation="css">
+                        <Skeleton height={14} width="50%" style={{ margin: 0, marginBottom: 8 }} />
+                        <Skeleton height={10} width="30%" style={{ margin: 0 }} />
+                        <Skeleton height={10} style={{ margin: 0, marginTop: 24 }} />
+                        <Skeleton height={10} width="80%" style={{ margin: 0, marginTop: 8 }} />
+                      </Hidden>
+                    </>
+                  ) : (
+                    <>
+                      <p className="title">{cog.title ? cog.title : 'Untitled'}</p>
+                      <p className="author">{cog.authorName}</p>
+                      <p className="overview">{cog.overview}</p>
+                    </>
+                  )}
                 </div>
               </Link>
             </div>
           );
         })}
-
-        {/* Display loading animation while fetching data */}
-        {isFetching && (
-          <>
-            {Array(4)
-              .fill('')
-              .map((_, i) => (
-                <div key={i} style={{ opacity: 1 - 0.25 * i }} className="content-loader">
-                  <Hidden mdUp implementation="css">
-                    <MobileLoader />
-                  </Hidden>
-                  <Hidden smDown implementation="css">
-                    <DesktopLoader />
-                  </Hidden>
-                </div>
-              ))}
-          </>
-        )}
       </div>
 
       <Menu
