@@ -23,12 +23,15 @@ const Curriculum = ({
   isFetching,
   curriculum,
   cardMenu,
+  page,
   loadNextPage,
   openCardMenu,
   closeCardMenu,
   handleCreateCog,
   handleDeleteCog,
 }) => {
+  // Display 25 items per page
+  const paginatedCurriculum = curriculum.slice(0, 25 * page);
   const classes = useStyles();
 
   return (
@@ -47,7 +50,7 @@ const Curriculum = ({
 
       {/* Display classes */}
       <div className={classes.contentRoot}>
-        {(isFetching ? Array.from(new Array(4)) : curriculum).map((doc, i) => {
+        {(isFetching ? Array.from(new Array(4)) : paginatedCurriculum).map((doc, i) => {
           const cog = !isFetching ? doc.data() : undefined;
 
           return (
@@ -115,9 +118,15 @@ const Curriculum = ({
         </MenuItem>
       </Menu>
 
-      <button type="button" onClick={loadNextPage}>
-        Load more...
-      </button>
+      <Button
+        className={classes.loadMoreButton}
+        onClick={loadNextPage}
+        style={paginatedCurriculum.length === curriculum.length ? { display: 'none' } : {}}
+        component="span"
+        disableRipple
+      >
+        Load more
+      </Button>
 
       {/* Floating action button for mobile */}
       <Fab className={classes.fab} aria-label="Create new class">

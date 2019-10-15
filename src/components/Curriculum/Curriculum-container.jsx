@@ -11,22 +11,19 @@ const CurriculumContainer = ({ authUser, firebase, location: { pathname } }) => 
   const [curriculum, setCurriculum] = React.useState([]);
   const [isFetching, setFetching] = React.useState(false);
   const [cardMenu, setCardMenu] = React.useState({ id: '', anchor: null });
+  const [page, setPage] = React.useState(1);
 
   React.useEffect(() => {
     document.title = `Steamhub Editor`;
 
+    setFetching(true);
     let cogRef = firebase.cogs();
     if (!authUser.roles.includes('CORPORATE')) {
       cogRef = cogRef.where('authorId', '==', authUser.uid);
     }
 
-    setFetching(true);
-
-    // Fetch first 25 data on component load
-    // Read more at https://firebase.google.com/docs/firestore/query-data/query-cursors#paginate_a_query
     cogRef
       .orderBy('updatedAt', 'desc')
-      .limit(25)
       .get()
       .then(snapshot => {
         setCurriculum([...snapshot.docs]);
@@ -44,30 +41,8 @@ const CurriculumContainer = ({ authUser, firebase, location: { pathname } }) => 
   // Here useCallback is used to prevent unnecessary re-render due to reference equality
   // Read more at https://reactjs.org/docs/hooks-reference.html#usecallback
   const loadNextPage = React.useCallback(() => {
-    let cogRef = firebase.cogs();
-    if (!authUser.roles.includes('CORPORATE')) {
-      cogRef = cogRef.where('authorId', '==', authUser.uid);
-    }
-
-    setFetching(true);
-
-    cogRef
-      .orderBy('updatedAt', 'desc')
-      .startAfter(curriculum[curriculum.length - 1])
-      .limit(25)
-      .get()
-      .then(snapshot => {
-        if (!snapshot.empty) {
-          setCurriculum(prevState => [...prevState, ...snapshot.docs]);
-        }
-      })
-      .then(() => {
-        setFetching(false);
-      })
-      .catch(() => {
-        setFetching(false);
-      });
-  }, [authUser, curriculum, firebase]);
+    setPage(prevPage => prevPage + 1);
+  }, []);
 
   const openCardMenu = React.useCallback(
     id => event => {
@@ -140,6 +115,7 @@ const CurriculumContainer = ({ authUser, firebase, location: { pathname } }) => 
       pathname={pathname}
       isFetching={isFetching}
       curriculum={curriculum}
+      page={page}
       loadNextPage={loadNextPage}
       cardMenu={cardMenu}
       openCardMenu={openCardMenu}

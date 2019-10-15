@@ -204,6 +204,22 @@ export default makeStyles(theme => ({
       textTransform: 'none',
     },
   },
+  loadMoreButton: {
+    display: 'grid',
+    height: 48,
+    placeItems: 'center',
+    marginTop: 24,
+    color: '#4285f4',
+    backgroundColor: 'rgba(143, 210, 255, 0.06)',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgba(143, 210, 255, 0.10)',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 850,
+      margin: '42px auto 0',
+    },
+  },
   fab: {
     position: 'fixed',
     bottom: theme.spacing(9),
